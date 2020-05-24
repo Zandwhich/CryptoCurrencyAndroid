@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Phone</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="aud_full_name">Australian Dollar</string>
+    <string name="cad_full_name">Canadian Dollar</string>
+    <string name="eur_full_name">Euro</string>
+    <string name="gbp_full_name">British Pound</string>
+    <string name="jpy_full_name">Japanese Yen</string>
+    <string name="mxn_full_name">Mexican Peso</string>
+    <string name="nzd_full_name">New Zealand Dollar</string>
+    <string name="pln_full_name">Polish Złoty</string>
+    <string name="sek_full_name">Swedish Krona</string>
+    <string name="usd_full_name">United States Dollar</string>
+</resources>
