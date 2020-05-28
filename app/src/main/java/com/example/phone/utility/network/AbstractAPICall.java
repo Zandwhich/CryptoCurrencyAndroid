@@ -106,4 +106,10 @@ public abstract class AbstractAPICall {
      * Returns -1 if there was an error
      */
     public abstract double extractPrice(String response);
+
+    /**
+     * Gets the name to print to the screen
+     * @return The name of the endpoint to print to the screen
+     */
+    public abstract String getName();
 }//end AbstractAPICall

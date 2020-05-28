@@ -11,9 +11,22 @@ public final class CoinBaseSpot extends AbstractCoinBase {
     private static final String SPOT_EXT = "/spot";
 
     /**
+     * The name of the endpoint
+     */
+    private static final String NAME = "CoinBase Spot";
+
+    /**
      * The constructor for the CoinBase 'spot' URL
      */
     public CoinBaseSpot() {
         super(CoinBaseSpot.SPOT_EXT);
     }//end CoinBaseSpot()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return CoinBaseSpot.NAME;
+    }//end getName()
 }//end CoinBaseSpot

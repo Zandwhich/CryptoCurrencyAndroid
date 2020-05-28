@@ -16,6 +16,8 @@ import com.example.phone.utility.currencies.CryptoCurrencies;
 import com.example.phone.utility.currencies.FiatCurrencies;
 import com.example.phone.utility.network.AbstractAPICall;
 import com.example.phone.utility.network.CoinBase.CoinBaseBuy;
+import com.example.phone.utility.network.CoinBase.CoinBaseSell;
+import com.example.phone.utility.network.CoinBase.CoinBaseSpot;
 import com.example.phone.utility.network.NetworkUtils;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
 import com.example.phone.utility.network.errors.FiatNotAccepted;
@@ -40,6 +42,7 @@ public final class MainActivity extends AppCompatActivity {
      */
     private void refresh() {
         // TODO: Update this once we have the recycler view working
+        this.mResponseView.setText("");
         for (AbstractAPICall website : this.websites) {
             new RefreshAsync().execute(website);
         }//end for
@@ -55,6 +58,8 @@ public final class MainActivity extends AppCompatActivity {
 
         this.websites = new ArrayList<>();
         this.websites.add(new CoinBaseBuy());
+        this.websites.add(new CoinBaseSell());
+        this.websites.add(new CoinBaseSpot());
 
         this.currentCrypto = CryptoCurrencies.BTC;
         this.currentFiat = FiatCurrencies.USD;
@@ -82,7 +87,7 @@ public final class MainActivity extends AppCompatActivity {
     /**
      * An Async Task to refresh websites to get their prices for cryptocurrencies
      */
-    private class RefreshAsync extends AsyncTask<AbstractAPICall, Void, Double> {
+    private class RefreshAsync extends AsyncTask<AbstractAPICall, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -100,27 +105,27 @@ public final class MainActivity extends AppCompatActivity {
          * @return Returns the contents of the string, which is then to be
          */
         @Override
-        protected Double doInBackground(AbstractAPICall... websites) {
-            if (websites.length == 0) return (double) -1;
+        protected String doInBackground(AbstractAPICall... websites) {
+            if (websites.length == 0) return null;
 
             try {
                 String contents = NetworkUtils.connect(websites[0].buildURL(currentCrypto, currentFiat));
-                return websites[0].extractPrice(contents);
+                return websites[0].getName() + ": " + websites[0].extractPrice(contents) + "\n";
             } catch (IOException | FiatNotAccepted | CryptoNotAccepted e) {
                 // TODO: In the future, separate what the Fiat and Crypto exceptions
                 //  and show it to the screen
                 e.printStackTrace();
-                return (double) -1;
+                return null;
             }//end try/catch
         }//end doInBackground()
 
         @Override
-        protected void onPostExecute(Double s) {
+        protected void onPostExecute(String s) {
             // TODO: Get rid of this in the future, as this will be caught somewhere else
-            if (s == -1) mResponseView.setText("There was an error along the way... RIP");
+            if (s == null) mResponseView.append("There was an error along the way... RIP\n");
 
             // TODO: Update this later
-            else mResponseView.setText(s.toString());
+            else mResponseView.append(s);
             mProgressBar.setVisibility(View.INVISIBLE);
             mResponseView.setVisibility(View.VISIBLE);
         }//end onPostExecute()
