@@ -41,11 +41,7 @@ public final class MainActivity extends AppCompatActivity {
     private void refresh() {
         // TODO: Update this once we have the recycler view working
         for (AbstractAPICall website : this.websites) {
-            try {
-                new RefreshAsync().execute(website.buildURL(this.currentCrypto, this.currentFiat));
-            } catch (FiatNotAccepted | CryptoNotAccepted e) {
-                e.printStackTrace();
-            }//end try/catch
+            new RefreshAsync().execute(website);
         }//end for
     }//end refresh()
 
@@ -86,35 +82,45 @@ public final class MainActivity extends AppCompatActivity {
     /**
      * An Async Task to refresh websites to get their prices for cryptocurrencies
      */
-    private class RefreshAsync extends AsyncTask<URL, Void, String> {
+    private class RefreshAsync extends AsyncTask<AbstractAPICall, Void, Double> {
 
         @Override
         protected void onPreExecute() {
+            // TODO: When I've got the list in place, figure out a way to grab which entry in the
+            //  list I'm referring to here, so I can use that later on in the doInBackground and
+            //  onPostExecute methods
+
             mResponseView.setVisibility(View.INVISIBLE);
             mProgressBar.setVisibility(View.VISIBLE);
         }//end onPreExecute()
 
         /**
          * Hit the website
-         * @param urls The url (there is only one)
+         * @param websites The APICalls (there is only one)
          * @return Returns the contents of the string, which is then to be
          */
         @Override
-        protected String doInBackground(URL... urls) {
-            if (urls.length == 0) return null;
+        protected Double doInBackground(AbstractAPICall... websites) {
+            if (websites.length == 0) return (double) -1;
 
-            String contents = null;
             try {
-                contents = NetworkUtils.connect(urls[0]);
-            } catch (IOException e) {
+                String contents = NetworkUtils.connect(websites[0].buildURL(currentCrypto, currentFiat));
+                return websites[0].extractPrice(contents);
+            } catch (IOException | FiatNotAccepted | CryptoNotAccepted e) {
+                // TODO: In the future, separate what the Fiat and Crypto exceptions
+                //  and show it to the screen
                 e.printStackTrace();
+                return (double) -1;
             }//end try/catch
-            return contents;
         }//end doInBackground()
 
         @Override
-        protected void onPostExecute(String s) {
-            mResponseView.setText(s);
+        protected void onPostExecute(Double s) {
+            // TODO: Get rid of this in the future, as this will be caught somewhere else
+            if (s == -1) mResponseView.setText("There was an error along the way... RIP");
+
+            // TODO: Update this later
+            else mResponseView.setText(s.toString());
             mProgressBar.setVisibility(View.INVISIBLE);
             mResponseView.setVisibility(View.VISIBLE);
         }//end onPostExecute()

@@ -103,6 +103,7 @@ public abstract class AbstractAPICall {
     /**
      * Extracts the price for the given website
      * @return The price extracted from the string version of the response
+     * Returns -1 if there was an error
      */
     public abstract double extractPrice(String response);
 }//end AbstractAPICall

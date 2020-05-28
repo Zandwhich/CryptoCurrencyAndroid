@@ -6,6 +6,9 @@ import com.example.phone.utility.currencies.CryptoCurrencies;
 import com.example.phone.utility.currencies.FiatCurrencies;
 import com.example.phone.utility.network.AbstractAPICall;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * The abstract class for CoinBase calls
  */
@@ -14,7 +17,19 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
     /**
      * The base URL for the CoinBase API
      */
-    public static final String BASE_URL = "https://api.coinbase.com/v2/prices/";
+    private static final String BASE_URL = "https://api.coinbase.com/v2/prices/";
+
+    /**
+     * Used to get data out from the response object
+     * TODO: Rename this later?
+     */
+    private static final String JSON_DATA = "data";
+
+    /**
+     * Used to get the price out of the response object
+     * TODO: Rename this later?
+     */
+    private static final String AMOUNT = "amount";
 
     /**
      * A list of the accepted cryptocurrencies (that we're also using) at the moment
@@ -62,7 +77,15 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      */
     @Override
     public double extractPrice(String response) {
-        // TODO: Fill this in
-        return 0;
+        try {
+            JSONObject jsonResponse = new JSONObject(response);
+            JSONObject data = jsonResponse.getJSONObject(AbstractCoinBase.JSON_DATA);
+            double amount = data.getDouble(AbstractCoinBase.AMOUNT);
+            return amount;
+        } catch (JSONException e) {
+            // TODO: Figure this out better (maybe parent method should throw JSONException?)
+            e.printStackTrace();
+            return -1;
+        }//end try/catch
     }//end extractPrice()
 }//end AbstractCoinBase
