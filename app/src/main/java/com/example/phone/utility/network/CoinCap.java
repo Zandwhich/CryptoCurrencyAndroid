@@ -111,7 +111,7 @@ final public class CoinCap extends AbstractAPICall {
             e.printStackTrace();
             Log.println(Log.ERROR, "JSON ERROR: ", jsonResponse.toString());
             return -1;
-        }
+        }//end try/catch
     }//end extractPrice()
 
     /**
