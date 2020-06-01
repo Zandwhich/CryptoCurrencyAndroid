@@ -41,6 +41,16 @@ final public class CryptoCompare extends AbstractAPICall {
             FiatCurrency.USD};
 
     /**
+     * The key for the query param for the cryptocurrency
+     */
+    private static final String QUERY_PARAM_CRYPTO_KEY = "fsym";
+
+    /**
+     * The key for the query param for the fiat currency
+     */
+    private static final String QUERY_PARAM_FIAT_KEY = "tsyms";
+
+    /**
      * The constructor for CryptoCompare
      * @param activity The activity providing the current fiat and cryptocurrencies
      */
@@ -54,9 +64,10 @@ final public class CryptoCompare extends AbstractAPICall {
      */
     @Override
     protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        return Uri.parse(CryptoCompare.BASE_URL + "?fsym=" + crypto.getAbbreviatedName() +
-                "&tsyms=" + fiat.getAbbreviatedName())
+        return Uri.parse(CryptoCompare.BASE_URL)
                 .buildUpon()
+                .appendQueryParameter(QUERY_PARAM_CRYPTO_KEY, crypto.getAbbreviatedName())
+                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, fiat.getAbbreviatedName())
                 .build();
     }//end buildUri()
 
@@ -65,14 +76,12 @@ final public class CryptoCompare extends AbstractAPICall {
      */
     @Override
     public double extractPrice(String response) {
-        JSONObject jsonResponse = new JSONObject();
         try {
-            jsonResponse = new JSONObject(response);
-            return jsonResponse.getDouble(super.activity.getCurrentFiat().getAbbreviatedName());
+            return new JSONObject(response)
+                    .getDouble(super.activity.getCurrentFiat().getAbbreviatedName());
         } catch (JSONException e) {
             // TODO: Figure this out later
             e.printStackTrace();
-            Log.println(Log.ERROR, "JSON PARSE ERROR", "JSON Response: " + jsonResponse.toString());
             return -1;
         }//end try/catch
     }//end extractPrice()

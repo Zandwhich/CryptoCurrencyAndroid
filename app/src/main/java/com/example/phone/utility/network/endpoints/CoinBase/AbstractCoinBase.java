@@ -22,15 +22,13 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
 
     /**
      * Used to get data out from the response object
-     * TODO: Rename this later?
      */
     private static final String JSON_DATA = "data";
 
     /**
      * Used to get the price out of the response object
-     * TODO: Rename this later?
      */
-    private static final String AMOUNT = "amount";
+    private static final String JSON_AMOUNT = "amount";
 
     /**
      * A list of the accepted cryptocurrencies (that we're also using) at the moment
@@ -65,7 +63,6 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      */
     @Override
     protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        // TODO: In the future, figure out how to better utilize the Uri class
         return Uri.parse(AbstractCoinBase.BASE_URL + crypto.getAbbreviatedName() + "-" +
                 fiat.getAbbreviatedName() + this.ext)
                 .buildUpon()
@@ -79,10 +76,9 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
     @Override
     public double extractPrice(String response) {
         try {
-            JSONObject jsonResponse = new JSONObject(response);
-            JSONObject data = jsonResponse.getJSONObject(AbstractCoinBase.JSON_DATA);
-            double amount = data.getDouble(AbstractCoinBase.AMOUNT);
-            return amount;
+            return new JSONObject(response)
+                    .getJSONObject(AbstractCoinBase.JSON_DATA)
+                    .getDouble(AbstractCoinBase.JSON_AMOUNT);
         } catch (JSONException e) {
             // TODO: Figure this out better (maybe parent method should throw JSONException?)
             e.printStackTrace();

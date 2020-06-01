@@ -1,4 +1,4 @@
-package com.example.phone.utility.network.endpoints;
+package com.example.phone.utility.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;

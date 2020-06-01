@@ -49,7 +49,7 @@ final public class ShapeShift extends AbstractAPICall {
     /**
      * The string used to get the rate from the returned JSON
      */
-    private static String RATE = "rate";
+    private static String JSON_RATE = "rate";
 
     /**
      * The constructor for the ShapeShift endpoint
@@ -76,8 +76,8 @@ final public class ShapeShift extends AbstractAPICall {
     @Override
     public double extractPrice(String response) {
         try {
-            JSONObject jsonResponse = new JSONObject(response);
-            return jsonResponse.getDouble(ShapeShift.RATE);
+            return new JSONObject(response)
+                    .getDouble(ShapeShift.JSON_RATE);
         } catch (JSONException e) {
             e.printStackTrace();
             return -1;

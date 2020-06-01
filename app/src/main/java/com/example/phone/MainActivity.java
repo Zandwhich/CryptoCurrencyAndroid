@@ -19,7 +19,7 @@ import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSell;
 import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSpot;
 import com.example.phone.utility.network.endpoints.CoinCap;
 import com.example.phone.utility.network.endpoints.CryptoCompare;
-import com.example.phone.utility.network.endpoints.NetworkUtils;
+import com.example.phone.utility.network.NetworkUtils;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
 import com.example.phone.utility.network.errors.FiatNotAccepted;
 

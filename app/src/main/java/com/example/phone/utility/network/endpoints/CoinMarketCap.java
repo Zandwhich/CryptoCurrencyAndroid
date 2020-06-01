@@ -91,8 +91,7 @@ final public class CoinMarketCap extends AbstractAPICall {
     @Override
     public double extractPrice(String response) {
         try {
-            JSONObject jsonResponse = new JSONObject(response);
-            return jsonResponse.getJSONObject(CoinMarketCap.JSON_DATA)
+            return new JSONObject(response).getJSONObject(CoinMarketCap.JSON_DATA)
                     .getJSONObject(super.activity.getCurrentCrypto().getAbbreviatedName())
                     .getJSONObject(CoinMarketCap.JSON_QUOTE)
                     .getJSONObject(super.activity.getCurrentFiat().getAbbreviatedName())
