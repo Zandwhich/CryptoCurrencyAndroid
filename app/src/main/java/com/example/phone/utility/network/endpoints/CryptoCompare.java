@@ -1,4 +1,4 @@
-package com.example.phone.utility.network;
+package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
 import android.util.Log;
@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.phone.CurrencyActivity;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
+import com.example.phone.utility.network.AbstractAPICall;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ import org.json.JSONObject;
 /**
  * The class for CryptoCompare calls
  */
-final public class CryptoCompare extends AbstractAPICall{
+final public class CryptoCompare extends AbstractAPICall {
 
     /**
      * The base url for the CryptoCompare website

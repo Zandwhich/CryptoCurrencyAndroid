@@ -1,4 +1,4 @@
-package com.example.phone.utility.network.CoinBase;
+package com.example.phone.utility.network.endpoints.CoinBase;
 
 import android.net.Uri;
 
