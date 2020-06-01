@@ -1,5 +1,7 @@
 package com.example.phone.utility.network.CoinBase;
 
+import com.example.phone.CurrencyActivity;
+
 /**
  * The implementation of the CoinBase API that hits the 'sell' endpoint
  */
@@ -18,8 +20,8 @@ public final class CoinBaseSell extends AbstractCoinBase {
     /**
      * The constructor for the CoinBase 'sell' URL
      */
-    public CoinBaseSell() {
-        super(CoinBaseSell.SELL_EXT);
+    public CoinBaseSell(CurrencyActivity activity) {
+        super(activity, CoinBaseSell.SELL_EXT);
     }//end CoinBaseBuy()
 
     /**

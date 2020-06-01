@@ -3,7 +3,9 @@ package com.example.phone.utility.network;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.phone.CurrencyActivity;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
@@ -27,11 +29,17 @@ public abstract class AbstractAPICall {
      */
     private FiatCurrency[] acceptedFiatCurrencies;
 
+    /**
+     * The activity that holds which currencies are being used right now
+     */
+    protected CurrencyActivity activity;
 
-    public AbstractAPICall(CryptoCurrency[] acceptedCryptoCurrencies,
+
+    public AbstractAPICall(CurrencyActivity activity, CryptoCurrency[] acceptedCryptoCurrencies,
                            FiatCurrency[] acceptedFiatCurrencies) {
         this.acceptedCryptoCurrencies = acceptedCryptoCurrencies;
         this.acceptedFiatCurrencies = acceptedFiatCurrencies;
+        this.activity = activity;
     }//end AbstractAPICall
 
     /**

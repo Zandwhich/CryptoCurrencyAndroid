@@ -17,6 +17,7 @@ import com.example.phone.utility.network.AbstractAPICall;
 import com.example.phone.utility.network.CoinBase.CoinBaseBuy;
 import com.example.phone.utility.network.CoinBase.CoinBaseSell;
 import com.example.phone.utility.network.CoinBase.CoinBaseSpot;
+import com.example.phone.utility.network.CryptoCompare;
 import com.example.phone.utility.network.NetworkUtils;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
 import com.example.phone.utility.network.errors.FiatNotAccepted;
@@ -24,7 +25,7 @@ import com.example.phone.utility.network.errors.FiatNotAccepted;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class MainActivity extends AppCompatActivity {
+public final class MainActivity extends AppCompatActivity implements CurrencyActivity {
 
     private TextView mResponseView;
     private ProgressBar mProgressBar;
@@ -34,6 +35,22 @@ public final class MainActivity extends AppCompatActivity {
     private CryptoCurrency currentCrypto;
 
     private FiatCurrency currentFiat;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CryptoCurrency getCurrentCrypto() {
+        return this.currentCrypto;
+    }//end getCurrentCrypto()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FiatCurrency getCurrentFiat() {
+        return this.currentFiat;
+    }//end getCurrentFiat()
 
     /**
      * The function to call to refresh all of the APIs
@@ -55,9 +72,10 @@ public final class MainActivity extends AppCompatActivity {
         this.mProgressBar = findViewById(R.id.pb_loading_indicator);
 
         this.websites = new ArrayList<>();
-        this.websites.add(new CoinBaseBuy());
-        this.websites.add(new CoinBaseSell());
-        this.websites.add(new CoinBaseSpot());
+        this.websites.add(new CoinBaseBuy(this));
+        this.websites.add(new CoinBaseSell(this));
+        this.websites.add(new CoinBaseSpot(this));
+        this.websites.add(new CryptoCompare(this));
 
         this.currentCrypto = CryptoCurrency.BTC;
         this.currentFiat = FiatCurrency.USD;

@@ -1,5 +1,7 @@
 package com.example.phone.utility.network.CoinBase;
 
+import com.example.phone.CurrencyActivity;
+
 /**
  * The class for CoinBase calls for "buy" prices
  */
@@ -18,8 +20,8 @@ public final class CoinBaseBuy extends AbstractCoinBase {
     /**
      * The constructor for the CoinBase 'buy' URL
      */
-    public CoinBaseBuy() {
-        super(CoinBaseBuy.BUY_EXT);
+    public CoinBaseBuy(CurrencyActivity activity) {
+        super(activity, CoinBaseBuy.BUY_EXT);
     }//end CoinBaseBuy()
 
     /**

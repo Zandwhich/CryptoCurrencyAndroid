@@ -2,6 +2,7 @@ package com.example.phone.utility.network;
 
 import android.net.Uri;
 
+import com.example.phone.CurrencyActivity;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 
@@ -60,8 +61,9 @@ final public class CoinMarketCap extends AbstractAPICall {
     /**
      * The constructor for CoinMarketCap
      */
-    public CoinMarketCap() {
-        super(CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES, CoinMarketCap.ACCEPTED_FIAT_CURRENCIES);
+    public CoinMarketCap(CurrencyActivity activity) {
+        super(activity, CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES,
+                CoinMarketCap.ACCEPTED_FIAT_CURRENCIES);
     }//end CoinMarketCap()
 
     /**
