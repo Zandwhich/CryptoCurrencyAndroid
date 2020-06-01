@@ -7,18 +7,19 @@ import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * The class for CoinMarketCap calls
  */
 final public class CoinMarketCap extends AbstractAPICall {
 
-    // TODO: CoinMarketCap has changed the way it does its API calls. I'll probably have to
-    //  make an account and come back and update this later
-
     /**
      * The base url for the CoinMarketCap website
      */
-    private final static String BASE_URL = "https://api.coinmarketcap.com/v2/ticker/";
+    private final static String BASE_URL =
+            "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest";
 
     /**
      * The name of the CoinMarketCap endpoint
@@ -40,24 +41,29 @@ final public class CoinMarketCap extends AbstractAPICall {
             FiatCurrency.USD};
 
     /**
-     * The number that CoinMarketCap uses for BTC in its URLs
+     * The key to get the data from the JSON response
      */
-    private static final String BTC_NUMBER = "1";
+    private final static String JSON_DATA = "data";
 
     /**
-     * The number that CoinMarketCap uses for ETH in its URLs
+     * The key to get the quote data from the JSON response
      */
-    private static final String ETH_NUMBER = "1027";
+    private final static String JSON_QUOTE = "quote";
 
     /**
-     * The number that CoinMarketCap uses for LTC in its URLs
+     * The key to get the price from the JSON response
      */
-    private static final String LTC_NUMBER = "2";
+    private final static String JSON_PRICE = "price";
 
     /**
-     * The number that CoinMarketCap uses for XRP in its URLs
+     * The query parameter for the cryptocurrency to be added to the request url
      */
-    private static final String XRP_NUMBER = "57";
+    private final static String QUERY_PARAM_SYMBOL = "symbol";
+
+    /**
+     * The query parameter for the fiat currency to be added to the request url
+     */
+    private final static String QUERY_PARAM_CONVERT = "convert";
 
     /**
      * The constructor for CoinMarketCap
@@ -68,35 +74,33 @@ final public class CoinMarketCap extends AbstractAPICall {
     }//end CoinMarketCap()
 
     /**
-     * Converts a given cryptocurrency to the appropriate string to put into the url
-     * @param crypto The cryptocurrency to be converted
-     * @return The CoinMarketCap specified number
+     * {@inheritDoc}
      */
-    private static String convertCryptoCurrency(CryptoCurrency crypto) {
-        switch (crypto) {
-            case BTC:
-                return CoinMarketCap.BTC_NUMBER;
-            case ETH:
-                return CoinMarketCap.ETH_NUMBER;
-            case LTC:
-                return CoinMarketCap.LTC_NUMBER;
-            case XRP:
-                return CoinMarketCap.XRP_NUMBER;
-            default:
-                // TODO: We shouldn't get here, but maybe throw an error in the future?
-                return "";
-        }//end switch
-    }//end convertCryptoCurrency()
-
     @Override
     protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        return null;
+        // TODO: Figure out how to add the secret key to the header
+        return Uri.parse(CoinMarketCap.BASE_URL).buildUpon()
+                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_SYMBOL, crypto.getAbbreviatedName())
+                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_CONVERT, fiat.getAbbreviatedName())
+                .build();
     }//end buildUri()
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double extractPrice(String response) {
-        /* PLEASE READ THE "TO DO" ABOVE */
-        return 0;
+        try {
+            JSONObject jsonResponse = new JSONObject(response);
+            return jsonResponse.getJSONObject(CoinMarketCap.JSON_DATA)
+                    .getJSONObject(super.activity.getCurrentCrypto().getAbbreviatedName())
+                    .getJSONObject(CoinMarketCap.JSON_QUOTE)
+                    .getJSONObject(super.activity.getCurrentFiat().getAbbreviatedName())
+                    .getDouble(JSON_PRICE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return -1;
+        }//end try/catch
     }//end extractPrice()
 
     /**
@@ -104,7 +108,6 @@ final public class CoinMarketCap extends AbstractAPICall {
      */
     @Override
     public String getName() {
-        /* PLEASE READ THE "TO DO" ABOVE */
         return CoinMarketCap.NAME;
     }//end getName()
 
