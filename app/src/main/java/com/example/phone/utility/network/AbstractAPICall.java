@@ -4,8 +4,8 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import com.example.phone.utility.currencies.CryptoCurrencies;
-import com.example.phone.utility.currencies.FiatCurrencies;
+import com.example.phone.utility.currencies.CryptoCurrency;
+import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
 import com.example.phone.utility.network.errors.FiatNotAccepted;
 
@@ -20,16 +20,16 @@ public abstract class AbstractAPICall {
     /**
      * The cryptocurrencies that this website can use
      */
-    private CryptoCurrencies[] acceptedCryptoCurrencies;
+    private CryptoCurrency[] acceptedCryptoCurrencies;
 
     /**
      * The fiat currencies that this website can use
      */
-    private FiatCurrencies[] acceptedFiatCurrencies;
+    private FiatCurrency[] acceptedFiatCurrencies;
 
 
-    public AbstractAPICall(CryptoCurrencies[] acceptedCryptoCurrencies,
-                           FiatCurrencies[] acceptedFiatCurrencies) {
+    public AbstractAPICall(CryptoCurrency[] acceptedCryptoCurrencies,
+                           FiatCurrency[] acceptedFiatCurrencies) {
         this.acceptedCryptoCurrencies = acceptedCryptoCurrencies;
         this.acceptedFiatCurrencies = acceptedFiatCurrencies;
     }//end AbstractAPICall
@@ -39,8 +39,8 @@ public abstract class AbstractAPICall {
      * @param crypto The given cryptocurrency
      * @return If this API uses the given cryptocurrency
      */
-    private boolean canUseCryptocurrency(@NonNull final CryptoCurrencies crypto) {
-        for (CryptoCurrencies acceptedCrypto : this.acceptedCryptoCurrencies) {
+    private boolean canUseCryptocurrency(@NonNull final CryptoCurrency crypto) {
+        for (CryptoCurrency acceptedCrypto : this.acceptedCryptoCurrencies) {
             if (crypto == acceptedCrypto) return true;
         }//end for
         return false;
@@ -51,8 +51,8 @@ public abstract class AbstractAPICall {
      * @param fiat THe given fiat currency
      * @return If this API uses the given fiat currency
      */
-    private boolean canUseFiatCurrency(@NonNull final FiatCurrencies fiat) {
-        for (FiatCurrencies acceptedFiat: this.acceptedFiatCurrencies) {
+    private boolean canUseFiatCurrency(@NonNull final FiatCurrency fiat) {
+        for (FiatCurrency acceptedFiat: this.acceptedFiatCurrencies) {
             if (fiat == acceptedFiat) return true;
         }//end for
         return false;
@@ -65,7 +65,7 @@ public abstract class AbstractAPICall {
      * @throws CryptoNotAccepted Throws if the cryptocurrency is not accepted
      * @throws FiatNotAccepted Throws if the fiat currency is not accepted
      */
-    private void throwIfNotAccepted(CryptoCurrencies crypto, FiatCurrencies fiat)
+    private void throwIfNotAccepted(CryptoCurrency crypto, FiatCurrency fiat)
             throws CryptoNotAccepted, FiatNotAccepted {
         if (!this.canUseCryptocurrency(crypto)) throw new CryptoNotAccepted();
         if (!this.canUseFiatCurrency(fiat)) throw new FiatNotAccepted();
@@ -77,7 +77,7 @@ public abstract class AbstractAPICall {
      * @param fiat The fiat currency of the conversion
      * @return The Uri to be turned into a URL
      */
-    protected abstract Uri buildUri(CryptoCurrencies crypto, FiatCurrencies fiat);
+    protected abstract Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat);
 
     /**
      * Constructs the URL with a given cryptocurrency and a given fiat currency
@@ -85,7 +85,7 @@ public abstract class AbstractAPICall {
      * @param fiat The given fiat currency
      * @return The constructed URL
      */
-    public URL buildURL(CryptoCurrencies crypto, FiatCurrencies fiat)
+    public URL buildURL(CryptoCurrency crypto, FiatCurrency fiat)
             throws FiatNotAccepted, CryptoNotAccepted {
         throwIfNotAccepted(crypto, fiat);
         Uri uri = this.buildUri(crypto, fiat);

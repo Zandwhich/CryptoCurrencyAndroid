@@ -3,7 +3,7 @@ package com.example.phone.utility.currencies;
 /**
  * An enum that holds all possible fiat currencies
  */
-public enum FiatCurrencies implements Currency {
+public enum FiatCurrency implements Currency {
 
     //    AED, // United Arab Emirates Dirham
 //    AFN, // Afghan Afghani
@@ -183,7 +183,6 @@ public enum FiatCurrencies implements Currency {
     /*  Constants   */
     /* ************ */
 
-    // TODO: Add this to the strings
     /**
      * AUD full name in English
      */
@@ -259,43 +258,43 @@ public enum FiatCurrencies implements Currency {
     static {
 
         // AUD
-        AUD.fullName = FiatCurrencies.AUD_FULL_NAME;
+        AUD.fullName = FiatCurrency.AUD_FULL_NAME;
         AUD.abbreviatedName = AUD.toString();
 
         // CAD
-        CAD.fullName = FiatCurrencies.CAD_FULL_NAME;
+        CAD.fullName = FiatCurrency.CAD_FULL_NAME;
         CAD.abbreviatedName = CAD.toString();
 
         // EUR
-        EUR.fullName = FiatCurrencies.EUR_FULL_NAME;
+        EUR.fullName = FiatCurrency.EUR_FULL_NAME;
         EUR.abbreviatedName = EUR.toString();
 
         // GBP
-        GBP.fullName = FiatCurrencies.GBP_FULL_NAME;
+        GBP.fullName = FiatCurrency.GBP_FULL_NAME;
         GBP.abbreviatedName = GBP.toString();
 
         // JPY
-        JPY.fullName = FiatCurrencies.JPY_FULL_NAME;
+        JPY.fullName = FiatCurrency.JPY_FULL_NAME;
         JPY.abbreviatedName = JPY.toString();
 
         // MXN
-        MXN.fullName = FiatCurrencies.MXN_FULL_NAME;
+        MXN.fullName = FiatCurrency.MXN_FULL_NAME;
         MXN.abbreviatedName = MXN.toString();
 
         // NZD
-        NZD.fullName = FiatCurrencies.NZD_FULL_NAME;
+        NZD.fullName = FiatCurrency.NZD_FULL_NAME;
         NZD.abbreviatedName = NZD.toString();
 
         // PLN
-        PLN.fullName = FiatCurrencies.PLN_FULL_NAME;
+        PLN.fullName = FiatCurrency.PLN_FULL_NAME;
         PLN.abbreviatedName = PLN.toString();
 
         // SEK
-        SEK.fullName = FiatCurrencies.SEK_FULL_NAME;
+        SEK.fullName = FiatCurrency.SEK_FULL_NAME;
         SEK.abbreviatedName = SEK.toString();
 
         // USD
-        USD.fullName = FiatCurrencies.USD_FULL_NAME;
+        USD.fullName = FiatCurrency.USD_FULL_NAME;
         USD.abbreviatedName = USD.toString();
     }// end static initializer
 
@@ -327,13 +326,13 @@ public enum FiatCurrencies implements Currency {
     }//end getAbbreviatedName()
 
     /**
-     * Returns the FiatCurrencies enum into an array
-     * @return The FiatCurrencies enum in an array
+     * Returns the FiatCurrency enum into an array
+     * @return The FiatCurrency enum in an array
      */
     public static String[] toStringArray() {
-        String[] array = new String[FiatCurrencies.values().length];
-        for (int i = 0; i < FiatCurrencies.values().length; i++) {
-            array[i] = FiatCurrencies.values()[i].toString();
+        String[] array = new String[FiatCurrency.values().length];
+        for (int i = 0; i < FiatCurrency.values().length; i++) {
+            array[i] = FiatCurrency.values()[i].toString();
         }//end for
         return array;
     }//end toStringArray()
@@ -344,10 +343,10 @@ public enum FiatCurrencies implements Currency {
      * @param fiatCurrency The given string
      * @return The FiatCurrency enum value
      */
-    public static FiatCurrencies toFiatCurrency(String fiatCurrency) {
-        for (FiatCurrencies currency : FiatCurrencies.values())  {
+    public static FiatCurrency toFiatCurrency(String fiatCurrency) {
+        for (FiatCurrency currency : FiatCurrency.values())  {
             if (fiatCurrency.equals(currency.toString())) return currency;
         }//end for
         return null;
     }//end toFiatCurrency()
-}//end FiatCurrencies
+}//end FiatCurrency

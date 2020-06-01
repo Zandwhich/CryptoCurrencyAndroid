@@ -2,8 +2,8 @@ package com.example.phone.utility.network.CoinBase;
 
 import android.net.Uri;
 
-import com.example.phone.utility.currencies.CryptoCurrencies;
-import com.example.phone.utility.currencies.FiatCurrencies;
+import com.example.phone.utility.currencies.CryptoCurrency;
+import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
 
 import org.json.JSONException;
@@ -34,15 +34,15 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
     /**
      * A list of the accepted cryptocurrencies (that we're also using) at the moment
      */
-    public static final CryptoCurrencies[] ACCEPTED_CRYPTOCURRENCIES = {CryptoCurrencies.BTC,
-            CryptoCurrencies.ETH, CryptoCurrencies.LTC, CryptoCurrencies.XRP};
+    public static final CryptoCurrency[] ACCEPTED_CRYPTOCURRENCIES = {CryptoCurrency.BTC,
+            CryptoCurrency.ETH, CryptoCurrency.LTC, CryptoCurrency.XRP};
 
     /**
      * A list of the accepted fiat currencies (that we're also using) at the moment
      */
-    public static final FiatCurrencies[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrencies.AUD,
-            FiatCurrencies.CAD, FiatCurrencies.EUR, FiatCurrencies.JPY, FiatCurrencies.MXN,
-            FiatCurrencies.NZD, FiatCurrencies.PLN, FiatCurrencies.SEK, FiatCurrencies.USD};
+    public static final FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
+            FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.JPY, FiatCurrency.MXN,
+            FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK, FiatCurrency.USD};
 
     /**
      * The CoinBase extension (one of 'buy', 'sell', or 'spot')
@@ -63,7 +63,7 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      * {@inheritDoc}
      */
     @Override
-    protected Uri buildUri(CryptoCurrencies crypto, FiatCurrencies fiat) {
+    protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
         // TODO: In the future, figure out how to better utilize the Uri class
         return Uri.parse(AbstractCoinBase.BASE_URL + crypto.getAbbreviatedName() + "-" +
                 fiat.getAbbreviatedName() + this.ext)

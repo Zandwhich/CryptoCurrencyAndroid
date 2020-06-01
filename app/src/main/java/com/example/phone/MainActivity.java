@@ -10,10 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.phone.utility.currencies.CryptoCurrencies;
-import com.example.phone.utility.currencies.FiatCurrencies;
+import com.example.phone.utility.currencies.CryptoCurrency;
+import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
 import com.example.phone.utility.network.CoinBase.CoinBaseBuy;
 import com.example.phone.utility.network.CoinBase.CoinBaseSell;
@@ -23,7 +22,6 @@ import com.example.phone.utility.network.errors.CryptoNotAccepted;
 import com.example.phone.utility.network.errors.FiatNotAccepted;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public final class MainActivity extends AppCompatActivity {
@@ -33,9 +31,9 @@ public final class MainActivity extends AppCompatActivity {
 
     private ArrayList<AbstractAPICall> websites;
 
-    private CryptoCurrencies currentCrypto;
+    private CryptoCurrency currentCrypto;
 
-    private FiatCurrencies currentFiat;
+    private FiatCurrency currentFiat;
 
     /**
      * The function to call to refresh all of the APIs
@@ -61,8 +59,8 @@ public final class MainActivity extends AppCompatActivity {
         this.websites.add(new CoinBaseSell());
         this.websites.add(new CoinBaseSpot());
 
-        this.currentCrypto = CryptoCurrencies.BTC;
-        this.currentFiat = FiatCurrencies.USD;
+        this.currentCrypto = CryptoCurrency.BTC;
+        this.currentFiat = FiatCurrency.USD;
     }//end onCreate()
 
     @Override

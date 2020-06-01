@@ -3,7 +3,7 @@ package com.example.phone.utility.currencies;
 /**
  * An enum that holds all possible cryptocurrencies (received from http://coincap.io/map)
  */
-public enum CryptoCurrencies implements Currency {
+public enum CryptoCurrency implements Currency {
     //    A0XBTC,	// 0xBitcoin    (Actually '0XBTC')
 //    A1ST,	// FirstBlood   (Actually '1ST')
 //    A1WO,	// 1World       (Actually '1WO')
@@ -1588,19 +1588,19 @@ public enum CryptoCurrencies implements Currency {
     static {
 
         // BTC
-        BTC.fullName = CryptoCurrencies.BTC_FULL_NAME;
+        BTC.fullName = CryptoCurrency.BTC_FULL_NAME;
         BTC.abbreviatedName = BTC.toString();
 
         // ETH
-        ETH.fullName = CryptoCurrencies.ETH_FULL_NAME;
+        ETH.fullName = CryptoCurrency.ETH_FULL_NAME;
         ETH.abbreviatedName = ETH.toString();
 
         // LTC
-        LTC.fullName = CryptoCurrencies.LTC_FULL_NAME;
+        LTC.fullName = CryptoCurrency.LTC_FULL_NAME;
         LTC.abbreviatedName = LTC.toString();
 
         // XRP
-        XRP.fullName = CryptoCurrencies.XRP_FULL_NAME;
+        XRP.fullName = CryptoCurrency.XRP_FULL_NAME;
         XRP.abbreviatedName = XRP.toString();
     }//end static initializer
 
@@ -1630,4 +1630,4 @@ public enum CryptoCurrencies implements Currency {
     public String getAbbreviatedName() {
         return this.abbreviatedName;
     }//end getAbbreviatedName()
-}//end CryptoCurrencies
+}//end CryptoCurrency

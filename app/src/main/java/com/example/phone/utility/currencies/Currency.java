@@ -1,7 +1,7 @@
 package com.example.phone.utility.currencies;
 
 /**
- * A parent enum to both FiatCurrencies and CryptoCurrencies
+ * A parent enum to both FiatCurrency and CryptoCurrency
  */
 public interface Currency {
 
