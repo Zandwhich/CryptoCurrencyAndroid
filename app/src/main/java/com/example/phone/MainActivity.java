@@ -17,6 +17,7 @@ import com.example.phone.utility.network.AbstractAPICall;
 import com.example.phone.utility.network.CoinBase.CoinBaseBuy;
 import com.example.phone.utility.network.CoinBase.CoinBaseSell;
 import com.example.phone.utility.network.CoinBase.CoinBaseSpot;
+import com.example.phone.utility.network.CoinCap;
 import com.example.phone.utility.network.CryptoCompare;
 import com.example.phone.utility.network.NetworkUtils;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
@@ -76,6 +77,7 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
         this.websites.add(new CoinBaseSell(this));
         this.websites.add(new CoinBaseSpot(this));
         this.websites.add(new CryptoCompare(this));
+        this.websites.add(new CoinCap(this));
 
         this.currentCrypto = CryptoCurrency.BTC;
         this.currentFiat = FiatCurrency.USD;
