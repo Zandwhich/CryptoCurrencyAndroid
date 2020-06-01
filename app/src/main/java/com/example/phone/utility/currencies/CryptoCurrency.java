@@ -1544,7 +1544,6 @@ public enum CryptoCurrency implements Currency {
      *  Constants   *
      * ************ */
 
-    // TODO: Add this to the strings
     /**
      * BTC full name in English
      */

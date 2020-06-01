@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Phone</string>
     <string name="refresh_button">Refresh</string>
+
+    <!-- Names of fiat currencies -->
     <string name="aud_full_name">Australian Dollar</string>
     <string name="cad_full_name">Canadian Dollar</string>
     <string name="eur_full_name">Euro</string>
@@ -11,4 +13,11 @@
     <string name="pln_full_name">Polish Złoty</string>
     <string name="sek_full_name">Swedish Krona</string>
     <string name="usd_full_name">United States Dollar</string>
+
+
+    <!-- Names of cryptocurrencies -->
+    <string name="btc_full_name">Bitcoin</string>
+    <string name="etc_full_name">Ethereum</string>
+    <string name="ltc_full_name">Litecoin</string>
+    <string name="xrp_full_name">Ripple</string>
 </resources>
