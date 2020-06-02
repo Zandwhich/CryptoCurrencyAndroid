@@ -15,20 +15,12 @@ public final class CoinBaseBuy extends AbstractCoinBase {
     /**
      * The name of the endpoint
      */
-    private static final String NAME = "CoinBase Buy";
+    private static final String EXT_NAME = "CoinBase Buy";
 
     /**
      * The constructor for the CoinBase 'buy' URL
      */
     public CoinBaseBuy(CurrencyActivity activity) {
-        super(activity, CoinBaseBuy.BUY_EXT);
+        super(CoinBaseBuy.EXT_NAME, activity, CoinBaseBuy.BUY_EXT);
     }//end CoinBaseBuy()
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return CoinBaseBuy.NAME;
-    }//end getName()
 }//end CoinBaseBuy

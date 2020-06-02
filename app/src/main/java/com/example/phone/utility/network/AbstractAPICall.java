@@ -34,12 +34,18 @@ public abstract class AbstractAPICall {
      */
     protected CurrencyActivity activity;
 
+    /**
+     * The name of the endpoint
+     */
+    private String name;
 
-    public AbstractAPICall(CurrencyActivity activity, CryptoCurrency[] acceptedCryptoCurrencies,
+
+    public AbstractAPICall(String name, CurrencyActivity activity, CryptoCurrency[] acceptedCryptoCurrencies,
                            FiatCurrency[] acceptedFiatCurrencies) {
         this.acceptedCryptoCurrencies = acceptedCryptoCurrencies;
         this.acceptedFiatCurrencies = acceptedFiatCurrencies;
         this.activity = activity;
+        this.name = name;
     }//end AbstractAPICall
 
     /**
@@ -119,5 +125,7 @@ public abstract class AbstractAPICall {
      * Gets the name to print to the screen
      * @return The name of the endpoint to print to the screen
      */
-    public abstract String getName();
+    public String getName() {
+        return this.name;
+    }//end getName()
 }//end AbstractAPICall

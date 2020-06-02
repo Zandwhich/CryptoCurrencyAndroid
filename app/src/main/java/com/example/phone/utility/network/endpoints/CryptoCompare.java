@@ -55,7 +55,7 @@ final public class CryptoCompare extends AbstractAPICall {
      * @param activity The activity providing the current fiat and cryptocurrencies
      */
     public CryptoCompare(CurrencyActivity activity) {
-        super(activity, CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES,
+        super(CryptoCompare.NAME, activity, CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES,
                 CryptoCompare.ACCEPTED_FIAT_CURRENCIES);
     }//end CryptoCompare()
 
@@ -85,12 +85,4 @@ final public class CryptoCompare extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return CryptoCompare.NAME;
-    }//end getName()
 }//end CryptoCompare

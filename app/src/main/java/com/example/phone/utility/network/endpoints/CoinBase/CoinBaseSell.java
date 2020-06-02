@@ -15,20 +15,12 @@ public final class CoinBaseSell extends AbstractCoinBase {
     /**
      * The name of the endpoint
      */
-    private static final String NAME = "CoinBase Sell";
+    private static final String EXT_NAME = "Sell";
 
     /**
      * The constructor for the CoinBase 'sell' URL
      */
     public CoinBaseSell(CurrencyActivity activity) {
-        super(activity, CoinBaseSell.SELL_EXT);
+        super(CoinBaseSell.EXT_NAME, activity, CoinBaseSell.SELL_EXT);
     }//end CoinBaseBuy()
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return CoinBaseSell.NAME;
-    }//end getName()
 }//end CoinBaseSell

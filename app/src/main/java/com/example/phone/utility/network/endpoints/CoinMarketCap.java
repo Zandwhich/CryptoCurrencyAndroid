@@ -69,7 +69,7 @@ final public class CoinMarketCap extends AbstractAPICall {
      * The constructor for CoinMarketCap
      */
     public CoinMarketCap(CurrencyActivity activity) {
-        super(activity, CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES,
+        super(CoinMarketCap.NAME, activity, CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES,
                 CoinMarketCap.ACCEPTED_FIAT_CURRENCIES);
     }//end CoinMarketCap()
 
@@ -101,14 +101,4 @@ final public class CoinMarketCap extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return CoinMarketCap.NAME;
-    }//end getName()
-
-
 }//end CoinMarketCap

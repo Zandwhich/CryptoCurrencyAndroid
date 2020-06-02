@@ -52,7 +52,8 @@ final public class CoinCap extends AbstractAPICall {
      * @param activity The activity that gives the current fiat and cryptocurrencies
      */
     public CoinCap(CurrencyActivity activity) {
-        super (activity, CoinCap.ACCEPTED_CRYPTO_CURRENCY, CoinCap.ACCEPTED_FIAT_CURRENCY);
+        super (CoinCap.NAME, activity, CoinCap.ACCEPTED_CRYPTO_CURRENCY,
+                CoinCap.ACCEPTED_FIAT_CURRENCY);
     }//end CoinCap()
 
     /**
@@ -97,12 +98,4 @@ final public class CoinCap extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return CoinCap.NAME;
-    }//end getName()
 }//end CoinCap

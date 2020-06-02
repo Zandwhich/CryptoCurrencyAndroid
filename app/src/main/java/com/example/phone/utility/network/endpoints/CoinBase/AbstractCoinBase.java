@@ -16,6 +16,11 @@ import org.json.JSONObject;
 public abstract class AbstractCoinBase extends AbstractAPICall {
 
     /**
+     * The base name for the CoinBase extensions
+     */
+    private static final String BASE_NAME = "CoinBase";
+
+    /**
      * The base URL for the CoinBase API
      */
     private static final String BASE_URL = "https://api.coinbase.com/v2/prices/";
@@ -52,8 +57,9 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      * The constructor for the CoinBase website
      * @param ext The extension of (one of 'buy', 'sell', or 'spot')
      */
-    AbstractCoinBase(CurrencyActivity activity, String ext) {
-        super(activity, AbstractCoinBase.ACCEPTED_CRYPTOCURRENCIES,
+    AbstractCoinBase(String ext_name, CurrencyActivity activity, String ext) {
+        super(AbstractCoinBase.BASE_NAME + " " + ext_name, activity,
+                AbstractCoinBase.ACCEPTED_CRYPTOCURRENCIES,
                 AbstractCoinBase.ACCEPTED_FIAT_CURRENCIES);
         this.ext = ext;
     }//end AbstractCoinBase()

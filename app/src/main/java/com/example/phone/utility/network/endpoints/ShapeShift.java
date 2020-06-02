@@ -56,7 +56,7 @@ final public class ShapeShift extends AbstractAPICall {
      * @param activity The activity that provides which are the current fiat and cryptocurrencies
      */
     public ShapeShift(CurrencyActivity activity) {
-        super(activity, ShapeShift.ACCEPTED_CRYPTOCURRENCIES, ShapeShift.ACCEPTED_FIAT_CURRENCIES);
+        super(ShapeShift.NAME, activity, ShapeShift.ACCEPTED_CRYPTOCURRENCIES, ShapeShift.ACCEPTED_FIAT_CURRENCIES);
     }//end ShapeShift()
 
     /**
@@ -83,12 +83,4 @@ final public class ShapeShift extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return ShapeShift.NAME;
-    }//end getName()
 }//end ShapeShift
