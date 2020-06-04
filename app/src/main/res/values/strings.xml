@@ -2,7 +2,7 @@
     <string name="app_name">Phone</string>
     <string name="refresh_button">Refresh</string>
 
-    <!-- Names of fiat currencies -->
+    <!-- Full names of fiat currencies -->
     <string name="aud_full_name">Australian Dollar</string>
     <string name="cad_full_name">Canadian Dollar</string>
     <string name="eur_full_name">Euro</string>
@@ -14,11 +14,29 @@
     <string name="sek_full_name">Swedish Krona</string>
     <string name="usd_full_name">United States Dollar</string>
 
-    <!-- Names of cryptocurrencies -->
+    <!-- Abbreviations of fiat currencies -->
+    <string name="aud_abbreviation">AUD</string>
+    <string name="cad_abbreviation">CAD</string>
+    <string name="eur_abbreviation">EUR</string>
+    <string name="gbp_abbreviation">GBP</string>
+    <string name="jpy_abbreviation">JPY</string>
+    <string name="mxn_abbreviation">MXN</string>
+    <string name="nzd_abbreviation">NZD</string>
+    <string name="pln_abbreviation">PLN</string>
+    <string name="sek_abbreviation">SEK</string>
+    <string name="usd_abbreviation">USD</string>
+
+    <!-- Full names of cryptocurrencies -->
     <string name="btc_full_name">Bitcoin</string>
-    <string name="etc_full_name">Ethereum</string>
+    <string name="eth_full_name">Ethereum</string>
     <string name="ltc_full_name">Litecoin</string>
     <string name="xrp_full_name">Ripple</string>
+
+    <!-- Abbreviations of cryptocurrencies -->
+    <string name="btc_abbreviation">BTC</string>
+    <string name="eth_abbreviation">ETH</string>
+    <string name="ltc_abbreviation">LTC</string>
+    <string name="xrp_abbreviation">XRP</string>
 
     <!-- Names of endpoints -->
     <string name="coinbase_base_name" translatable="false">CoinBase</string>
@@ -29,5 +47,8 @@
     <string name="coinmarketcap_name" translatable="false">CoinMarketCap</string>
     <string name="cryptocompare_name" translatable="false">CryptoCompare</string>
     <string name="shapeshift_name" translatable="false">ShapeShift</string>
+
+    <!-- About the endpoints -->
+    <string name="about_coinbase">CoinBase is a company that lets you buy and sell some cryptocurrencies for USD.</string>
 
 </resources>
