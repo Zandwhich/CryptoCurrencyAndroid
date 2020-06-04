@@ -51,4 +51,8 @@
     <!-- About the endpoints -->
     <string name="about_coinbase">CoinBase is a company that lets you buy and sell some cryptocurrencies for USD.</string>
 
+    <!-- Short phrases longer than a word -->
+    <string name="phrase_accepted_cryptocurrencies">Accepted Cryptocurrencies:</string>
+    <string name="phrase_accepted_fiat_currencies">Accepted Fiat Currencies:</string>
+
 </resources>

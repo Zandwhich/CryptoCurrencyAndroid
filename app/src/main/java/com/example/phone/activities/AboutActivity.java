@@ -10,22 +10,28 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * The class that controls the about page
+ * The class that controls the 'About' page
  */
 final public class AboutActivity extends AppCompatActivity {
 
     private TextView mTVName;
 
-    /**
-     *
-     * @param savedInstanceState
-     */
+    private TextView mTVSummary;
+
+    private TextView mTVAcceptedCryptos;
+
+    private TextView mTVAcceptedFiats;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
         this.mTVName = findViewById(R.id.tv_about_name);
+        this.mTVSummary = findViewById(R.id.tv_about_summary);
+        this.mTVAcceptedCryptos = findViewById(R.id.tv_about_accepted_cryptos);
+        this.mTVAcceptedFiats = findViewById(R.id.tv_about_accepted_fiats);
     }//end onCreate()
 
     public AboutActivity(AbstractAPICall call) {
