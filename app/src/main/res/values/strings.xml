@@ -14,10 +14,20 @@
     <string name="sek_full_name">Swedish Krona</string>
     <string name="usd_full_name">United States Dollar</string>
 
-
     <!-- Names of cryptocurrencies -->
     <string name="btc_full_name">Bitcoin</string>
     <string name="etc_full_name">Ethereum</string>
     <string name="ltc_full_name">Litecoin</string>
     <string name="xrp_full_name">Ripple</string>
+
+    <!-- Names of endpoints -->
+    <string name="coinbase_base_name" translatable="false">CoinBase</string>
+    <string name="coinbase_buy_name">CoinBase Buy</string>
+    <string name="coinbase_sell_name">CoinBase Sell</string>
+    <string name="coinbase_spot_name">CoinBase Spot</string>
+    <string name="coincap_name" translatable="false">CoinCap</string>
+    <string name="coinmarketcap_name" translatable="false">CoinMarketCap</string>
+    <string name="cryptocompare_name" translatable="false">CryptoCompare</string>
+    <string name="shapeshift_name" translatable="false">ShapeShift</string>
+
 </resources>
