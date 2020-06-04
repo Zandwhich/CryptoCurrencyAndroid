@@ -3,9 +3,8 @@ package com.example.phone.utility.network;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.phone.CurrencyActivity;
+import com.example.phone.activities.CurrencyActivity;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;

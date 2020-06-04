@@ -1,4 +1,4 @@
-package com.example.phone;
+package com.example.phone.activities;
 
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;

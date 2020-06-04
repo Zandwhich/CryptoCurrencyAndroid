@@ -1,6 +1,6 @@
 package com.example.phone.utility.network.endpoints.CoinBase;
 
-import com.example.phone.CurrencyActivity;
+import com.example.phone.activities.CurrencyActivity;
 
 /**
  * The implementation of the CoinBase API that hits the 'spot' endpoint
