@@ -149,4 +149,12 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
             mResponseView.setVisibility(View.VISIBLE);
         }//end onPostExecute()
     }//end RefreshAsync
+
+    /**
+     * Launches the about page for the given API call
+     * @param apiCall The given API call
+     */
+    private void launchAboutPage(AbstractAPICall apiCall) {
+        // TODO: Create an Intent here I'm pretty sure
+    }//end launchAboutPage()
 }//end MainActivity
