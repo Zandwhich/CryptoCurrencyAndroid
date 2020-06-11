@@ -18,7 +18,7 @@
                 android:id="@+id/tv_response"
                 android:padding="16dp"
                 android:textSize="20sp"
-                android:text="Hit the Refresh button"/>
+                android:text="@string/refresh_dialog"/>
         </ScrollView>
 
         <ProgressBar

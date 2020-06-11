@@ -54,5 +54,6 @@
     <!-- Short phrases longer than a word -->
     <string name="phrase_accepted_cryptocurrencies">Accepted Cryptocurrencies:</string>
     <string name="phrase_accepted_fiat_currencies">Accepted Fiat Currencies:</string>
+    <string name="refresh_dialog">Hit the Refresh button</string>
 
 </resources>
