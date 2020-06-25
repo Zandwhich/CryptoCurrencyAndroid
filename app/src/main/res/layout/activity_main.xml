@@ -27,6 +27,12 @@
             android:id="@+id/pb_loading_indicator"
             android:layout_gravity="center"
             android:visibility="invisible"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"/>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

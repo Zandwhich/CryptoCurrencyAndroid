@@ -17,7 +17,21 @@ public interface CurrencyActivity {
 
     /**
      * Returns the current cryptocurrency being used
-     * @return The current cyrptocurrency being used
+     * @return The current cryptocurrency being used
      */
     CryptoCurrency getCurrentCrypto();
+
+    /**
+     * Returns the currency's name
+     * @param orderInList The order that it's in the list
+     * @return The name of the currency
+     */
+    String getCurrencyName(int orderInList);
+
+    /**
+     * Returns the currency's price
+     * @param orderInList The order that it's in the list
+     * @return THe price of the currency
+     */
+    double getCurrencyPrice(int orderInList);
 }//end CurrencyActivity

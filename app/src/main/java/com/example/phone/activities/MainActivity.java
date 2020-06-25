@@ -2,6 +2,8 @@ package com.example.phone.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.phone.R;
+import com.example.phone.activities.recyclerview.PriceAdapter;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
@@ -38,6 +41,9 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
 
     private FiatCurrency currentFiat;
 
+    private PriceAdapter mPriceAdapter;
+    private RecyclerView mRecyclerView;
+
     /**
      * {@inheritDoc}
      */
@@ -53,6 +59,22 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
     public FiatCurrency getCurrentFiat() {
         return this.currentFiat;
     }//end getCurrentFiat()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getCurrencyPrice(int orderInList) {
+        return this.websites.get(orderInList).getPrice();
+    }//end getCurrencyPrice()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getCurrencyName(int orderInList) {
+        return this.websites.get(orderInList).getName();
+    }//end getCurrencyName()
 
     /**
      * The function to call to refresh all of the APIs
@@ -79,6 +101,13 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
         this.websites.add(new CoinBaseSpot(this));
         this.websites.add(new CryptoCompare(this));
         this.websites.add(new CoinCap(this));
+
+        this.mPriceAdapter = new PriceAdapter((this.websites.size()));
+
+        this.mRecyclerView = findViewById(R.id.recycler_view);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.mRecyclerView.setHasFixedSize(true);
+        this.mRecyclerView.setAdapter(this.mPriceAdapter);
 
         this.currentCrypto = CryptoCurrency.BTC;
         this.currentFiat = FiatCurrency.USD;
@@ -115,6 +144,7 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
             //  onPostExecute methods
 
             mResponseView.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.INVISIBLE);
             mProgressBar.setVisibility(View.VISIBLE);
         }//end onPreExecute()
 
@@ -127,15 +157,8 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
         protected String doInBackground(AbstractAPICall... websites) {
             if (websites.length == 0) return null;
 
-            try {
-                String contents = NetworkUtils.connect(websites[0].buildURL(currentCrypto, currentFiat));
-                return websites[0].getName() + ": " + websites[0].extractPrice(contents) + "\n";
-            } catch (IOException | FiatNotAccepted | CryptoNotAccepted e) {
-                // TODO: In the future, separate what the Fiat and Crypto exceptions
-                //  and show it to the screen
-                e.printStackTrace();
-                return null;
-            }//end try/catch
+            websites[0].updatePrice();
+            return websites[0].getName() + ": " + websites[0].getPrice() + "\n";
         }//end doInBackground()
 
         @Override
@@ -147,6 +170,7 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
             else mResponseView.append(s);
             mProgressBar.setVisibility(View.INVISIBLE);
             mResponseView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.INVISIBLE);
         }//end onPostExecute()
     }//end RefreshAsync
 
