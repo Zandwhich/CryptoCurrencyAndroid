@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.phone.R;
+import com.example.phone.activities.CurrencyActivity;
 
 /**
  * The adapter class that works together with the RecyclerView to display the data in a list
@@ -41,6 +42,11 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
      */
     private final PriceAdapterOnClickHelper clickHelper;
 
+    /**
+     * The activity that holds the currencies and all that data
+     */
+    private final CurrencyActivity currencyActivity;
+
 
 
     /**
@@ -48,9 +54,11 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
      * @param numberOfItems The number of items to be displayed
      * @param clickHelper The activity that implements what happens when an item is pressed
      */
-    public PriceAdapter(int numberOfItems, PriceAdapterOnClickHelper clickHelper) {
+    public PriceAdapter(int numberOfItems, PriceAdapterOnClickHelper clickHelper,
+                        CurrencyActivity currencyActivity) {
         this.mNumberItems = numberOfItems;
         this.clickHelper = clickHelper;
+        this.currencyActivity = currencyActivity;
     }//end PriceAdapter()
 
     /**
@@ -122,8 +130,8 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
          * @param listIndex The given position of the view holder
          */
         public void bind(int listIndex) {
-            this.mAPIName.setText(String.valueOf(listIndex));
-            this.mPrice.setText(String.valueOf(listIndex));
+            this.mAPIName.setText(currencyActivity.getCurrencyName(listIndex));
+            this.mPrice.setText(String.valueOf(currencyActivity.getCurrencyPrice(listIndex)));
         }//end bind()
 
         @Override

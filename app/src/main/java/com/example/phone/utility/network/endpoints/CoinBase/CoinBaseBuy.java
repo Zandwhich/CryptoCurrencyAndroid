@@ -15,7 +15,7 @@ public final class CoinBaseBuy extends AbstractCoinBase {
     /**
      * The name of the endpoint
      */
-    private static final String EXT_NAME = "CoinBase Buy";
+    private static final String EXT_NAME = "Buy";
 
     /**
      * The constructor for the CoinBase 'buy' URL

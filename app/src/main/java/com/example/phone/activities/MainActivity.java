@@ -29,7 +29,7 @@ import java.util.ArrayList;
 /**
  * The main activity to launch the app
  * I don't know where to put this, so I'll put it here for now:
- * Version: 0.1.0
+ * Version: 0.2.0
  */
 public final class MainActivity
         extends AppCompatActivity
@@ -105,7 +105,29 @@ public final class MainActivity
         this.websites.add(new CryptoCompare(this));
         this.websites.add(new CoinCap(this));
 
-        this.mPriceAdapter = new PriceAdapter((this.websites.size()), this);
+        // Doing these for testing purposes:
+        this.websites.add(new CoinBaseBuy(this));
+        this.websites.add(new CoinBaseSell(this));
+        this.websites.add(new CoinBaseSpot(this));
+        this.websites.add(new CryptoCompare(this));
+        this.websites.add(new CoinCap(this));
+        this.websites.add(new CoinBaseBuy(this));
+        this.websites.add(new CoinBaseSell(this));
+        this.websites.add(new CoinBaseSpot(this));
+        this.websites.add(new CryptoCompare(this));
+        this.websites.add(new CoinCap(this));
+        this.websites.add(new CoinBaseBuy(this));
+        this.websites.add(new CoinBaseSell(this));
+        this.websites.add(new CoinBaseSpot(this));
+        this.websites.add(new CryptoCompare(this));
+        this.websites.add(new CoinCap(this));
+        this.websites.add(new CoinBaseBuy(this));
+        this.websites.add(new CoinBaseSell(this));
+        this.websites.add(new CoinBaseSpot(this));
+        this.websites.add(new CryptoCompare(this));
+        this.websites.add(new CoinCap(this));
+
+        this.mPriceAdapter = new PriceAdapter((this.websites.size()), this, this);
 
         this.mRecyclerView = findViewById(R.id.recycler_view);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -182,8 +204,10 @@ public final class MainActivity
             // TODO: Get rid of this in the future, as this will be caught somewhere else
             if (s == null) mResponseView.append("There was an error along the way... RIP\n");
 
-            // TODO: Update this later
-            else mResponseView.append(s);
+            // TODO: Probably shouldn't reset after every call (might cause to go to top)
+            mRecyclerView.setAdapter(null);
+            mRecyclerView.setAdapter(mPriceAdapter);
+
             mProgressBar.setVisibility(View.INVISIBLE);
             mResponseView.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);

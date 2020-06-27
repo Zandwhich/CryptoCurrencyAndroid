@@ -1,6 +1,7 @@
 package com.example.phone.utility.network;
 
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
@@ -19,6 +20,11 @@ import java.net.URL;
  * The Abstract class for making a call to an API
  */
 public abstract class AbstractAPICall {
+
+    /**
+     * The TAG used for logging
+     */
+    private static final String TAG = AbstractAPICall.class.getSimpleName();
 
     /**
      * The default price when no price is available
@@ -158,7 +164,6 @@ public abstract class AbstractAPICall {
      * Hits the URL, and then updates the price.
      * NOTE: Does not update the price if the received price is -1
      */
-    @WorkerThread
     public void updatePrice() {
         String contents;
         try {
@@ -175,6 +180,8 @@ public abstract class AbstractAPICall {
             // TODO: Somehow alert that there was an error in the response
             return;
         }//end if == -1
+
+        Log.d(AbstractAPICall.TAG, "Price: " + price);
 
         this.price = price;
     }//end updatePrice()
