@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.phone.R;
 import com.example.phone.activities.recyclerview.PriceAdapter;
@@ -23,14 +24,12 @@ import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSell;
 import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSpot;
 import com.example.phone.utility.network.endpoints.CoinCap;
 import com.example.phone.utility.network.endpoints.CryptoCompare;
-import com.example.phone.utility.network.NetworkUtils;
-import com.example.phone.utility.network.errors.CryptoNotAccepted;
-import com.example.phone.utility.network.errors.FiatNotAccepted;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-public final class MainActivity extends AppCompatActivity implements CurrencyActivity {
+public final class MainActivity
+        extends AppCompatActivity
+        implements CurrencyActivity, PriceAdapter.PriceAdapterOnClickHelper {
 
     private TextView mResponseView;
     private ProgressBar mProgressBar;
@@ -102,7 +101,7 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
         this.websites.add(new CryptoCompare(this));
         this.websites.add(new CoinCap(this));
 
-        this.mPriceAdapter = new PriceAdapter((this.websites.size()));
+        this.mPriceAdapter = new PriceAdapter((this.websites.size()), this);
 
         this.mRecyclerView = findViewById(R.id.recycler_view);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -131,6 +130,11 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
         }//end switch
         return true;
     }//end onOptionsItemSelected()
+
+    @Override
+    public void priceAdapterOnClick(int position) {
+        Toast.makeText(this, "" + position, Toast.LENGTH_LONG).show();
+    }
 
     /**
      * An Async Task to refresh websites to get their prices for cryptocurrencies
@@ -169,8 +173,8 @@ public final class MainActivity extends AppCompatActivity implements CurrencyAct
             // TODO: Update this later
             else mResponseView.append(s);
             mProgressBar.setVisibility(View.INVISIBLE);
-            mResponseView.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.INVISIBLE);
+            mResponseView.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
         }//end onPostExecute()
     }//end RefreshAsync
 

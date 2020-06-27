@@ -19,6 +19,14 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
     // TODO: Learn about RecyclerViews more and better understand how all of this works
 
     /**
+     * An interface used by an activity to implement what happens when an item in the RecyclerView
+     * is clicked
+     */
+    public interface PriceAdapterOnClickHelper {
+        void priceAdapterOnClick(int position);
+    }//end PriceAdapterOnClickHelper
+
+    /**
      * The simple name of the class used for displaying logs
      */
     private static final String TAG = PriceAdapter.class.getSimpleName();
@@ -28,8 +36,21 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
      */
     private int mNumberItems;
 
-    public PriceAdapter(int numberOfItems) {
+    /**
+     * The click listener (implemented by an activity) to listen to the clicks
+     */
+    private final PriceAdapterOnClickHelper clickHelper;
+
+
+
+    /**
+     * The constructor for the PriceAdapter
+     * @param numberOfItems The number of items to be displayed
+     * @param clickHelper The activity that implements what happens when an item is pressed
+     */
+    public PriceAdapter(int numberOfItems, PriceAdapterOnClickHelper clickHelper) {
         this.mNumberItems = numberOfItems;
+        this.clickHelper = clickHelper;
     }//end PriceAdapter()
 
     /**
@@ -72,7 +93,9 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
     /**
      * The internal ViewHolder class that will display the price data
      */
-    static final class PriceViewHolder extends RecyclerView.ViewHolder {
+    final class PriceViewHolder
+            extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
         /**
          * The name of the API that is called for the given item
@@ -89,6 +112,8 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
 
             this.mAPIName = itemView.findViewById(R.id.tv_list_item_name);
             this.mPrice = itemView.findViewById(R.id.tv_list_item_price);
+
+            itemView.setOnClickListener(this);
         }//end PriceViewHolder()
 
         /**
@@ -101,5 +126,9 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
             this.mPrice.setText(String.valueOf(listIndex));
         }//end bind()
 
+        @Override
+        public void onClick(View v) {
+            clickHelper.priceAdapterOnClick(getAdapterPosition());
+        }//end onClick
     }//end PriceViewHolder
 }//end PriceAdapter
