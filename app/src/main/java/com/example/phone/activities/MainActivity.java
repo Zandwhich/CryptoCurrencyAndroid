@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.phone.R;
 import com.example.phone.activities.recyclerview.PriceAdapter;
@@ -27,6 +26,11 @@ import com.example.phone.utility.network.endpoints.CryptoCompare;
 
 import java.util.ArrayList;
 
+/**
+ * The main activity to launch the app
+ * I don't know where to put this, so I'll put it here for now:
+ * Version: 0.1.0
+ */
 public final class MainActivity
         extends AppCompatActivity
         implements CurrencyActivity, PriceAdapter.PriceAdapterOnClickHelper {
@@ -132,9 +136,17 @@ public final class MainActivity
     }//end onOptionsItemSelected()
 
     @Override
-    public void priceAdapterOnClick(int position) {
-        Toast.makeText(this, "" + position, Toast.LENGTH_LONG).show();
-    }
+    public void onPriceAdapterClick(int position) {
+        this.launchAboutPage(this.websites.get(position).getClass());
+    }//end priceAdapterOnClick()
+
+    /**
+     * Launches the about page for the given API call
+     * @param apiCall The given API call
+     */
+    private void launchAboutPage(Class<? extends AbstractAPICall> apiCall) {
+        // TODO: Create an Intent to go to the About page
+    }//end launchAboutPage()
 
     /**
      * An Async Task to refresh websites to get their prices for cryptocurrencies
@@ -177,12 +189,4 @@ public final class MainActivity
             mRecyclerView.setVisibility(View.VISIBLE);
         }//end onPostExecute()
     }//end RefreshAsync
-
-    /**
-     * Launches the about page for the given API call
-     * @param apiCall The given API call
-     */
-    private void launchAboutPage(AbstractAPICall apiCall) {
-        // TODO: Create an Intent here I'm pretty sure
-    }//end launchAboutPage()
 }//end MainActivity

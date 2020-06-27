@@ -23,7 +23,7 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
      * is clicked
      */
     public interface PriceAdapterOnClickHelper {
-        void priceAdapterOnClick(int position);
+        void onPriceAdapterClick(int position);
     }//end PriceAdapterOnClickHelper
 
     /**
@@ -128,7 +128,7 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
 
         @Override
         public void onClick(View v) {
-            clickHelper.priceAdapterOnClick(getAdapterPosition());
+            clickHelper.onPriceAdapterClick(getAdapterPosition());
         }//end onClick
     }//end PriceViewHolder
 }//end PriceAdapter
