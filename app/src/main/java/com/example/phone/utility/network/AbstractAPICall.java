@@ -22,6 +22,11 @@ import java.net.URL;
 public abstract class AbstractAPICall {
 
     /**
+     * The name of the class
+     */
+    public static final String NAME = "AbstractApiCall";
+
+    /**
      * The TAG used for logging
      */
     private static final String TAG = AbstractAPICall.class.getSimpleName();
@@ -34,12 +39,12 @@ public abstract class AbstractAPICall {
     /**
      * The cryptocurrencies that this website can use
      */
-    private CryptoCurrency[] acceptedCryptoCurrencies;
+    private final CryptoCurrency[] acceptedCryptoCurrencies;
 
     /**
      * The fiat currencies that this website can use
      */
-    private FiatCurrency[] acceptedFiatCurrencies;
+    private final FiatCurrency[] acceptedFiatCurrencies;
 
     /**
      * The activity that holds which currencies are being used right now
@@ -49,7 +54,7 @@ public abstract class AbstractAPICall {
     /**
      * The name of the endpoint
      */
-    private String name;
+    private final String name;
 
     /**
      * The price that was last retrieved
@@ -185,4 +190,12 @@ public abstract class AbstractAPICall {
 
         this.price = price;
     }//end updatePrice()
+
+    /**
+     * Returns the name of the class
+     * @return The name of the class
+     */
+    public String getClassName() {
+        return AbstractAPICall.NAME;
+    }
 }//end AbstractAPICall

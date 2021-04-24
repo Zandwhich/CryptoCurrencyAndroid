@@ -18,33 +18,33 @@ final public class CoinCap extends AbstractAPICall {
     /**
      * The base url for the endpoint
      */
-    private static String BASE_URL = "https://api.coincap.io/v2/rates/";
+    private static final String BASE_URL = "https://api.coincap.io/v2/rates/";
 
     /**
      * The name of the endpoint
      */
-    private static String NAME = "CoinCap";
+    public static final String NAME = "CoinCap";
 
     /**
      * The key used to pull out the price data from the response JSON
      */
-    private static String JSON_RATE_USD = "rateUsd";
+    private static final String JSON_RATE_USD = "rateUsd";
 
     /**
      * The key used to pull out the price data from the response JSON
      */
-    private static String JSON_DATA = "data";
+    private static final String JSON_DATA = "data";
 
     /**
      * The cryptocurrencies used in the CoinCap endpoint
      */
-    private static CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCY = {CryptoCurrency.BTC,
+    public static final CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCY = {CryptoCurrency.BTC,
             CryptoCurrency.ETH, CryptoCurrency.LTC};
 
     /**
      * The fiat currencies used in the CoinCap endpoint
      */
-    private static FiatCurrency[] ACCEPTED_FIAT_CURRENCY = {FiatCurrency.USD};
+    public static final FiatCurrency[] ACCEPTED_FIAT_CURRENCY = {FiatCurrency.USD};
 
     /**
      * The constructor for the CoinCap endpoint
@@ -97,4 +97,12 @@ final public class CoinCap extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getClassName() {
+        return CoinCap.NAME;
+    }
 }//end CoinCap

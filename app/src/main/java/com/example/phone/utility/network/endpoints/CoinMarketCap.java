@@ -24,18 +24,18 @@ final public class CoinMarketCap extends AbstractAPICall {
     /**
      * The name of the CoinMarketCap endpoint
      */
-    private static String NAME = "CoinMarketCap";
+    public static final String NAME = "CoinMarketCap";
 
     /**
      * The cryptocurrencies that CoinMarketCap uses
      */
-    private final static CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCIES = {CryptoCurrency.BTC,
+    public final static CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCIES = {CryptoCurrency.BTC,
             CryptoCurrency.ETH, CryptoCurrency.LTC, CryptoCurrency.XRP};
 
     /**
      * The fiat currencies that CoinMarketCap uses
      */
-    private final static FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
+    public final static FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
             FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.GBP, FiatCurrency.JPY,
             FiatCurrency.MXN, FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK,
             FiatCurrency.USD};
@@ -101,4 +101,12 @@ final public class CoinMarketCap extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getClassName() {
+        return CoinMarketCap.NAME;
+    }
 }//end CoinMarketCap

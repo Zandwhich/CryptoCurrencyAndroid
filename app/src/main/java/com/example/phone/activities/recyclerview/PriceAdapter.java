@@ -17,14 +17,12 @@ import com.example.phone.activities.CurrencyActivity;
  */
 public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceViewHolder> {
 
-    // TODO: Learn about RecyclerViews more and better understand how all of this works
-
     /**
      * An interface used by an activity to implement what happens when an item in the RecyclerView
      * is clicked
      */
     public interface PriceAdapterOnClickHelper {
-        void onPriceAdapterClick(int position);
+        void onPriceAdapterClick(int position, View view);
     }//end PriceAdapterOnClickHelper
 
     /**
@@ -72,7 +70,6 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
     @Override
     public PriceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        // TODO: Get rid of this constant here (the boolean)
         View view = inflater.inflate(R.layout.price_list_item, parent, false);
 
         return new PriceViewHolder(view);
@@ -125,7 +122,6 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
         }//end PriceViewHolder()
 
         /**
-         * TODO: Figure out how to properly display the price information
          * The method that is called to bind this specific view holder to its parent
          * @param listIndex The given position of the view holder
          */
@@ -136,7 +132,7 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
 
         @Override
         public void onClick(View v) {
-            clickHelper.onPriceAdapterClick(getAdapterPosition());
+            clickHelper.onPriceAdapterClick(getAdapterPosition(), v);
         }//end onClick
     }//end PriceViewHolder
 }//end PriceAdapter

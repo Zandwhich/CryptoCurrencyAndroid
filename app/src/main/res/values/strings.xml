@@ -49,11 +49,16 @@
     <string name="shapeshift_name" translatable="false">ShapeShift</string>
 
     <!-- About the endpoints -->
-    <string name="about_coinbase">CoinBase is a company that lets you buy and sell some cryptocurrencies for USD.</string>
 
     <!-- Short phrases longer than a word -->
     <string name="phrase_accepted_cryptocurrencies">Accepted Cryptocurrencies:</string>
     <string name="phrase_accepted_fiat_currencies">Accepted Fiat Currencies:</string>
     <string name="refresh_dialog">Hit the Refresh button</string>
+    <string name="coinbase_name">CoinBase</string>
+    <string name="coinbase_summary">CoinBase is a place to by cryptocurrencies. Fun times</string>
+    <string name="coincap_summary">CoinCap is a place that does stuff with cryptocurrencies.</string>
+    <string name="coinmarketcap_summary">CoinMarketCap is a website that does stuff with cryptocurrencies, wow!</string>
+    <string name="cryptocompare_summary">CryptoCompare is a website that compares various cryptocurrencies against each other. Oh Wow!</string>
+    <string name="shapeshift_summary">ShapeShift is a website that does stuff with cryptocurrencies, I\'m sure!</string>
 
 </resources>

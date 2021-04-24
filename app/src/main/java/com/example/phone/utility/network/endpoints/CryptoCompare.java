@@ -18,23 +18,23 @@ final public class CryptoCompare extends AbstractAPICall {
     /**
      * The base url for the CryptoCompare website
      */
-    private static String BASE_URL = "https://min-api.cryptocompare.com/data/price";
+    private static final String BASE_URL = "https://min-api.cryptocompare.com/data/price";
 
     /**
      * The name of this endpoint
      */
-    private static String NAME = "CryptoCompare";
+    public static final String NAME = "CryptoCompare";
 
     /**
      * The cryptocurrencies that CryptoCompare uses
      */
-    private final static CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCIES = {CryptoCurrency.BTC,
+    public final static CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCIES = {CryptoCurrency.BTC,
             CryptoCurrency.ETH, CryptoCurrency.LTC, CryptoCurrency.XRP};
 
     /**
      * The fiat currencies that CryptoCompare uses
      */
-    private final static FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
+    public final static FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
             FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.GBP, FiatCurrency.JPY,
             FiatCurrency.MXN, FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK,
             FiatCurrency.USD};
@@ -84,4 +84,12 @@ final public class CryptoCompare extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getClassName() {
+        return CryptoCompare.NAME;
+    }
 }//end CryptoCompare

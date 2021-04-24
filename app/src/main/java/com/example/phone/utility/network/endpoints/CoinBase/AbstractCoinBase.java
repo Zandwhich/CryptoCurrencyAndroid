@@ -18,7 +18,7 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
     /**
      * The base name for the CoinBase extensions
      */
-    private static final String BASE_NAME = "CoinBase";
+    public static final String NAME = "CoinBase";
 
     /**
      * The base URL for the CoinBase API
@@ -58,7 +58,7 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      * @param ext The extension of (one of 'buy', 'sell', or 'spot')
      */
     AbstractCoinBase(String ext_name, CurrencyActivity activity, String ext) {
-        super(AbstractCoinBase.BASE_NAME + " " + ext_name, activity,
+        super(AbstractCoinBase.NAME + " " + ext_name, activity,
                 AbstractCoinBase.ACCEPTED_CRYPTOCURRENCIES,
                 AbstractCoinBase.ACCEPTED_FIAT_CURRENCIES);
         this.ext = ext;
@@ -91,4 +91,12 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getClassName() {
+        return AbstractCoinBase.NAME;
+    }
 }//end AbstractCoinBase

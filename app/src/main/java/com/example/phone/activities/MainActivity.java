@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,9 +28,7 @@ import com.example.phone.utility.network.endpoints.CryptoCompare;
 import java.util.ArrayList;
 
 /**
- * The main activity to launch the app
- * I don't know where to put this, so I'll put it here for now:
- * Version: 0.2.0
+ * The main activity of the app, that displays the list of all of the prices
  */
 public final class MainActivity
         extends AppCompatActivity
@@ -158,16 +157,18 @@ public final class MainActivity
     }//end onOptionsItemSelected()
 
     @Override
-    public void onPriceAdapterClick(int position) {
-        this.launchAboutPage(this.websites.get(position).getClass());
+    public void onPriceAdapterClick(int position, View view) {
+        this.launchAboutPage(this.websites.get(position).getClassName());
     }//end priceAdapterOnClick()
 
     /**
      * Launches the about page for the given API call
      * @param apiCall The given API call
      */
-    private void launchAboutPage(Class<? extends AbstractAPICall> apiCall) {
-        // TODO: Create an Intent to go to the About page
+    private void launchAboutPage(String apiCall) {
+        Intent intent = new Intent(this, AboutActivity.class);
+        intent.putExtra(AboutActivity.API_KEY, apiCall);
+        startActivity(intent);
     }//end launchAboutPage()
 
     /**

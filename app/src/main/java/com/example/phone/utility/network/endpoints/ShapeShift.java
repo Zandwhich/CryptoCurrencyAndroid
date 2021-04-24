@@ -23,17 +23,17 @@ final public class ShapeShift extends AbstractAPICall {
     /**
      * The name of the ShapeShift endpoint
      */
-    private static String NAME = "ShapeShift";
+    public static final String NAME = "ShapeShift";
 
     /**
      * The base url for the ShapeShift endpoint
      */
-    private static String BASE_URL = "https://shapeshift.io/marketinfo/";
+    private static final String BASE_URL = "https://shapeshift.io/marketinfo/";
 
     /**
      * The list of accepted cryptocurrencies that ShapeShift uses
      */
-    private static CryptoCurrency[] ACCEPTED_CRYPTOCURRENCIES = {CryptoCurrency.BTC,
+    public static final CryptoCurrency[] ACCEPTED_CRYPTOCURRENCIES = {CryptoCurrency.BTC,
             CryptoCurrency.ETH, CryptoCurrency.LTC, CryptoCurrency.XRP /*, CryptoCurrency.DASH,
              CryptoCurrency.DGB, CryptoCurrency.BNT, CryptoCurrency.SC, CryptoCurrency.XMR,
              CryptoCurrency.BLK,CryptoCurrency.DOGE, CryptoCurrency.ZEC, CryptoCurrency.CVC,
@@ -44,12 +44,12 @@ final public class ShapeShift extends AbstractAPICall {
     /**
      * The list of accepted fiat currencies that ShapeShift uses
      */
-    private static FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {};
+    public static final FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {};
 
     /**
      * The string used to get the rate from the returned JSON
      */
-    private static String JSON_RATE = "rate";
+    private static final String JSON_RATE = "rate";
 
     /**
      * The constructor for the ShapeShift endpoint
@@ -83,4 +83,12 @@ final public class ShapeShift extends AbstractAPICall {
             return -1;
         }//end try/catch
     }//end extractPrice()
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getClassName() {
+        return ShapeShift.NAME;
+    }
 }//end ShapeShift
