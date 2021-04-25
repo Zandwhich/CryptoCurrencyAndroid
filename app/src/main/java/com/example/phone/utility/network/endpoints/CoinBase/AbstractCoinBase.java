@@ -53,7 +53,7 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
     /**
      * The CoinBase extension (one of 'buy', 'sell', or 'spot')
      */
-    private String ext;
+    private final String ext;
 
     /**
      * A mapping of cryptos to strings that are used for the request and parsing

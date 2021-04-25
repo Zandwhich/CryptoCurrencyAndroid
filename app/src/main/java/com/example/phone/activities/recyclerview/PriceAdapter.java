@@ -33,7 +33,7 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
     /**
      * The total number of items that this recyclerview has
      */
-    private int mNumberItems;
+    private final int mNumberItems;
 
     /**
      * The click listener (implemented by an activity) to listen to the clicks
@@ -105,12 +105,12 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
         /**
          * The name of the API that is called for the given item
          */
-        private TextView mAPIName;
+        private final TextView mAPIName;
 
         /**
          * The price from the given API
          */
-        private TextView mPrice;
+        private final TextView mPrice;
 
         public PriceViewHolder(View itemView) {
             super(itemView);
