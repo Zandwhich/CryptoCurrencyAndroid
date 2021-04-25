@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,10 +41,6 @@ public final class MainActivity
 
     private ArrayList<AbstractAPICall> websites;
 
-    private CryptoCurrency currentCrypto;
-
-    private FiatCurrency currentFiat;
-
     private PriceAdapter mPriceAdapter;
     private RecyclerView mRecyclerView;
 
@@ -51,7 +49,12 @@ public final class MainActivity
      */
     @Override
     public CryptoCurrency getCurrentCrypto() {
-        return this.currentCrypto;
+        String currentCryptoAbbreviated
+                = getSharedPreferences(OptionsActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .getString(OptionsActivity.CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
+        CryptoCurrency currentCrypto = CryptoCurrency.getCryptocurrencyFromAbbreviatedName(currentCryptoAbbreviated);
+
+        return (currentCrypto == null) ? CryptoCurrency.DEFAULT_CRYPTO : currentCrypto;
     }//end getCurrentCrypto()
 
     /**
@@ -59,7 +62,12 @@ public final class MainActivity
      */
     @Override
     public FiatCurrency getCurrentFiat() {
-        return this.currentFiat;
+        String currentFiatAbbreviated
+                = getSharedPreferences(OptionsActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                .getString(OptionsActivity.FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
+        FiatCurrency currentFiat = FiatCurrency.getFiatCurrencyFromAbbreviatedName(currentFiatAbbreviated);
+
+        return (currentFiat == null) ? FiatCurrency.DEFAULT_FIAT : currentFiat;
     }//end getCurrentFiat()
 
     /**
@@ -132,9 +140,6 @@ public final class MainActivity
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.mRecyclerView.setHasFixedSize(true);
         this.mRecyclerView.setAdapter(this.mPriceAdapter);
-
-        this.currentCrypto = CryptoCurrency.BTC;
-        this.currentFiat = FiatCurrency.USD;
     }//end onCreate()
 
     @Override

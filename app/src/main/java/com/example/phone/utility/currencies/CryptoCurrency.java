@@ -1637,8 +1637,33 @@ public enum CryptoCurrency implements Currency {
         return this.abbreviatedName;
     }//end getAbbreviatedName()
 
+    /**
+     * Returns the Cryptocurrency for which this string with the abbreviated name corresponds;
+     * null if there's no match
+     * @param abbreviatedName The abbreviated name of the cryptocurrency
+     * @return The cryptocurrency for which this abbreviated name corresponds; null if no match
+     */
     public static CryptoCurrency getCryptocurrencyFromAbbreviatedName(String abbreviatedName) {
-        // TODO: This is where you left off
+        for (CryptoCurrency crypto : CryptoCurrency.values()) {
+            if (abbreviatedName.equals(crypto.abbreviatedName)) {
+                return crypto;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the Cryptocurrency for which this string with the full name corresponds;
+     * null if there's no match
+     * @param fullName The full name of the cryptocurrency
+     * @return The cryptocurrency for which this full name corresponds; null if no match
+     */
+    public static CryptoCurrency getCryptocurrencyFromFullName(String fullName) {
+        for (CryptoCurrency crypto : CryptoCurrency.values()) {
+            if (fullName.equals(crypto.fullName)) {
+                return crypto;
+            }
+        }
         return null;
     }
 }//end CryptoCurrency

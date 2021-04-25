@@ -345,15 +345,32 @@ public enum FiatCurrency implements Currency {
     }//end toStringArray()
 
     /**
-     * Returns the equivalent FiatCurrency enum value for a given string;
-     * Returns null if it doesn't match any
-     * @param fiatCurrency The given string
-     * @return The FiatCurrency enum value
+     * Returns the corresponding fiat currency for which this abbreviated name corresponds;
+     * null if no match
+     * @param abbreviatedName The abbreviated name of the fiat currency
+     * @return The fiat currency for which the name corresponds; null if no match
      */
-    public static FiatCurrency toFiatCurrency(String fiatCurrency) {
-        for (FiatCurrency currency : FiatCurrency.values())  {
-            if (fiatCurrency.equals(currency.toString())) return currency;
-        }//end for
+    public static FiatCurrency getFiatCurrencyFromAbbreviatedName(String abbreviatedName) {
+        for (FiatCurrency fiat : FiatCurrency.values()) {
+            if (abbreviatedName.equals(fiat.abbreviatedName)) {
+                return fiat;
+            }
+        }
         return null;
-    }//end toFiatCurrency()
+    }
+
+    /**
+     * Returns the corresponding fiat currency for which this full name corresponds;
+     * null if no match
+     * @param fullName The full name of the fiat currency
+     * @return The fiat currency for which the corresponds; null if no match
+     */
+    public static FiatCurrency getFiatCurrencyFromFullName(String fullName) {
+        for (FiatCurrency fiat : FiatCurrency.values()) {
+            if (fullName.equals(fiat.fullName)) {
+                return fiat;
+            }
+        }
+        return null;
+    }
 }//end FiatCurrency
