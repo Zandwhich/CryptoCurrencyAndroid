@@ -20,14 +20,6 @@ final public class AboutActivity extends AppCompatActivity {
 
     public static final String API_KEY = "API";
 
-    private TextView TVName;
-
-    private TextView TVSummary;
-
-    private TextView TVAcceptedCryptos;
-
-    private TextView TVAcceptedFiats;
-
     private CryptoCurrency[] acceptedCryptoCurrencies;
     private FiatCurrency[] acceptedFiatCurrencies;
 
@@ -37,61 +29,61 @@ final public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        this.TVName = findViewById(R.id.tv_about_name);
-        this.TVSummary = findViewById(R.id.tv_about_summary);
-        this.TVAcceptedCryptos = findViewById(R.id.tv_about_accepted_cryptos);
-        this.TVAcceptedFiats = findViewById(R.id.tv_about_accepted_fiats);
+        TextView TVName = findViewById(R.id.tv_about_name);
+        TextView TVSummary = findViewById(R.id.tv_about_summary);
+        TextView TVAcceptedCryptos = findViewById(R.id.tv_about_accepted_cryptos);
+        TextView TVAcceptedFiats = findViewById(R.id.tv_about_accepted_fiats);
 
         switch (getIntent().getStringExtra(AboutActivity.API_KEY)) {
             case AbstractCoinBase.NAME:
                 this.acceptedCryptoCurrencies = AbstractCoinBase.ACCEPTED_CRYPTOCURRENCIES;
                 this.acceptedFiatCurrencies = AbstractCoinBase.ACCEPTED_FIAT_CURRENCIES;
 
-                this.TVName.setText(getText(R.string.coinbase_name));
-                this.TVSummary.setText(getText(R.string.coinbase_summary));
+                TVName.setText(getText(R.string.coinbase_name));
+                TVSummary.setText(getText(R.string.coinbase_summary));
 
                 break;
             case CoinCap.NAME:
                 this.acceptedCryptoCurrencies = CoinCap.ACCEPTED_CRYPTO_CURRENCY;
                 this.acceptedFiatCurrencies = CoinCap.ACCEPTED_FIAT_CURRENCY;
 
-                this.TVName.setText(getText(R.string.coincap_name));
-                this.TVSummary.setText(getText(R.string.coincap_summary));
+                TVName.setText(getText(R.string.coincap_name));
+                TVSummary.setText(getText(R.string.coincap_summary));
 
                 break;
             case CoinMarketCap.NAME:
                 this.acceptedCryptoCurrencies = CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES;
                 this.acceptedFiatCurrencies = CoinMarketCap.ACCEPTED_FIAT_CURRENCIES;
 
-                this.TVName.setText(getText(R.string.coinmarketcap_name));
-                this.TVSummary.setText(getText(R.string.coinmarketcap_summary));
+                TVName.setText(getText(R.string.coinmarketcap_name));
+                TVSummary.setText(getText(R.string.coinmarketcap_summary));
 
                 break;
             case CryptoCompare.NAME:
                 this.acceptedCryptoCurrencies = CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES;
                 this.acceptedFiatCurrencies = CryptoCompare.ACCEPTED_FIAT_CURRENCIES;
 
-                this.TVName.setText(getText(R.string.cryptocompare_name));
-                this.TVSummary.setText(getText(R.string.cryptocompare_summary));
+                TVName.setText(getText(R.string.cryptocompare_name));
+                TVSummary.setText(getText(R.string.cryptocompare_summary));
 
                 break;
             case ShapeShift.NAME:
                 this.acceptedCryptoCurrencies = ShapeShift.ACCEPTED_CRYPTOCURRENCIES;
                 this.acceptedFiatCurrencies = ShapeShift.ACCEPTED_FIAT_CURRENCIES;
 
-                this.TVName.setText(getText(R.string.shapeshift_name));
-                this.TVSummary.setText(getText(R.string.shapeshift_summary));
+                TVName.setText(getText(R.string.shapeshift_name));
+                TVSummary.setText(getText(R.string.shapeshift_summary));
 
                 break;
             default:
         }
 
         for (CryptoCurrency crypto : this.acceptedCryptoCurrencies) {
-            this.TVAcceptedCryptos.append(crypto.getAbbreviatedName());
+            TVAcceptedCryptos.append(crypto.getAbbreviatedName());
         }
 
         for (FiatCurrency fiat : this.acceptedFiatCurrencies) {
-            this.TVAcceptedFiats.append(fiat.getAbbreviatedName());
+            TVAcceptedFiats.append(fiat.getAbbreviatedName());
         }
 
 
