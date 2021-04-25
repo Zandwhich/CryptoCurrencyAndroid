@@ -10,6 +10,8 @@ import com.example.phone.utility.network.AbstractAPICall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  * The abstract class for CoinBase calls
  */
@@ -54,6 +56,16 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
     private String ext;
 
     /**
+     * A mapping of cryptos to strings that are used for the request and parsing
+     */
+    private final static Map<CryptoCurrency, String> cryptoParamMap = CryptoCurrency.abbreviatedMap;
+
+    /**
+     * A mapping of fiats to strings that are used for the request and parsing
+     */
+    private final static Map<FiatCurrency, String> fiatParamMap = FiatCurrency.abbreviatedMap;
+
+    /**
      * The constructor for the CoinBase website
      * @param ext The extension of (one of 'buy', 'sell', or 'spot')
      */
@@ -69,8 +81,8 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      */
     @Override
     protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        return Uri.parse(AbstractCoinBase.BASE_URL + crypto.getAbbreviatedName() + "-" +
-                fiat.getAbbreviatedName() + this.ext)
+        return Uri.parse(AbstractCoinBase.BASE_URL + cryptoParamMap.get(crypto) + "-" +
+                fiatParamMap.get(fiat) + this.ext)
                 .buildUpon()
                 .build();
     }//end buildUri()

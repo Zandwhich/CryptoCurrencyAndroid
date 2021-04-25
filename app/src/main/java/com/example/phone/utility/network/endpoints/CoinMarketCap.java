@@ -10,6 +10,9 @@ import com.example.phone.utility.network.AbstractAPICall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The class for CoinMarketCap calls
  */
@@ -66,6 +69,16 @@ final public class CoinMarketCap extends AbstractAPICall {
     private final static String QUERY_PARAM_CONVERT = "convert";
 
     /**
+     * A mapping of cryptos to strings that are used for the request and parsing
+     */
+    private final static Map<CryptoCurrency, String> cryptoParamMap = CryptoCurrency.abbreviatedMap;
+
+    /**
+     * A mapping of fiats to strings that are used for the request and parsing
+     */
+    private final static Map<FiatCurrency, String> fiatParamMap = FiatCurrency.abbreviatedMap;
+
+    /**
      * The constructor for CoinMarketCap
      */
     public CoinMarketCap(CurrencyActivity activity) {
@@ -80,8 +93,8 @@ final public class CoinMarketCap extends AbstractAPICall {
     protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
         // TODO: Figure out how to add the secret key to the header
         return Uri.parse(CoinMarketCap.BASE_URL).buildUpon()
-                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_SYMBOL, crypto.getAbbreviatedName())
-                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_CONVERT, fiat.getAbbreviatedName())
+                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_SYMBOL, cryptoParamMap.get(crypto))
+                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_CONVERT, fiatParamMap.get(fiat))
                 .build();
     }//end buildUri()
 
@@ -92,9 +105,9 @@ final public class CoinMarketCap extends AbstractAPICall {
     public double extractPrice(String response) {
         try {
             return new JSONObject(response).getJSONObject(CoinMarketCap.JSON_DATA)
-                    .getJSONObject(super.activity.getCurrentCrypto().getAbbreviatedName())
+                    .getJSONObject(cryptoParamMap.get(super.activity.getCurrentCrypto()))
                     .getJSONObject(CoinMarketCap.JSON_QUOTE)
-                    .getJSONObject(super.activity.getCurrentFiat().getAbbreviatedName())
+                    .getJSONObject(fiatParamMap.get(super.activity.getCurrentFiat()))
                     .getDouble(JSON_PRICE);
         } catch (JSONException e) {
             e.printStackTrace();

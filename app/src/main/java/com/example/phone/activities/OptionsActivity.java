@@ -38,13 +38,15 @@ public class OptionsActivity extends AppCompatActivity {
 
         List<CharSequence> cryptos = new ArrayList<>();
         for (CryptoCurrency crypto : CryptoCurrency.values()) {
-            cryptos.add(crypto.getAbbreviatedName());
+            cryptos.add(getString(crypto.getAbbreviatedName()));
         }
 
         List<CharSequence> fiats = new ArrayList<>();
         for (FiatCurrency fiat : FiatCurrency.values()) {
-            fiats.add(fiat.getAbbreviatedName());
+            fiats.add(getString(fiat.getAbbreviatedName()));
         }
+
+        final Context thisContext = this;
 
         ArrayAdapter<CharSequence> cryptoSpinnerAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_list_item, R.id.spinner_item, cryptos);
@@ -53,7 +55,7 @@ public class OptionsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(CRYPTO_SELECTED, adapterView.getItemAtPosition(i).toString());
+                editor.putInt(CRYPTO_SELECTED, CryptoCurrency.getCryptocurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName());
                 editor.apply();
 
                 Log.i(TAG, "Item at position " + i + ": " + adapterView.getItemAtPosition(i).toString());
@@ -62,7 +64,7 @@ public class OptionsActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
+                editor.putInt(CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
                 editor.apply();
             }
         });
@@ -74,7 +76,7 @@ public class OptionsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(FIAT_SELECTED, adapterView.getItemAtPosition(i).toString());
+                editor.putInt(FIAT_SELECTED, FiatCurrency.getFiatCurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName());
                 editor.apply();
 
                 Log.i(TAG, "Item at position " + i + ": " + adapterView.getItemAtPosition(i).toString());
@@ -83,13 +85,13 @@ public class OptionsActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
+                editor.putInt(FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
                 editor.apply();
             }
         });
 
-        String defaultCrypto = sharedPreferences.getString(CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
-        String defaultFiat = sharedPreferences.getString(FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
+        String defaultCrypto = getString(sharedPreferences.getInt(CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName()));
+        String defaultFiat = getString(sharedPreferences.getInt(FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName()));
 
         int defaultCryptoPosition = cryptoSpinnerAdapter.getPosition(defaultCrypto);
         int defaultFiatPosition = fiatSpinnerAdapter.getPosition(defaultFiat);

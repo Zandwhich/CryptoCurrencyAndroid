@@ -1,5 +1,12 @@
 package com.example.phone.utility.currencies;
 
+import android.content.Context;
+
+import com.example.phone.R;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * An enum that holds all possible fiat currencies
  */
@@ -184,61 +191,28 @@ public enum FiatCurrency implements Currency {
     /* ************ */
 
     /**
-     * AUD full name in English
-     */
-    private static final String AUD_FULL_NAME = "Australian Dollar";
-
-    /**
-     * CAD full name in English
-     */
-    private static final String CAD_FULL_NAME = "Canadian Dollar";
-
-    /**
-     * EUR full name in English
-     */
-    private static final String EUR_FULL_NAME = "Euro";
-
-    /**
-     * GBP full name in English
-     */
-    private static final String GBP_FULL_NAME = "British Pound";
-
-    /**
-     * JPY full name in English
-     */
-    private static final String JPY_FULL_NAME = "Japanese Yen";
-
-    /**
-     * MXN full name in English
-     */
-    private static final String MXN_FULL_NAME = "Mexican Peso";
-
-    /**
-     * NZD full name in English
-     */
-    private static final String NZD_FULL_NAME = "New Zealand Dollar";
-
-    /**
-     * PLN full name in English
-     */
-    private static final String PLN_FULL_NAME = "Polish Złoty";
-
-    /**
-     * SEK full name in English
-     */
-    private static final String SEK_FULL_NAME = "Swedish Krona";
-
-    /**
-     * USD full name in English
-     */
-    private static final String USD_FULL_NAME = "United States Dollar";
-
-    /**
      * The default fiat currency
      *
      * TODO: Should we allow this to be changed in the future?
      */
     public static final FiatCurrency DEFAULT_FIAT = USD;
+
+    /**
+     * Multiple endpoints use this mapping, so I've provided it here
+     */
+    public static final Map<FiatCurrency, String> abbreviatedMap =
+            new HashMap<FiatCurrency, String>() {{
+                put(FiatCurrency.AUD, FiatCurrency.AUD.toString());
+                put(FiatCurrency.CAD, FiatCurrency.CAD.toString());
+                put(FiatCurrency.EUR, FiatCurrency.EUR.toString());
+                put(FiatCurrency.GBP, FiatCurrency.GBP.toString());
+                put(FiatCurrency.JPY, FiatCurrency.JPY.toString());
+                put(FiatCurrency.MXN, FiatCurrency.MXN.toString());
+                put(FiatCurrency.NZD, FiatCurrency.NZD.toString());
+                put(FiatCurrency.PLN, FiatCurrency.PLN.toString());
+                put(FiatCurrency.SEK, FiatCurrency.SEK.toString());
+                put(FiatCurrency.USD, FiatCurrency.USD.toString());
+            }};
 
 
     /* ************ */
@@ -246,14 +220,14 @@ public enum FiatCurrency implements Currency {
     /* ************ */
 
     /**
-     * The full name of the fiat currency
+     * The full name of the fiat currency (R.string key)
      */
-    private String fullName;
+    private int fullName;
 
     /**
-     * The abbreviated name of the fiat currency
+     * The abbreviated name of the fiat currency (R.string key)
      */
-    private String abbreviatedName;
+    private int abbreviatedName;
 
     /* ************ */
     /* Initializers */
@@ -265,44 +239,44 @@ public enum FiatCurrency implements Currency {
     static {
 
         // AUD
-        AUD.fullName = FiatCurrency.AUD_FULL_NAME;
-        AUD.abbreviatedName = AUD.toString();
+        AUD.fullName = R.string.aud_full_name;
+        AUD.abbreviatedName = R.string.aud_abbreviation;
 
         // CAD
-        CAD.fullName = FiatCurrency.CAD_FULL_NAME;
-        CAD.abbreviatedName = CAD.toString();
+        CAD.fullName = R.string.cad_full_name;
+        CAD.abbreviatedName = R.string.cad_abbreviation;
 
         // EUR
-        EUR.fullName = FiatCurrency.EUR_FULL_NAME;
-        EUR.abbreviatedName = EUR.toString();
+        EUR.fullName = R.string.eur_full_name;
+        EUR.abbreviatedName = R.string.eur_abbreviation;
 
         // GBP
-        GBP.fullName = FiatCurrency.GBP_FULL_NAME;
-        GBP.abbreviatedName = GBP.toString();
+        GBP.fullName = R.string.gbp_full_name;
+        GBP.abbreviatedName = R.string.gbp_abbreviation;
 
         // JPY
-        JPY.fullName = FiatCurrency.JPY_FULL_NAME;
-        JPY.abbreviatedName = JPY.toString();
+        JPY.fullName = R.string.jpy_full_name;
+        JPY.abbreviatedName = R.string.jpy_abbreviation;
 
         // MXN
-        MXN.fullName = FiatCurrency.MXN_FULL_NAME;
-        MXN.abbreviatedName = MXN.toString();
+        MXN.fullName = R.string.mxn_full_name;
+        MXN.abbreviatedName = R.string.mxn_abbreviation;
 
         // NZD
-        NZD.fullName = FiatCurrency.NZD_FULL_NAME;
-        NZD.abbreviatedName = NZD.toString();
+        NZD.fullName = R.string.nzd_full_name;
+        NZD.abbreviatedName = R.string.nzd_abbreviation;
 
         // PLN
-        PLN.fullName = FiatCurrency.PLN_FULL_NAME;
-        PLN.abbreviatedName = PLN.toString();
+        PLN.fullName = R.string.pln_full_name;
+        PLN.abbreviatedName = R.string.pln_abbreviation;
 
         // SEK
-        SEK.fullName = FiatCurrency.SEK_FULL_NAME;
-        SEK.abbreviatedName = SEK.toString();
+        SEK.fullName = R.string.sek_full_name;
+        SEK.abbreviatedName = R.string.sek_abbreviation;
 
         // USD
-        USD.fullName = FiatCurrency.USD_FULL_NAME;
-        USD.abbreviatedName = USD.toString();
+        USD.fullName = R.string.usd_full_name;
+        USD.abbreviatedName = R.string.usd_abbreviation;
     }// end static initializer
 
 
@@ -319,7 +293,7 @@ public enum FiatCurrency implements Currency {
      * @return The full name of the fiat currency
      */
     @Override
-    public String getFullName() {
+    public int getFullName() {
         return this.fullName;
     }// end getFullName()
 
@@ -328,21 +302,9 @@ public enum FiatCurrency implements Currency {
      * @return The abbreviated name of the fiat currency
      */
     @Override
-    public String getAbbreviatedName() {
+    public int getAbbreviatedName() {
         return this.abbreviatedName;
     }//end getAbbreviatedName()
-
-    /**
-     * Returns the FiatCurrency enum into an array
-     * @return The FiatCurrency enum in an array
-     */
-    public static String[] toStringArray() {
-        String[] array = new String[FiatCurrency.values().length];
-        for (int i = 0; i < FiatCurrency.values().length; i++) {
-            array[i] = FiatCurrency.values()[i].toString();
-        }//end for
-        return array;
-    }//end toStringArray()
 
     /**
      * Returns the corresponding fiat currency for which this abbreviated name corresponds;
@@ -350,9 +312,9 @@ public enum FiatCurrency implements Currency {
      * @param abbreviatedName The abbreviated name of the fiat currency
      * @return The fiat currency for which the name corresponds; null if no match
      */
-    public static FiatCurrency getFiatCurrencyFromAbbreviatedName(String abbreviatedName) {
+    public static FiatCurrency getFiatCurrencyFromAbbreviatedName(int abbreviatedName) {
         for (FiatCurrency fiat : FiatCurrency.values()) {
-            if (abbreviatedName.equals(fiat.abbreviatedName)) {
+            if (abbreviatedName == fiat.abbreviatedName) {
                 return fiat;
             }
         }
@@ -365,9 +327,41 @@ public enum FiatCurrency implements Currency {
      * @param fullName The full name of the fiat currency
      * @return The fiat currency for which the corresponds; null if no match
      */
-    public static FiatCurrency getFiatCurrencyFromFullName(String fullName) {
+    public static FiatCurrency getFiatCurrencyFromFullName(int fullName) {
         for (FiatCurrency fiat : FiatCurrency.values()) {
-            if (fullName.equals(fiat.fullName)) {
+            if (fullName == fiat.fullName) {
+                return fiat;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the FiatCurrency for which this abbreviated name matches;
+     * null if there is no match
+     * @param abbreviatedName The abbreviated name of the fiat currency
+     * @param context The context (so that <code>getString</code> can be run)
+     * @return The fiat currency for which this abbreviated name corresponds; null if no match
+     */
+    public static FiatCurrency getFiatCurrencyFromAbbreviatedName(String abbreviatedName, Context context) {
+        for (FiatCurrency fiat : FiatCurrency.values()) {
+            if (abbreviatedName.equals(context.getString(fiat.abbreviatedName))) {
+                return fiat;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the FiatCurrency for which this full name matches;
+     * null if there is no match
+     * @param fullName The full name of the fiat currency
+     * @param context The context (so that <code>getString</code> can be run)
+     * @return The fiat currency for which this full name corresponds; null if no match
+     */
+    public static FiatCurrency getFiatCurrencyFromFullName(String fullName, Context context) {
+        for (FiatCurrency fiat : FiatCurrency.values()) {
+            if (fullName.equals(context.getString(fiat.fullName))) {
                 return fiat;
             }
         }

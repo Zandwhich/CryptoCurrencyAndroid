@@ -1,7 +1,16 @@
 package com.example.phone.utility.currencies;
 
+import android.content.Context;
+
+import com.example.phone.R;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
+
 /**
- * An enum that holds all possible cryptocurrencies (received from http://coincap.io/map)
+ * An enum that holds all possible cryptocurrencies (gotten from http://coincap.io/map)
  */
 public enum CryptoCurrency implements Currency {
     //    A0XBTC,	// 0xBitcoin    (Actually '0XBTC')
@@ -1545,31 +1554,22 @@ public enum CryptoCurrency implements Currency {
      * ************ */
 
     /**
-     * BTC full name in English
-     */
-    private static final String BTC_FULL_NAME = "Bitcoin";
-
-    /**
-     * ETH full name in English
-     */
-    private static final String ETH_FULL_NAME = "Ethereum";
-
-    /**
-     * LTC full name in English
-     */
-    private static final String LTC_FULL_NAME = "Litecoin";
-
-    /**
-     * XRP full name in English
-     */
-    private static final String XRP_FULL_NAME = "Ripple";
-
-    /**
      * The default cryptocurrency
      *
      * TODO: Should we allow this to be changed in the future?
      */
     public static final CryptoCurrency DEFAULT_CRYPTO = BTC;
+
+    /**
+     * Multiple endpoints use this mapping, so I've provided it here
+     */
+    public final static Map<CryptoCurrency, String> abbreviatedMap =
+            new HashMap<CryptoCurrency, String>() {{
+                put(CryptoCurrency.BTC, CryptoCurrency.BTC.toString());
+                put(CryptoCurrency.ETH, CryptoCurrency.ETH.toString());
+                put(CryptoCurrency.LTC, CryptoCurrency.LTC.toString());
+                put(CryptoCurrency.XRP, CryptoCurrency.XRP.toString());
+            }};
 
 
     /* ************ */
@@ -1577,14 +1577,14 @@ public enum CryptoCurrency implements Currency {
     /* ************ */
 
     /**
-     * The full name of the cryptocurrency
+     * The full name of the cryptocurrency (R.string key)
      */
-    private String fullName;
+    private int fullName;
 
     /**
-     * The abbreviated name of the cryptocurrency
+     * The abbreviated name of the cryptocurrency (R.string key)
      */
-    private String abbreviatedName;
+    private int abbreviatedName;
 
 
     /* ************ */
@@ -1594,20 +1594,20 @@ public enum CryptoCurrency implements Currency {
     static {
 
         // BTC
-        BTC.fullName = CryptoCurrency.BTC_FULL_NAME;
-        BTC.abbreviatedName = BTC.toString();
+        BTC.fullName = R.string.btc_full_name;
+        BTC.abbreviatedName = R.string.btc_abbreviation;
 
         // ETH
-        ETH.fullName = CryptoCurrency.ETH_FULL_NAME;
-        ETH.abbreviatedName = ETH.toString();
+        ETH.fullName = R.string.eth_full_name;
+        ETH.abbreviatedName = R.string.eth_abbreviation;
 
         // LTC
-        LTC.fullName = CryptoCurrency.LTC_FULL_NAME;
-        LTC.abbreviatedName = LTC.toString();
+        LTC.fullName = R.string.ltc_full_name;
+        LTC.abbreviatedName = R.string.ltc_abbreviation;
 
         // XRP
-        XRP.fullName = CryptoCurrency.XRP_FULL_NAME;
-        XRP.abbreviatedName = XRP.toString();
+        XRP.fullName = R.string.xrp_full_name;
+        XRP.abbreviatedName = R.string.xrp_abbreviation;
     }//end static initializer
 
 
@@ -1620,32 +1620,32 @@ public enum CryptoCurrency implements Currency {
     // Getters
 
     /**
-     * Returns the full name of the fiat currency
-     * @return The full name of the fiat currency
+     * Returns the string key of the full name of the cryptocurrency
+     * @return The string key of the full name of the cryptocurrency
      */
     @Override
-    public String getFullName() {
+    public int getFullName() {
         return this.fullName;
     }// end getFullName()
 
     /**
-     * Returns the abbreviated name of the fiat currency
-     * @return The abbreviated name of the fiat currency
+     * Returns the string key of the abbreviated name of the cryptocurrency
+     * @return The string key of the abbreviated name of the cryptocurrency
      */
     @Override
-    public String getAbbreviatedName() {
+    public int getAbbreviatedName() {
         return this.abbreviatedName;
     }//end getAbbreviatedName()
 
     /**
-     * Returns the Cryptocurrency for which this string with the abbreviated name corresponds;
+     * Returns the CryptoCurrency for which this string key with the abbreviated name corresponds;
      * null if there's no match
-     * @param abbreviatedName The abbreviated name of the cryptocurrency
+     * @param abbreviatedName The string key of the abbreviated name of the cryptocurrency
      * @return The cryptocurrency for which this abbreviated name corresponds; null if no match
      */
-    public static CryptoCurrency getCryptocurrencyFromAbbreviatedName(String abbreviatedName) {
+    public static CryptoCurrency getCryptocurrencyFromAbbreviatedName(int abbreviatedName) {
         for (CryptoCurrency crypto : CryptoCurrency.values()) {
-            if (abbreviatedName.equals(crypto.abbreviatedName)) {
+            if (abbreviatedName == crypto.abbreviatedName) {
                 return crypto;
             }
         }
@@ -1653,14 +1653,46 @@ public enum CryptoCurrency implements Currency {
     }
 
     /**
-     * Returns the Cryptocurrency for which this string with the full name corresponds;
+     * Returns the CryptoCurrency for which this string key with the full name corresponds;
      * null if there's no match
-     * @param fullName The full name of the cryptocurrency
+     * @param fullName The string key of the full name of the cryptocurrency
      * @return The cryptocurrency for which this full name corresponds; null if no match
      */
-    public static CryptoCurrency getCryptocurrencyFromFullName(String fullName) {
+    public static CryptoCurrency getCryptocurrencyFromFullName(int fullName) {
         for (CryptoCurrency crypto : CryptoCurrency.values()) {
-            if (fullName.equals(crypto.fullName)) {
+            if (fullName == crypto.fullName) {
+                return crypto;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the CryptoCurrency for which this abbreviated name matches;
+     * null if there is no match
+     * @param abbreviatedName The abbreviated name of the cryptocurrency
+     * @param context The context (so that <code>getString</code> can be run)
+     * @return The cryptocurrency for which this abbreviated name corresponds; null if no match
+     */
+    public static CryptoCurrency getCryptocurrencyFromAbbreviatedName(String abbreviatedName, Context context) {
+        for (CryptoCurrency crypto : CryptoCurrency.values()) {
+            if (abbreviatedName.equals(context.getString(crypto.abbreviatedName))) {
+                return crypto;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the CryptoCurrency for which this full name matches;
+     * null if there is no match
+     * @param fullName The full name of the cryptocurrency
+     * @param context The context (so that <code>getString</code> can be run)
+     * @return The cryptocurrency for which this full name corresponds; null if no match
+     */
+    public static CryptoCurrency getCryptocurrencyFromFullName(String fullName, Context context) {
+        for (CryptoCurrency crypto: CryptoCurrency.values()) {
+            if (fullName.equals(context.getString(crypto.fullName))) {
                 return crypto;
             }
         }

@@ -49,9 +49,9 @@ public final class MainActivity
      */
     @Override
     public CryptoCurrency getCurrentCrypto() {
-        String currentCryptoAbbreviated
+        int currentCryptoAbbreviated
                 = getSharedPreferences(OptionsActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getString(OptionsActivity.CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
+                .getInt(OptionsActivity.CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
         CryptoCurrency currentCrypto = CryptoCurrency.getCryptocurrencyFromAbbreviatedName(currentCryptoAbbreviated);
 
         return (currentCrypto == null) ? CryptoCurrency.DEFAULT_CRYPTO : currentCrypto;
@@ -62,9 +62,9 @@ public final class MainActivity
      */
     @Override
     public FiatCurrency getCurrentFiat() {
-        String currentFiatAbbreviated
+        int currentFiatAbbreviated
                 = getSharedPreferences(OptionsActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getString(OptionsActivity.FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
+                .getInt(OptionsActivity.FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
         FiatCurrency currentFiat = FiatCurrency.getFiatCurrencyFromAbbreviatedName(currentFiatAbbreviated);
 
         return (currentFiat == null) ? FiatCurrency.DEFAULT_FIAT : currentFiat;

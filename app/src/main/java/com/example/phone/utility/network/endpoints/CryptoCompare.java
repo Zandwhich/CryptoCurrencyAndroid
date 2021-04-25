@@ -10,6 +10,9 @@ import com.example.phone.utility.network.AbstractAPICall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The class for CryptoCompare calls
  */
@@ -50,6 +53,16 @@ final public class CryptoCompare extends AbstractAPICall {
     private static final String QUERY_PARAM_FIAT_KEY = "tsyms";
 
     /**
+     * A mapping of cryptos to strings that are used for the request and parsing
+     */
+    private static final Map<CryptoCurrency, String> cryptoParamMap = CryptoCurrency.abbreviatedMap;
+
+    /**
+     * A mapping of fiats to strings that are used for the request and parsing
+     */
+    private static final Map<FiatCurrency, String> fiatParamMap = FiatCurrency.abbreviatedMap;
+
+    /**
      * The constructor for CryptoCompare
      * @param activity The activity providing the current fiat and cryptocurrencies
      */
@@ -65,8 +78,8 @@ final public class CryptoCompare extends AbstractAPICall {
     protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
         return Uri.parse(CryptoCompare.BASE_URL)
                 .buildUpon()
-                .appendQueryParameter(QUERY_PARAM_CRYPTO_KEY, crypto.getAbbreviatedName())
-                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, fiat.getAbbreviatedName())
+                .appendQueryParameter(QUERY_PARAM_CRYPTO_KEY, cryptoParamMap.get(crypto))
+                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, fiatParamMap.get(fiat))
                 .build();
     }//end buildUri()
 
@@ -77,7 +90,7 @@ final public class CryptoCompare extends AbstractAPICall {
     public double extractPrice(String response) {
         try {
             return new JSONObject(response)
-                    .getDouble(super.activity.getCurrentFiat().getAbbreviatedName());
+                    .getDouble(fiatParamMap.get(super.activity.getCurrentFiat()));
         } catch (JSONException e) {
             // TODO: Figure this out later
             e.printStackTrace();

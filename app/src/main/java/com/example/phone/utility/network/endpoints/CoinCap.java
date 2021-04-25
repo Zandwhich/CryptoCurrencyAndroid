@@ -10,6 +10,9 @@ import com.example.phone.utility.network.AbstractAPICall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The class for the CoinCap endpoint
  */
@@ -47,6 +50,16 @@ final public class CoinCap extends AbstractAPICall {
     public static final FiatCurrency[] ACCEPTED_FIAT_CURRENCY = {FiatCurrency.USD};
 
     /**
+     * A mapping of cryptos to strings that are used for the request and parsing
+     */
+    private static final Map<CryptoCurrency, String> cryptoParamMap =
+            new HashMap<CryptoCurrency, String>() {{
+                put(CryptoCurrency.BTC, "bitcoin");
+                put(CryptoCurrency.ETH, "ethereum");
+                put(CryptoCurrency.LTC, "litecoin");
+            }};
+
+    /**
      * The constructor for the CoinCap endpoint
      * @param activity The activity that gives the current fiat and cryptocurrencies
      */
@@ -56,31 +69,11 @@ final public class CoinCap extends AbstractAPICall {
     }//end CoinCap()
 
     /**
-     * Converts a given cryptocurrency to the appropriate string to put into the url
-     * @param crypto The cryptocurrency to be converted
-     * @return The CoinCap specified name
-     */
-    private static String convertCryptoCurrency(CryptoCurrency crypto) {
-        switch (crypto) {
-            case BTC:
-                return CryptoCurrency.BTC.getFullName().toLowerCase();
-            case ETH:
-                return CryptoCurrency.ETH.getFullName().toLowerCase();
-            case LTC:
-                return CryptoCurrency.LTC.getFullName().toLowerCase();
-            default:
-                // TODO: This should probably be gotten rid of?, as we catch used/unused cryptos
-                //  early on
-                return "";
-        }//end switch
-    }//end convertCryptoCurrency()
-
-    /**
      * {@inheritDoc}
      */
     @Override
     protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        return Uri.parse(CoinCap.BASE_URL + CoinCap.convertCryptoCurrency(crypto));
+        return Uri.parse(CoinCap.BASE_URL + cryptoParamMap.get(crypto));
     }//end buildUri()
 
     /**

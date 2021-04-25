@@ -78,11 +78,11 @@ final public class AboutActivity extends AppCompatActivity {
         }
 
         for (CryptoCurrency crypto : this.acceptedCryptoCurrencies) {
-            TVAcceptedCryptos.append(crypto.getAbbreviatedName());
+            TVAcceptedCryptos.append(getString(crypto.getAbbreviatedName()));
         }
 
         for (FiatCurrency fiat : this.acceptedFiatCurrencies) {
-            TVAcceptedFiats.append(fiat.getAbbreviatedName());
+            TVAcceptedFiats.append(getString(fiat.getAbbreviatedName()));
         }
 
 
