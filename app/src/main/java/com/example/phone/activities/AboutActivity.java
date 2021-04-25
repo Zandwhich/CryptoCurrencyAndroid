@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.example.phone.R;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
-import com.example.phone.utility.network.AbstractAPICall;
 import com.example.phone.utility.network.endpoints.*;
 import com.example.phone.utility.network.endpoints.CoinBase.*;
 
