@@ -233,6 +233,13 @@ public enum FiatCurrency implements Currency {
      */
     private static final String USD_FULL_NAME = "United States Dollar";
 
+    /**
+     * The default fiat currency
+     *
+     * TODO: Should we allow this to be changed in the future?
+     */
+    public static final FiatCurrency DEFAULT_FIAT = USD;
+
 
     /* ************ */
     /*    Fields    */

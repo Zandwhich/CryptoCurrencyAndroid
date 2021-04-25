@@ -1564,18 +1564,25 @@ public enum CryptoCurrency implements Currency {
      */
     private static final String XRP_FULL_NAME = "Ripple";
 
+    /**
+     * The default cryptocurrency
+     *
+     * TODO: Should we allow this to be changed in the future?
+     */
+    public static final CryptoCurrency DEFAULT_CRYPTO = BTC;
+
 
     /* ************ */
     /*    Fields    */
     /* ************ */
 
     /**
-     * The full name of the fiat currency
+     * The full name of the cryptocurrency
      */
     private String fullName;
 
     /**
-     * The abbreviated name of the fiat currency
+     * The abbreviated name of the cryptocurrency
      */
     private String abbreviatedName;
 
@@ -1629,4 +1636,9 @@ public enum CryptoCurrency implements Currency {
     public String getAbbreviatedName() {
         return this.abbreviatedName;
     }//end getAbbreviatedName()
+
+    public static CryptoCurrency getCryptocurrencyFromAbbreviatedName(String abbreviatedName) {
+        // TODO: This is where you left off
+        return null;
+    }
 }//end CryptoCurrency

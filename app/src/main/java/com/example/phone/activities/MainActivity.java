@@ -145,15 +145,17 @@ public final class MainActivity
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.refresh:
-                this.refresh();
-                break;
+        if (item.getItemId() == R.id.refresh) {
+            this.refresh();
 
-            default:
-                return super.onOptionsItemSelected(item);
-        }//end switch
-        return true;
+            return true;
+        } else if (item.getItemId() == R.id.options) {
+            launchOptionsPage();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }//end onOptionsItemSelected()
 
     @Override
@@ -170,6 +172,11 @@ public final class MainActivity
         intent.putExtra(AboutActivity.API_KEY, apiCall);
         startActivity(intent);
     }//end launchAboutPage()
+
+    private void launchOptionsPage() {
+        Intent intent = new Intent(this, OptionsActivity.class);
+        startActivity(intent);
+    }
 
     /**
      * An Async Task to refresh websites to get their prices for cryptocurrencies
