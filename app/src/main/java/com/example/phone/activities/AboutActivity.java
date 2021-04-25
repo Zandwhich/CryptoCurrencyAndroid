@@ -96,32 +96,4 @@ final public class AboutActivity extends AppCompatActivity {
 
 
     }//end onCreate()
-
-    private Class<? extends AbstractAPICall> getAPIClassFromString(String APIName) {
-
-        switch (APIName) {
-            case AbstractCoinBase.NAME:
-                this.acceptedCryptoCurrencies = AbstractCoinBase.ACCEPTED_CRYPTOCURRENCIES;
-                this.acceptedFiatCurrencies = AbstractCoinBase.ACCEPTED_FIAT_CURRENCIES;
-                return AbstractCoinBase.class;
-            case CoinCap.NAME:
-                this.acceptedCryptoCurrencies = CoinCap.ACCEPTED_CRYPTO_CURRENCY;
-                this.acceptedFiatCurrencies = CoinCap.ACCEPTED_FIAT_CURRENCY;
-                return CoinCap.class;
-            case CoinMarketCap.NAME:
-                this.acceptedCryptoCurrencies = CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES;
-                this.acceptedFiatCurrencies = CoinMarketCap.ACCEPTED_FIAT_CURRENCIES;
-                return CoinMarketCap.class;
-            case CryptoCompare.NAME:
-                this.acceptedCryptoCurrencies = CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES;
-                this.acceptedFiatCurrencies = CryptoCompare.ACCEPTED_FIAT_CURRENCIES;
-                return CryptoCompare.class;
-            case ShapeShift.NAME:
-                this.acceptedCryptoCurrencies = ShapeShift.ACCEPTED_CRYPTOCURRENCIES;
-                this.acceptedFiatCurrencies = ShapeShift.ACCEPTED_FIAT_CURRENCIES;
-                return ShapeShift.class;
-            default:
-                return AbstractAPICall.class;
-        }
-    }
 }//end AboutActivity
