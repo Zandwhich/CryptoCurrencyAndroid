@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -217,9 +216,7 @@ public final class MainActivity
             // TODO: Get rid of this in the future, as this will be caught somewhere else
             if (s == null) mResponseView.append("There was an error along the way... RIP\n");
 
-            // TODO: Probably shouldn't reset after every call (might cause to go to top)
-            mRecyclerView.setAdapter(null);
-            mRecyclerView.setAdapter(mPriceAdapter);
+            mRecyclerView.getAdapter().notifyDataSetChanged();
 
             mProgressBar.setVisibility(View.INVISIBLE);
             mResponseView.setVisibility(View.INVISIBLE);
