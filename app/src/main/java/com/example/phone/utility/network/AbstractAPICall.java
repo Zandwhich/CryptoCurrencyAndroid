@@ -83,7 +83,7 @@ public abstract class AbstractAPICall {
      * @param crypto The given cryptocurrency
      * @return If this API uses the given cryptocurrency
      */
-    private boolean canUseCryptocurrency(@NonNull final CryptoCurrency crypto) {
+    public boolean canUseCryptocurrency(@NonNull final CryptoCurrency crypto) {
         for (CryptoCurrency acceptedCrypto : this.acceptedCryptoCurrencies) {
             if (crypto == acceptedCrypto) return true;
         }//end for
@@ -95,7 +95,7 @@ public abstract class AbstractAPICall {
      * @param fiat THe given fiat currency
      * @return If this API uses the given fiat currency
      */
-    private boolean canUseFiatCurrency(@NonNull final FiatCurrency fiat) {
+    public boolean canUseFiatCurrency(@NonNull final FiatCurrency fiat) {
         for (FiatCurrency acceptedFiat: this.acceptedFiatCurrencies) {
             if (fiat == acceptedFiat) return true;
         }//end for

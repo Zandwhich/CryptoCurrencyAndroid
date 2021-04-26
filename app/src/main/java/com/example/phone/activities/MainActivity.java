@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,7 +39,8 @@ public final class MainActivity
     private TextView mResponseView;
     private ProgressBar mProgressBar;
 
-    private ArrayList<AbstractAPICall> websites;
+    private ArrayList<AbstractAPICall> allWebsites;
+    private ArrayList<AbstractAPICall> displayWebsites;
 
     private RecyclerView mRecyclerView;
 
@@ -73,7 +75,7 @@ public final class MainActivity
      */
     @Override
     public double getCurrencyPrice(int orderInList) {
-        return this.websites.get(orderInList).getPrice();
+        return this.displayWebsites.get(orderInList).getPrice();
     }//end getCurrencyPrice()
 
     /**
@@ -81,7 +83,7 @@ public final class MainActivity
      */
     @Override
     public String getCurrencyName(int orderInList) {
-        return this.websites.get(orderInList).getName();
+        return this.displayWebsites.get(orderInList).getName();
     }//end getCurrencyName()
 
     /**
@@ -90,7 +92,7 @@ public final class MainActivity
     private void refresh() {
         // TODO: Update this once we have the recycler view working
         this.mResponseView.setText("");
-        for (AbstractAPICall website : this.websites) {
+        for (AbstractAPICall website : this.displayWebsites) {
             new RefreshAsync().execute(website);
         }//end for
     }//end refresh()
@@ -103,42 +105,43 @@ public final class MainActivity
         this.mResponseView = findViewById(R.id.tv_response);
         this.mProgressBar = findViewById(R.id.pb_loading_indicator);
 
-        this.websites = new ArrayList<>();
-        this.websites.add(new CoinBaseBuy(this));
-        this.websites.add(new CoinBaseSell(this));
-        this.websites.add(new CoinBaseSpot(this));
-        this.websites.add(new CryptoCompare(this));
-        this.websites.add(new CoinCap(this));
+        this.allWebsites = new ArrayList<>();
+        this.allWebsites.add(new CoinBaseBuy(this));
+        this.allWebsites.add(new CoinBaseSell(this));
+        this.allWebsites.add(new CoinBaseSpot(this));
+        this.allWebsites.add(new CryptoCompare(this));
+        this.allWebsites.add(new CoinCap(this));
 
-        // Doing these for testing purposes:
-        this.websites.add(new CoinBaseBuy(this));
-        this.websites.add(new CoinBaseSell(this));
-        this.websites.add(new CoinBaseSpot(this));
-        this.websites.add(new CryptoCompare(this));
-        this.websites.add(new CoinCap(this));
-        this.websites.add(new CoinBaseBuy(this));
-        this.websites.add(new CoinBaseSell(this));
-        this.websites.add(new CoinBaseSpot(this));
-        this.websites.add(new CryptoCompare(this));
-        this.websites.add(new CoinCap(this));
-        this.websites.add(new CoinBaseBuy(this));
-        this.websites.add(new CoinBaseSell(this));
-        this.websites.add(new CoinBaseSpot(this));
-        this.websites.add(new CryptoCompare(this));
-        this.websites.add(new CoinCap(this));
-        this.websites.add(new CoinBaseBuy(this));
-        this.websites.add(new CoinBaseSell(this));
-        this.websites.add(new CoinBaseSpot(this));
-        this.websites.add(new CryptoCompare(this));
-        this.websites.add(new CoinCap(this));
+        updateShownAPIs();
+        refresh();
+    }//end onCreate()
 
-        PriceAdapter mPriceAdapter = new PriceAdapter((this.websites.size()), this, this);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateShownAPIs();
+        refresh();
+    }
+
+    private void updateShownAPIs() {
+        CryptoCurrency currentCrypto = getCurrentCrypto();
+        FiatCurrency currentFiat = getCurrentFiat();
+
+        // TODO: Find a better way of doing this
+        this.displayWebsites = new ArrayList<>();
+        for (AbstractAPICall call : this.allWebsites) {
+            if (call.canUseCryptocurrency(currentCrypto) && call.canUseFiatCurrency(currentFiat))
+                this.displayWebsites.add(call);
+        }
+
+        PriceAdapter mPriceAdapter = new PriceAdapter((this.displayWebsites.size()), this, this);
 
         this.mRecyclerView = findViewById(R.id.recycler_view);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.mRecyclerView.setHasFixedSize(true);
         this.mRecyclerView.setAdapter(mPriceAdapter);
-    }//end onCreate()
+        this.mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,7 +166,7 @@ public final class MainActivity
 
     @Override
     public void onPriceAdapterClick(int position, View view) {
-        this.launchAboutPage(this.websites.get(position).getClassName());
+        this.launchAboutPage(this.displayWebsites.get(position).getClassName());
     }//end priceAdapterOnClick()
 
     /**
