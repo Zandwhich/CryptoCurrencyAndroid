@@ -47,8 +47,9 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      * A list of the accepted fiat currencies (that we're also using) at the moment
      */
     public static final FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
-            FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.JPY, FiatCurrency.MXN,
-            FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK, FiatCurrency.USD};
+            FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.GBP, FiatCurrency.JPY,
+            FiatCurrency.MXN, FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK,
+            FiatCurrency.USD};
 
     /**
      * The CoinBase extension (one of 'buy', 'sell', or 'spot')
