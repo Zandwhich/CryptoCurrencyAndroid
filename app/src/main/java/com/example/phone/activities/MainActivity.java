@@ -40,7 +40,6 @@ public final class MainActivity
 
     private ArrayList<AbstractAPICall> websites;
 
-    private PriceAdapter mPriceAdapter;
     private RecyclerView mRecyclerView;
 
     /**
@@ -133,12 +132,12 @@ public final class MainActivity
         this.websites.add(new CryptoCompare(this));
         this.websites.add(new CoinCap(this));
 
-        this.mPriceAdapter = new PriceAdapter((this.websites.size()), this, this);
+        PriceAdapter mPriceAdapter = new PriceAdapter((this.websites.size()), this, this);
 
         this.mRecyclerView = findViewById(R.id.recycler_view);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.mRecyclerView.setHasFixedSize(true);
-        this.mRecyclerView.setAdapter(this.mPriceAdapter);
+        this.mRecyclerView.setAdapter(mPriceAdapter);
     }//end onCreate()
 
     @Override
