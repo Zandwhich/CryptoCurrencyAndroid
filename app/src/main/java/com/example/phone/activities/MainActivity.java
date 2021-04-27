@@ -2,6 +2,7 @@ package com.example.phone.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -126,6 +128,15 @@ public final class MainActivity
     private void updateShownAPIs() {
         CryptoCurrency currentCrypto = getCurrentCrypto();
         FiatCurrency currentFiat = getCurrentFiat();
+
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
+        TextView titleCrypto = findViewById(R.id.title_current_crypto);
+        TextView titleFiat = findViewById(R.id.title_current_fiat);
+
+        titleCrypto.setText(getString(currentCrypto.getAbbreviatedName()));
+        titleFiat.setText(getString(currentFiat.getAbbreviatedName()));
 
         // TODO: Find a better way of doing this
         this.displayWebsites = new ArrayList<>();
