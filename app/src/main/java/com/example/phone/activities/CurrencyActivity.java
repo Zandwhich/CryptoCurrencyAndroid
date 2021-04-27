@@ -31,7 +31,7 @@ public interface CurrencyActivity {
     /**
      * Returns the currency's price
      * @param orderInList The order that it's in the list
-     * @return THe price of the currency
+     * @return The price of the currency
      */
     double getCurrencyPrice(int orderInList);
 }//end CurrencyActivity

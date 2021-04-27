@@ -60,6 +60,16 @@ final public class ShapeShift extends AbstractAPICall {
     }//end ShapeShift()
 
     /**
+     * The constructor used only for figuring out if this endpoint can support certain currencies.
+     * <br><br>
+     * <b>DON'T USE THIS CONSTRUCTOR FOR ACTUALLY CONNECTING TO THE ENDPOINTS THEMSELVES!!</b>
+     */
+    public ShapeShift() {
+        super(ShapeShift.NAME, null, ShapeShift.ACCEPTED_CRYPTOCURRENCIES,
+                ShapeShift.ACCEPTED_FIAT_CURRENCIES);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -23,4 +23,13 @@ public final class CoinBaseSpot extends AbstractCoinBase {
     public CoinBaseSpot(CurrencyActivity activity) {
         super(CoinBaseSpot.EXT_NAME, activity, CoinBaseSpot.SPOT_EXT);
     }//end CoinBaseSpot()
+
+    /**
+     * The constructor used only for figuring out if this endpoint can support certain currencies.
+     * <br><br>
+     * <b>DON'T USE THIS CONSTRUCTOR FOR ACTUALLY CONNECTING TO THE ENDPOINTS THEMSELVES!!</b>
+     */
+    public CoinBaseSpot() {
+        super(CoinBaseSpot.EXT_NAME, null, CoinBaseSpot.SPOT_EXT);
+    }
 }//end CoinBaseSpot

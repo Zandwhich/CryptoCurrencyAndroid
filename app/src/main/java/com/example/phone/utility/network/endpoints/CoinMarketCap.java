@@ -87,6 +87,16 @@ final public class CoinMarketCap extends AbstractAPICall {
     }//end CoinMarketCap()
 
     /**
+     * The constructor used only for figuring out if this endpoint can support certain currencies.
+     * <br><br>
+     * <b>DON'T USE THIS CONSTRUCTOR FOR ACTUALLY CONNECTING TO THE ENDPOINTS THEMSELVES!!</b>
+     */
+    public CoinMarketCap() {
+        super(CoinMarketCap.NAME, null, CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES,
+                CoinMarketCap.ACCEPTED_FIAT_CURRENCIES);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

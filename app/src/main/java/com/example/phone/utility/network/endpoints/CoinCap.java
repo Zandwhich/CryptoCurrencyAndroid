@@ -64,9 +64,19 @@ final public class CoinCap extends AbstractAPICall {
      * @param activity The activity that gives the current fiat and cryptocurrencies
      */
     public CoinCap(CurrencyActivity activity) {
-        super (CoinCap.NAME, activity, CoinCap.ACCEPTED_CRYPTO_CURRENCY,
+        super(CoinCap.NAME, activity, CoinCap.ACCEPTED_CRYPTO_CURRENCY,
                 CoinCap.ACCEPTED_FIAT_CURRENCY);
     }//end CoinCap()
+
+    /**
+     * The constructor used only for figuring out if this endpoint can support certain currencies.
+     * <br><br>
+     * <b>DON'T USE THIS CONSTRUCTOR FOR ACTUALLY CONNECTING TO THE ENDPOINTS THEMSELVES!!</b>
+     */
+    public CoinCap() {
+        super(CoinCap.NAME, null, CoinCap.ACCEPTED_CRYPTO_CURRENCY,
+                CoinCap.ACCEPTED_FIAT_CURRENCY);
+    }
 
     /**
      * {@inheritDoc}

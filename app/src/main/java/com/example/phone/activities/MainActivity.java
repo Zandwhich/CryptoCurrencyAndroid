@@ -41,6 +41,7 @@ public final class MainActivity
     private TextView mResponseView;
     private ProgressBar mProgressBar;
 
+    // TODO: Figure out how to do this all websites logic without having the same code in multiple places
     private ArrayList<AbstractAPICall> allWebsites;
     private ArrayList<AbstractAPICall> displayWebsites;
 
@@ -193,6 +194,10 @@ public final class MainActivity
     private void launchOptionsPage() {
         Intent intent = new Intent(this, OptionsActivity.class);
         startActivity(intent);
+    }
+
+    public ArrayList<AbstractAPICall> getAllWebsites() {
+        return allWebsites;
     }
 
     /**

@@ -23,4 +23,13 @@ public final class CoinBaseBuy extends AbstractCoinBase {
     public CoinBaseBuy(CurrencyActivity activity) {
         super(CoinBaseBuy.EXT_NAME, activity, CoinBaseBuy.BUY_EXT);
     }//end CoinBaseBuy()
+
+    /**
+     * The constructor used only for figuring out if this endpoint can support certain currencies.
+     * <br><br>
+     * <b>DON'T USE THIS CONSTRUCTOR FOR ACTUALLY CONNECTING TO THE ENDPOINTS THEMSELVES!!</b>
+     */
+    public CoinBaseBuy() {
+        super(CoinBaseBuy.EXT_NAME, null, CoinBaseBuy.BUY_EXT);
+    }
 }//end CoinBaseBuy

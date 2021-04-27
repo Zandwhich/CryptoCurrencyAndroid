@@ -72,6 +72,16 @@ final public class CryptoCompare extends AbstractAPICall {
     }//end CryptoCompare()
 
     /**
+     * The constructor used only for figuring out if this endpoint can support certain currencies.
+     * <br><br>
+     * <b>DON'T USE THIS CONSTRUCTOR FOR ACTUALLY CONNECTING TO THE ENDPOINTS THEMSELVES!!</b>
+     */
+    public CryptoCompare() {
+        super(CryptoCompare.NAME, null, CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES,
+                CryptoCompare.ACCEPTED_FIAT_CURRENCIES);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

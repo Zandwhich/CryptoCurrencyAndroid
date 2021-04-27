@@ -64,5 +64,6 @@
     <string name="choose_cryptocurrency">"Cryptocurrency: "</string>
     <string name="choose_fiat_currency">"Fiat Currency: "</string>
     <string name="title_slash">/</string>
+    <string name="support_combo_text">Endpoints that support this combination:</string>
 
 </resources>

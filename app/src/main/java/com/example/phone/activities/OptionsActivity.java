@@ -1,6 +1,8 @@
 package com.example.phone.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,13 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.phone.R;
+import com.example.phone.activities.recyclerview.CompatibleEndpointAdapter;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
+import com.example.phone.utility.network.AbstractAPICall;
+import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseBuy;
+import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSell;
+import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSpot;
+import com.example.phone.utility.network.endpoints.CoinCap;
+import com.example.phone.utility.network.endpoints.CryptoCompare;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OptionsActivity extends AppCompatActivity {
+final public class OptionsActivity extends AppCompatActivity implements CompatibleEndpointAdapter.ParentActivity {
 
     private static final String TAG = "OptionsActivity";
 
@@ -26,12 +35,26 @@ public class OptionsActivity extends AppCompatActivity {
     public static final String CRYPTO_SELECTED = "CRYPTO_SELECTED";
     public static final String FIAT_SELECTED = "FIAT_SELECTED";
 
+    // TODO: Figure out how to do this websites logic without having to copy the code over in multiple places
+    private ArrayList<AbstractAPICall> allWebsites;
+    private ArrayList<AbstractAPICall> supportedWebsites;
+
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        final SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        this.sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
+        this.supportedWebsites = new ArrayList<>();
+        this.allWebsites = new ArrayList<>();
+        this.allWebsites.add(new CoinBaseBuy());
+        this.allWebsites.add(new CoinBaseSell());
+        this.allWebsites.add(new CoinBaseSpot());
+        this.allWebsites.add(new CryptoCompare());
+        this.allWebsites.add(new CoinCap());
 
         Spinner cryptoSpinner = findViewById(R.id.spinner_choose_crypto);
         Spinner fiatSpinner = findViewById(R.id.spinner_choose_fiat);
@@ -58,7 +81,7 @@ public class OptionsActivity extends AppCompatActivity {
                 editor.putInt(CRYPTO_SELECTED, CryptoCurrency.getCryptocurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName());
                 editor.apply();
 
-                Log.i(TAG, "Item at position " + i + ": " + adapterView.getItemAtPosition(i).toString());
+                updateSupportiveEndpoints();
             }
 
             @Override
@@ -66,6 +89,8 @@ public class OptionsActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt(CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
                 editor.apply();
+
+                updateSupportiveEndpoints();
             }
         });
 
@@ -79,7 +104,7 @@ public class OptionsActivity extends AppCompatActivity {
                 editor.putInt(FIAT_SELECTED, FiatCurrency.getFiatCurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName());
                 editor.apply();
 
-                Log.i(TAG, "Item at position " + i + ": " + adapterView.getItemAtPosition(i).toString());
+                updateSupportiveEndpoints();
             }
 
             @Override
@@ -87,6 +112,8 @@ public class OptionsActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt(FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
                 editor.apply();
+
+                updateSupportiveEndpoints();
             }
         });
 
@@ -101,7 +128,45 @@ public class OptionsActivity extends AppCompatActivity {
 
         cryptoSpinner.setSelection(defaultCryptoPosition);
         fiatSpinner.setSelection(defaultFiatPosition);
+
+        updateSupportiveEndpoints();
     }
 
+    public CryptoCurrency getCurrentCryptoCurrency() {
+        CryptoCurrency temp =
+                CryptoCurrency.getCryptocurrencyFromAbbreviatedName(
+                        sharedPreferences.getInt(CRYPTO_SELECTED,
+                                CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName()));
+        return (temp == null) ? CryptoCurrency.DEFAULT_CRYPTO : temp;
+    }
 
+    public FiatCurrency getCurrentFiatCurrency() {
+        FiatCurrency temp =
+                FiatCurrency.getFiatCurrencyFromAbbreviatedName(
+                        sharedPreferences.getInt(FIAT_SELECTED,
+                                FiatCurrency.DEFAULT_FIAT.getAbbreviatedName()));
+        return (temp == null) ? FiatCurrency.DEFAULT_FIAT : temp;
+    }
+
+    private void updateSupportiveEndpoints() {
+        RecyclerView supportingRecyclerView = findViewById(R.id.supporting_recyclerview);
+        this.supportedWebsites.clear();
+
+        for (AbstractAPICall call : this.allWebsites) {
+            if (call.canUseCryptocurrency(getCurrentCryptoCurrency()) &&
+                    call.canUseFiatCurrency(getCurrentFiatCurrency()))
+                this.supportedWebsites.add(call);
+        }
+
+        CompatibleEndpointAdapter adapter = new CompatibleEndpointAdapter(this.supportedWebsites.size(), this);
+        supportingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        supportingRecyclerView.setHasFixedSize(true);
+        supportingRecyclerView.setAdapter(adapter);
+        supportingRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public String getEndpointName(int orderInList) {
+        return this.supportedWebsites.get(orderInList).getName();
+    }
 }
