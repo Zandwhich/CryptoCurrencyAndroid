@@ -101,7 +101,7 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
         } catch (JSONException e) {
             // TODO: Figure this out better (maybe parent method should throw JSONException?)
             e.printStackTrace();
-            return -1;
+            return AbstractAPICall.NO_PRICE;
         }//end try/catch
     }//end extractPrice()
 

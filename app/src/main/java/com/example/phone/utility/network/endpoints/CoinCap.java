@@ -97,7 +97,7 @@ final public class CoinCap extends AbstractAPICall {
                     .getDouble(CoinCap.JSON_RATE_USD);
         } catch (JSONException e) {
             e.printStackTrace();
-            return -1;
+            return -AbstractAPICall.NO_PRICE;
         }//end try/catch
     }//end extractPrice()
 

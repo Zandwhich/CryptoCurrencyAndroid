@@ -34,7 +34,7 @@ public abstract class AbstractAPICall {
     /**
      * The default price when no price is available
      */
-    private final static double NO_PRICE = -1;
+    public final static double NO_PRICE = -1;
 
     /**
      * The cryptocurrencies that this website can use
@@ -181,7 +181,7 @@ public abstract class AbstractAPICall {
         }//end try/catch
 
         double price = this.extractPrice(contents);
-        if (price == -1) {
+        if (price == AbstractAPICall.NO_PRICE) {
             // TODO: Somehow alert that there was an error in the response
             return;
         }//end if == -1

@@ -121,7 +121,7 @@ final public class CoinMarketCap extends AbstractAPICall {
                     .getDouble(JSON_PRICE);
         } catch (JSONException e) {
             e.printStackTrace();
-            return -1;
+            return AbstractAPICall.NO_PRICE;
         }//end try/catch
     }//end extractPrice()
 

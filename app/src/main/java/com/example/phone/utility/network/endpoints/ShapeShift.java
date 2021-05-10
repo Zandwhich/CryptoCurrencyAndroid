@@ -56,7 +56,8 @@ final public class ShapeShift extends AbstractAPICall {
      * @param activity The activity that provides which are the current fiat and cryptocurrencies
      */
     public ShapeShift(CurrencyActivity activity) {
-        super(ShapeShift.NAME, activity, ShapeShift.ACCEPTED_CRYPTOCURRENCIES, ShapeShift.ACCEPTED_FIAT_CURRENCIES);
+        super(ShapeShift.NAME, activity, ShapeShift.ACCEPTED_CRYPTOCURRENCIES,
+                ShapeShift.ACCEPTED_FIAT_CURRENCIES);
     }//end ShapeShift()
 
     /**
@@ -90,7 +91,7 @@ final public class ShapeShift extends AbstractAPICall {
                     .getDouble(ShapeShift.JSON_RATE);
         } catch (JSONException e) {
             e.printStackTrace();
-            return -1;
+            return AbstractAPICall.NO_PRICE;
         }//end try/catch
     }//end extractPrice()
 
