@@ -54,7 +54,7 @@
     <string name="phrase_accepted_cryptocurrencies">Accepted Cryptocurrencies:</string>
     <string name="phrase_accepted_fiat_currencies">Accepted Fiat Currencies:</string>
     <string name="refresh_dialog">Hit the Refresh button</string>
-    <string name="coinbase_name">CoinBase</string>
+    <string name="coinbase_name" translatable="false">CoinBase</string>
     <string name="coinbase_summary">CoinBase is a place to by cryptocurrencies. Fun times</string>
     <string name="coincap_summary">CoinCap is a place that does stuff with cryptocurrencies.</string>
     <string name="coinmarketcap_summary">CoinMarketCap is a website that does stuff with cryptocurrencies, wow!</string>
@@ -65,5 +65,8 @@
     <string name="choose_fiat_currency">"Fiat Currency: "</string>
     <string name="title_slash">/</string>
     <string name="support_combo_text">Endpoints that support this combination:</string>
+    <string name="fiat">Fiat</string>
+    <string name="crypto">Crypto</string>
+    <string name="choose_type">Convert Crypto/Fiat or Crypto/Crypto</string>
 
 </resources>
