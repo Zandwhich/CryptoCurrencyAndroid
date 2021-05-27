@@ -1,6 +1,7 @@
 package com.example.phone.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
     public static final String SHARED_PREFERENCES = "OPTIONS_PREFERENCES";
     public static final String CRYPTO_SELECTED = "CRYPTO_SELECTED";
     public static final String FIAT_SELECTED = "FIAT_SELECTED";
+    public static final String CONVERSION_TYPE = "CONVERSION_TYPE"; // true is crypto/crypto, false is crypto/fiat
 
     // TODO: Figure out how to do this websites logic without having to copy the code over in multiple places
     private ArrayList<AbstractAPICall> allWebsites;
@@ -55,6 +57,13 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         this.allWebsites.add(new CoinBaseSpot());
         this.allWebsites.add(new CryptoCompare());
         this.allWebsites.add(new CoinCap());
+
+        // TODO: This is where you left off
+        SwitchCompat fiat_crypto_switch = findViewById(R.id.crypto_fiat_switch);
+        fiat_crypto_switch.setOnCheckedChangeListener((compoundButton, b) -> sharedPreferences
+                .edit()
+                .putBoolean(CONVERSION_TYPE, b)
+                .apply());
 
         Spinner cryptoSpinner = findViewById(R.id.spinner_choose_crypto);
         Spinner fiatSpinner = findViewById(R.id.spinner_choose_fiat);
