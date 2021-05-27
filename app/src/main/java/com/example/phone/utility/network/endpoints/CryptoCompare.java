@@ -2,7 +2,7 @@ package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
 
-import com.example.phone.activities.CurrencyActivity;
+import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
@@ -10,7 +10,6 @@ import com.example.phone.utility.network.AbstractAPICall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -66,7 +65,7 @@ final public class CryptoCompare extends AbstractAPICall {
      * The constructor for CryptoCompare
      * @param activity The activity providing the current fiat and cryptocurrencies
      */
-    public CryptoCompare(CurrencyActivity activity) {
+    public CryptoCompare(CurrencyInterface activity) {
         super(CryptoCompare.NAME, activity, CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES,
                 CryptoCompare.ACCEPTED_FIAT_CURRENCIES);
     }//end CryptoCompare()

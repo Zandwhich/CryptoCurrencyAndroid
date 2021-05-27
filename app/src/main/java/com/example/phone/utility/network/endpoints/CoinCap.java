@@ -2,7 +2,7 @@ package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
 
-import com.example.phone.activities.CurrencyActivity;
+import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
@@ -63,7 +63,7 @@ final public class CoinCap extends AbstractAPICall {
      * The constructor for the CoinCap endpoint
      * @param activity The activity that gives the current fiat and cryptocurrencies
      */
-    public CoinCap(CurrencyActivity activity) {
+    public CoinCap(CurrencyInterface activity) {
         super(CoinCap.NAME, activity, CoinCap.ACCEPTED_CRYPTO_CURRENCY,
                 CoinCap.ACCEPTED_FIAT_CURRENCY);
     }//end CoinCap()

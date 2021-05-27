@@ -2,7 +2,7 @@ package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
 
-import com.example.phone.activities.CurrencyActivity;
+import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
@@ -55,7 +55,7 @@ final public class ShapeShift extends AbstractAPICall {
      * The constructor for the ShapeShift endpoint
      * @param activity The activity that provides which are the current fiat and cryptocurrencies
      */
-    public ShapeShift(CurrencyActivity activity) {
+    public ShapeShift(CurrencyInterface activity) {
         super(ShapeShift.NAME, activity, ShapeShift.ACCEPTED_CRYPTOCURRENCIES,
                 ShapeShift.ACCEPTED_FIAT_CURRENCIES);
     }//end ShapeShift()

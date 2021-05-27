@@ -1,6 +1,6 @@
 package com.example.phone.utility.network.endpoints.CoinBase;
 
-import com.example.phone.activities.CurrencyActivity;
+import com.example.phone.activities.CurrencyInterface;
 
 /**
  * The implementation of the CoinBase API that hits the 'spot' endpoint
@@ -20,7 +20,7 @@ public final class CoinBaseSpot extends AbstractCoinBase {
     /**
      * The constructor for the CoinBase 'spot' URL
      */
-    public CoinBaseSpot(CurrencyActivity activity) {
+    public CoinBaseSpot(CurrencyInterface activity) {
         super(CoinBaseSpot.EXT_NAME, activity, CoinBaseSpot.SPOT_EXT);
     }//end CoinBaseSpot()
 

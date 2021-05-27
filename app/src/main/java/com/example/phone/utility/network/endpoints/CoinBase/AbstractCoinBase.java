@@ -2,7 +2,7 @@ package com.example.phone.utility.network.endpoints.CoinBase;
 
 import android.net.Uri;
 
-import com.example.phone.activities.CurrencyActivity;
+import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
@@ -70,7 +70,7 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      * The constructor for the CoinBase website
      * @param ext The extension of (one of 'buy', 'sell', or 'spot')
      */
-    AbstractCoinBase(String ext_name, CurrencyActivity activity, String ext) {
+    AbstractCoinBase(String ext_name, CurrencyInterface activity, String ext) {
         super(AbstractCoinBase.NAME + " " + ext_name, activity,
                 AbstractCoinBase.ACCEPTED_CRYPTOCURRENCIES,
                 AbstractCoinBase.ACCEPTED_FIAT_CURRENCIES);

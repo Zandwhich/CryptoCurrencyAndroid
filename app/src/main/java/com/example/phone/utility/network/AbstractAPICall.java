@@ -4,9 +4,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.WorkerThread;
 
-import com.example.phone.activities.CurrencyActivity;
+import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
@@ -49,7 +48,7 @@ public abstract class AbstractAPICall {
     /**
      * The activity that holds which currencies are being used right now
      */
-    protected CurrencyActivity activity;
+    protected CurrencyInterface activity;
 
     /**
      * The name of the endpoint
@@ -69,7 +68,7 @@ public abstract class AbstractAPICall {
      * @param acceptedCryptoCurrencies The accepted cryptocurrencies for this call
      * @param acceptedFiatCurrencies The accepted fiat currencies for this call
      */
-    public AbstractAPICall(String name, CurrencyActivity activity, CryptoCurrency[] acceptedCryptoCurrencies,
+    public AbstractAPICall(String name, CurrencyInterface activity, CryptoCurrency[] acceptedCryptoCurrencies,
                            FiatCurrency[] acceptedFiatCurrencies) {
         this.acceptedCryptoCurrencies = acceptedCryptoCurrencies;
         this.acceptedFiatCurrencies = acceptedFiatCurrencies;

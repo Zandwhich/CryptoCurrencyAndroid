@@ -2,7 +2,7 @@ package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
 
-import com.example.phone.activities.CurrencyActivity;
+import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.AbstractAPICall;
@@ -10,7 +10,6 @@ import com.example.phone.utility.network.AbstractAPICall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -81,7 +80,7 @@ final public class CoinMarketCap extends AbstractAPICall {
     /**
      * The constructor for CoinMarketCap
      */
-    public CoinMarketCap(CurrencyActivity activity) {
+    public CoinMarketCap(CurrencyInterface activity) {
         super(CoinMarketCap.NAME, activity, CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES,
                 CoinMarketCap.ACCEPTED_FIAT_CURRENCIES);
     }//end CoinMarketCap()

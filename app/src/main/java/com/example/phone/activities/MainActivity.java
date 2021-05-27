@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +34,7 @@ import java.util.ArrayList;
  */
 public final class MainActivity
         extends AppCompatActivity
-        implements CurrencyActivity, PriceAdapter.PriceAdapterOnClickHelper {
+        implements CurrencyInterface, PriceAdapter.PriceAdapterOnClickHelper {
 
     private TextView mResponseView;
     private ProgressBar mProgressBar;
