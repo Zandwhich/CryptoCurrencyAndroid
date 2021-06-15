@@ -5,7 +5,6 @@ import com.example.phone.utility.currencies.FiatCurrency;
 
 /**
  * The activity that holds the current fiat and cryptocurrencies needs to extend this
- * TODO: Change name?
  */
 public interface CurrencyInterface {
 
