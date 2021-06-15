@@ -5,7 +5,7 @@ import android.net.Uri;
 import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
-import com.example.phone.utility.network.AbstractAPICall;
+import com.example.phone.utility.network.endpoints.AbstractAPICall;
 
 import org.json.JSONException;
 import org.json.JSONObject;

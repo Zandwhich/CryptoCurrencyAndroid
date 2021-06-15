@@ -20,7 +20,7 @@ import com.example.phone.R;
 import com.example.phone.activities.recyclerview.PriceAdapter;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
-import com.example.phone.utility.network.AbstractAPICall;
+import com.example.phone.utility.network.endpoints.AbstractAPICall;
 import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseBuy;
 import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSell;
 import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSpot;

@@ -1,4 +1,4 @@
-package com.example.phone.utility.network;
+package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
 import android.util.Log;
@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
+import com.example.phone.utility.network.NetworkUtils;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
 import com.example.phone.utility.network.errors.FiatNotAccepted;
 
