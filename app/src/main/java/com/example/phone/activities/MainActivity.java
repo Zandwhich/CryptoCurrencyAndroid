@@ -28,7 +28,6 @@ import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSpot;
 import com.example.phone.utility.network.endpoints.CoinCap;
 import com.example.phone.utility.network.endpoints.CryptoCompare;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +55,7 @@ public final class MainActivity
     @Override
     public CryptoCurrency getCurrentCrypto() {
         int currentCryptoAbbreviated
-                = sharedPreferences.getInt(OptionsActivity.CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
+                = sharedPreferences.getInt(OptionsActivity.BASE_CRYPTO, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
         CryptoCurrency currentCrypto = CryptoCurrency.getCryptocurrencyFromAbbreviatedName(currentCryptoAbbreviated);
 
         return (currentCrypto == null) ? CryptoCurrency.DEFAULT_CRYPTO : currentCrypto;
@@ -68,7 +67,7 @@ public final class MainActivity
     @Override
     public FiatCurrency getCurrentFiat() {
         int currentFiatAbbreviated
-                = sharedPreferences.getInt(OptionsActivity.FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
+                = sharedPreferences.getInt(OptionsActivity.TARGET_FIAT, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
         FiatCurrency currentFiat = FiatCurrency.getFiatCurrencyFromAbbreviatedName(currentFiatAbbreviated);
 
         return (currentFiat == null) ? FiatCurrency.DEFAULT_FIAT : currentFiat;

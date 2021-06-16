@@ -61,12 +61,13 @@
     <string name="cryptocompare_summary">CryptoCompare is a website that compares various cryptocurrencies against each other. Oh Wow!</string>
     <string name="shapeshift_summary">ShapeShift is a website that does stuff with cryptocurrencies, I\'m sure!</string>
     <string name="options_name">Options</string>
-    <string name="choose_cryptocurrency">"Cryptocurrency: "</string>
-    <string name="choose_fiat_currency">"Fiat Currency: "</string>
+    <string name="choose_cryptocurrency">"Base Cryptocurrency: "</string>
+    <string name="choose_fiat_currency">"Target Fiat Currency: "</string>
     <string name="title_slash">/</string>
     <string name="support_combo_text">Endpoints that support this combination:</string>
-    <string name="fiat">Fiat</string>
-    <string name="crypto">Crypto</string>
-    <string name="choose_type">Convert Crypto/Fiat or Crypto/Crypto</string>
+    <string name="fiat">Crypto/Fiat</string>
+    <string name="crypto">Crypto/Crypto</string>
+    <string name="choose_type">Choose Conversion Type</string>
+    <string name="choose_target_cryptocurrency">Target Cryptocurrency:</string>
 
 </resources>
