@@ -21,6 +21,10 @@ import java.net.URL;
  */
 public abstract class AbstractAPICall {
 
+    /* *********** *
+     *  Constants  *
+     * *********** */
+
     /**
      * The name of the class
      */
@@ -35,6 +39,11 @@ public abstract class AbstractAPICall {
      * The default price when no price is available
      */
     public final static double NO_PRICE = -1;
+
+
+    /* ******** *
+     *  Fields  *
+     * ******** */
 
     /**
      * The cryptocurrencies that this website can use
@@ -61,6 +70,20 @@ public abstract class AbstractAPICall {
      */
     private double price;
 
+    /**
+     * If the endpoint supports fiat to crypto conversions
+     */
+    private final boolean supportsCryptoToFiat;
+
+    /**
+     * If the endpoint supports crypto to crypto conversions
+     */
+    private final boolean supportsCryptoToCrypto;
+
+
+    /* ************** *
+     *  Constructors  *
+     * ************** */
 
     /**
      * The constructor for the AbstractAPICall
@@ -69,14 +92,24 @@ public abstract class AbstractAPICall {
      * @param acceptedCryptoCurrencies The accepted cryptocurrencies for this call
      * @param acceptedFiatCurrencies The accepted fiat currencies for this call
      */
-    public AbstractAPICall(String name, CurrencyInterface activity, CryptoCurrency[] acceptedCryptoCurrencies,
-                           FiatCurrency[] acceptedFiatCurrencies) {
+    public AbstractAPICall(final String name, final CurrencyInterface activity,
+                           final CryptoCurrency[] acceptedCryptoCurrencies,
+                           final FiatCurrency[] acceptedFiatCurrencies,
+                           final boolean supportsCryptoToFiat,
+                           final boolean supportsCryptoToCrypto) {
         this.acceptedCryptoCurrencies = acceptedCryptoCurrencies;
         this.acceptedFiatCurrencies = acceptedFiatCurrencies;
         this.activity = activity;
         this.name = name;
         this.price = AbstractAPICall.NO_PRICE;
+        this.supportsCryptoToFiat = supportsCryptoToFiat;
+        this.supportsCryptoToCrypto = supportsCryptoToCrypto;
     }//end AbstractAPICall
+
+
+    /* ********* *
+     *  Methods  *
+     * ********* */
 
     /**
      * Returns if this API uses the given cryptocurrency
@@ -197,5 +230,21 @@ public abstract class AbstractAPICall {
      */
     public String getClassName() {
         return AbstractAPICall.NAME;
+    }
+
+    /**
+     * Returns if supports fiat to crypto conversion
+     * @return If supports fiat to crypto conversion
+     */
+    public boolean supportsFiatToCrypto() {
+        return supportsCryptoToFiat;
+    }
+
+    /**
+     * Returns if supports crypto to crypto conversion
+     * @return If this endpoint supports crypto to crypto conversion
+     */
+    public boolean supportsCryptoToCrypto() {
+        return supportsCryptoToCrypto;
     }
 }//end AbstractAPICall

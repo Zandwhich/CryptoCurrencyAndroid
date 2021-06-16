@@ -17,6 +17,10 @@ import java.util.Map;
  */
 final public class CoinCap extends AbstractAPICall {
 
+    /* ******** *
+     *  Fields  *
+     * ******** */
+
     /**
      * The base url for the endpoint
      */
@@ -59,12 +63,30 @@ final public class CoinCap extends AbstractAPICall {
             }};
 
     /**
+     * CoinCap supports conversion from fiat to cryptocurrencies
+     */
+    public static final boolean SUPPORTS_CRYPTO_TO_FIAT = true;
+
+    /**
+     * CoinCap does not support conversion from crypto to cryptocurrencies
+     *
+     * TODO: Double-check if this is correct
+     */
+    public static final boolean SUPPORTS_CRYPTO_TO_CRYPTO = false;
+
+
+    /* ************** *
+     *  Constructors  *
+     * ************** */
+
+    /**
      * The constructor for the CoinCap endpoint
      * @param activity The activity that gives the current fiat and cryptocurrencies
      */
     public CoinCap(CurrencyInterface activity) {
         super(CoinCap.NAME, activity, CoinCap.ACCEPTED_CRYPTO_CURRENCY,
-                CoinCap.ACCEPTED_FIAT_CURRENCY);
+                CoinCap.ACCEPTED_FIAT_CURRENCY, CoinCap.SUPPORTS_CRYPTO_TO_FIAT,
+                CoinCap.SUPPORTS_CRYPTO_TO_CRYPTO);
     }//end CoinCap()
 
     /**
@@ -74,8 +96,14 @@ final public class CoinCap extends AbstractAPICall {
      */
     public CoinCap() {
         super(CoinCap.NAME, null, CoinCap.ACCEPTED_CRYPTO_CURRENCY,
-                CoinCap.ACCEPTED_FIAT_CURRENCY);
+                CoinCap.ACCEPTED_FIAT_CURRENCY, CoinCap.SUPPORTS_CRYPTO_TO_FIAT,
+                CoinCap.SUPPORTS_CRYPTO_TO_CRYPTO);
     }
+
+
+    /* ********* *
+     *  Methods  *
+     * ********* */
 
     /**
      * {@inheritDoc}

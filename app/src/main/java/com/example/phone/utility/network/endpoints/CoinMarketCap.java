@@ -16,6 +16,10 @@ import java.util.Map;
  */
 final public class CoinMarketCap extends AbstractAPICall {
 
+    /* *********** *
+     *  Constants  *
+     * *********** */
+
     /**
      * The base url for the CoinMarketCap website
      */
@@ -40,6 +44,18 @@ final public class CoinMarketCap extends AbstractAPICall {
             FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.GBP, FiatCurrency.JPY,
             FiatCurrency.MXN, FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK,
             FiatCurrency.USD};
+
+    /**
+     * CoinMarketCap supports exchanging cryptocurrencies to fiat currencies
+     */
+    public final static boolean SUPPORTS_CRYPTO_TO_FIAT = true;
+
+    /**
+     * CoinMarketCap does not support exchanging cryptocurrencies to other cryptocurrencies
+     *
+     * TODO: Double-check this. I think they actually do support this, but I'm too lazy to check atm
+     */
+    public final static boolean SUPPORTS_CRYPTO_TO_CRYPTO = false;
 
     /**
      * The key to get the data from the JSON response
@@ -76,12 +92,18 @@ final public class CoinMarketCap extends AbstractAPICall {
      */
     private final static Map<FiatCurrency, String> fiatParamMap = FiatCurrency.abbreviatedMap;
 
+
+    /* ************** *
+     *  Constructors  *
+     * ************** */
+
     /**
      * The constructor for CoinMarketCap
      */
     public CoinMarketCap(CurrencyInterface activity) {
         super(CoinMarketCap.NAME, activity, CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES,
-                CoinMarketCap.ACCEPTED_FIAT_CURRENCIES);
+                CoinMarketCap.ACCEPTED_FIAT_CURRENCIES, CoinMarketCap.SUPPORTS_CRYPTO_TO_FIAT,
+                CoinMarketCap.SUPPORTS_CRYPTO_TO_CRYPTO);
     }//end CoinMarketCap()
 
     /**
@@ -91,8 +113,14 @@ final public class CoinMarketCap extends AbstractAPICall {
      */
     public CoinMarketCap() {
         super(CoinMarketCap.NAME, null, CoinMarketCap.ACCEPTED_CRYPTO_CURRENCIES,
-                CoinMarketCap.ACCEPTED_FIAT_CURRENCIES);
+                CoinMarketCap.ACCEPTED_FIAT_CURRENCIES, CoinMarketCap.SUPPORTS_CRYPTO_TO_FIAT,
+                CoinMarketCap.SUPPORTS_CRYPTO_TO_CRYPTO);
     }
+
+
+    /* ********* *
+     *  Methods  *
+     * ********* */
 
     /**
      * {@inheritDoc}

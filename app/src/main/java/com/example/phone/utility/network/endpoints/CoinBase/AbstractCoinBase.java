@@ -52,6 +52,16 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
             FiatCurrency.USD};
 
     /**
+     * Coinbase supports converting from fiat cryptocurrencies to fiat currencies
+     */
+    public static final boolean SUPPORTS_CRYPTO_TO_FIAT = true;
+
+    /**
+     * Coinbase does not support converting from cryptocurrencies to other cryptocurrencies
+     */
+    public static final boolean SUPPORTS_CRYPTO_TO_CRYPTO = false;
+
+    /**
      * The CoinBase extension (one of 'buy', 'sell', or 'spot')
      */
     private final String ext;
@@ -73,7 +83,9 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
     AbstractCoinBase(String ext_name, CurrencyInterface activity, String ext) {
         super(AbstractCoinBase.NAME + " " + ext_name, activity,
                 AbstractCoinBase.ACCEPTED_CRYPTOCURRENCIES,
-                AbstractCoinBase.ACCEPTED_FIAT_CURRENCIES);
+                AbstractCoinBase.ACCEPTED_FIAT_CURRENCIES,
+                AbstractCoinBase.SUPPORTS_CRYPTO_TO_FIAT,
+                AbstractCoinBase.SUPPORTS_CRYPTO_TO_CRYPTO);
         this.ext = ext;
     }//end AbstractCoinBase()
 

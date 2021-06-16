@@ -16,6 +16,10 @@ import java.util.Map;
  */
 final public class CryptoCompare extends AbstractAPICall {
 
+    /* *********** *
+     *  Constants  *
+     * *********** */
+
     /**
      * The base url for the CryptoCompare website
      */
@@ -25,20 +29,6 @@ final public class CryptoCompare extends AbstractAPICall {
      * The name of this endpoint
      */
     public static final String NAME = "CryptoCompare";
-
-    /**
-     * The cryptocurrencies that CryptoCompare uses
-     */
-    public final static CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCIES = {CryptoCurrency.BTC,
-            CryptoCurrency.ETH, CryptoCurrency.LTC, CryptoCurrency.XRP};
-
-    /**
-     * The fiat currencies that CryptoCompare uses
-     */
-    public final static FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
-            FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.GBP, FiatCurrency.JPY,
-            FiatCurrency.MXN, FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK,
-            FiatCurrency.USD};
 
     /**
      * The key for the query param for the cryptocurrency
@@ -61,12 +51,42 @@ final public class CryptoCompare extends AbstractAPICall {
     private static final Map<FiatCurrency, String> fiatParamMap = FiatCurrency.abbreviatedMap;
 
     /**
+     * The cryptocurrencies that CryptoCompare uses
+     */
+    public final static CryptoCurrency[] ACCEPTED_CRYPTO_CURRENCIES = {CryptoCurrency.BTC,
+            CryptoCurrency.ETH, CryptoCurrency.LTC, CryptoCurrency.XRP};
+
+    /**
+     * The fiat currencies that CryptoCompare uses
+     */
+    public final static FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {FiatCurrency.AUD,
+            FiatCurrency.CAD, FiatCurrency.EUR, FiatCurrency.GBP, FiatCurrency.JPY,
+            FiatCurrency.MXN, FiatCurrency.NZD, FiatCurrency.PLN, FiatCurrency.SEK,
+            FiatCurrency.USD};
+
+    /**
+     * CryptoCompare supports converting cryptocurrencies to fiat currencies
+     */
+    public static final boolean SUPPORTS_CRYPTO_TO_FIAT = true;
+
+    /**
+     * CryptoCompare supports converting cryptocurrencies to other cryptocurrencies
+     */
+    public static final boolean SUPPORTS_CRYPTO_TO_CRYPTO = true;
+
+
+    /* ************** *
+     *  Constructors  *
+     * ************** */
+
+    /**
      * The constructor for CryptoCompare
      * @param activity The activity providing the current fiat and cryptocurrencies
      */
     public CryptoCompare(CurrencyInterface activity) {
         super(CryptoCompare.NAME, activity, CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES,
-                CryptoCompare.ACCEPTED_FIAT_CURRENCIES);
+                CryptoCompare.ACCEPTED_FIAT_CURRENCIES, CryptoCompare.SUPPORTS_CRYPTO_TO_FIAT,
+                CryptoCompare.SUPPORTS_CRYPTO_TO_CRYPTO);
     }//end CryptoCompare()
 
     /**
@@ -76,8 +96,14 @@ final public class CryptoCompare extends AbstractAPICall {
      */
     public CryptoCompare() {
         super(CryptoCompare.NAME, null, CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES,
-                CryptoCompare.ACCEPTED_FIAT_CURRENCIES);
+                CryptoCompare.ACCEPTED_FIAT_CURRENCIES, CryptoCompare.SUPPORTS_CRYPTO_TO_FIAT,
+                CryptoCompare.SUPPORTS_CRYPTO_TO_CRYPTO);
     }
+
+
+    /* ********* *
+     *  Methods  *
+     * ********* */
 
     /**
      * {@inheritDoc}

@@ -19,6 +19,10 @@ final public class ShapeShift extends AbstractAPICall {
     //  Fiat/Cryptocurrencies, but in the future, we should figure out how to incorporate it.
     //  Phase 2!
 
+    /* *********** *
+     *  Constants  *
+     * *********** */
+
     /**
      * The name of the ShapeShift endpoint
      */
@@ -28,6 +32,11 @@ final public class ShapeShift extends AbstractAPICall {
      * The base url for the ShapeShift endpoint
      */
     private static final String BASE_URL = "https://shapeshift.io/marketinfo/";
+
+    /**
+     * The string used to get the rate from the returned JSON
+     */
+    private static final String JSON_RATE = "rate";
 
     /**
      * The list of accepted cryptocurrencies that ShapeShift uses
@@ -46,9 +55,19 @@ final public class ShapeShift extends AbstractAPICall {
     public static final FiatCurrency[] ACCEPTED_FIAT_CURRENCIES = {};
 
     /**
-     * The string used to get the rate from the returned JSON
+     * ShapeShift does not support converting from cryptocurrencies to fiat currencies
      */
-    private static final String JSON_RATE = "rate";
+    public static final boolean SUPPORTS_CRYPTO_TO_FIAT = false;
+
+    /**
+     * ShapeShift supports converting from cryptocurrencies to other cryptocurrencies
+     */
+    public static final boolean SUPPORTS_CRYPTO_TO_CRYPTO = true;
+
+
+    /* ************** *
+     *  Constructors  *
+     * ************** */
 
     /**
      * The constructor for the ShapeShift endpoint
@@ -56,7 +75,8 @@ final public class ShapeShift extends AbstractAPICall {
      */
     public ShapeShift(CurrencyInterface activity) {
         super(ShapeShift.NAME, activity, ShapeShift.ACCEPTED_CRYPTOCURRENCIES,
-                ShapeShift.ACCEPTED_FIAT_CURRENCIES);
+                ShapeShift.ACCEPTED_FIAT_CURRENCIES, ShapeShift.SUPPORTS_CRYPTO_TO_FIAT,
+                ShapeShift.SUPPORTS_CRYPTO_TO_CRYPTO);
     }//end ShapeShift()
 
     /**
@@ -66,8 +86,14 @@ final public class ShapeShift extends AbstractAPICall {
      */
     public ShapeShift() {
         super(ShapeShift.NAME, null, ShapeShift.ACCEPTED_CRYPTOCURRENCIES,
-                ShapeShift.ACCEPTED_FIAT_CURRENCIES);
+                ShapeShift.ACCEPTED_FIAT_CURRENCIES, ShapeShift.SUPPORTS_CRYPTO_TO_FIAT,
+                ShapeShift.SUPPORTS_CRYPTO_TO_CRYPTO);
     }
+
+
+    /* ********* *
+     *  Methods  *
+     * ********* */
 
     /**
      * {@inheritDoc}
