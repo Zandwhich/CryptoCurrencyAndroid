@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -76,7 +75,7 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
                     .putBoolean(CONVERSION_TYPE, b)
                     .apply();
 
-            updateSupportiveEndpoints();
+            updateSupportedEndpoints();
         });
 
         fiat_crypto_switch.setChecked(sharedPreferences.getBoolean(CONVERSION_TYPE, DEFAULT_CONVERSION_TYPE));
@@ -87,8 +86,14 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         else
             targetCurrency.setText(R.string.choose_fiat_currency);
 
-        final Spinner cryptoSpinner = findViewById(R.id.spinner_choose_crypto);
-        final Spinner fiatSpinner = findViewById(R.id.spinner_choose_fiat);
+        setSpinners();
+
+        updateSupportedEndpoints();
+    }
+
+    private void setSpinners() {
+        final Spinner baseSpinner = findViewById(R.id.spinner_choose_base_currency);
+        final Spinner targetSpinner = findViewById(R.id.spinner_choose_target_currency);
 
         final List<CharSequence> cryptos = new ArrayList<>();
         for (CryptoCurrency crypto : CryptoCurrency.values()) {
@@ -102,17 +107,17 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
 
         final Context thisContext = this;
 
-        final ArrayAdapter<CharSequence> cryptoSpinnerAdapter = new ArrayAdapter<>(this,
+        final ArrayAdapter<CharSequence> baseSpinnerAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_list_item, R.id.spinner_item, cryptos);
-        cryptoSpinner.setAdapter(cryptoSpinnerAdapter);
-        cryptoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        baseSpinner.setAdapter(baseSpinnerAdapter);
+        baseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt(BASE_CRYPTO, CryptoCurrency.getCryptocurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName());
                 editor.apply();
 
-                updateSupportiveEndpoints();
+                updateSupportedEndpoints();
             }
 
             @Override
@@ -121,49 +126,58 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
                 editor.putInt(BASE_CRYPTO, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
                 editor.apply();
 
-                updateSupportiveEndpoints();
+                updateSupportedEndpoints();
             }
         });
 
-        final ArrayAdapter<CharSequence> fiatSpinnerAdapter = new ArrayAdapter<>(this,
-                R.layout.spinner_list_item, R.id.spinner_item, fiats);
-        fiatSpinner.setAdapter(fiatSpinnerAdapter);
-        fiatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final ArrayAdapter<CharSequence> targetSpinnerAdapter = sharedPreferences.getBoolean(CONVERSION_TYPE, DEFAULT_CONVERSION_TYPE) ?
+                new ArrayAdapter<>(this, R.layout.spinner_list_item, R.id.spinner_item, cryptos)
+                :
+                new ArrayAdapter<>(this, R.layout.spinner_list_item, R.id.spinner_item, fiats);
+        targetSpinner.setAdapter(targetSpinnerAdapter);
+        targetSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(TARGET_FIAT, FiatCurrency.getFiatCurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName());
-                editor.apply();
+                if (sharedPreferences.getBoolean(CONVERSION_TYPE, DEFAULT_CONVERSION_TYPE)) {
+                    sharedPreferences.edit()
+                            .putInt(TARGET_CRYPTO, CryptoCurrency.getCryptocurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName())
+                            .apply();
+                } else {
+                    sharedPreferences.edit()
+                            .putInt(TARGET_FIAT, FiatCurrency.getFiatCurrencyFromAbbreviatedName(adapterView.getItemAtPosition(i).toString(), thisContext).getAbbreviatedName())
+                            .apply();
+                }
 
-                updateSupportiveEndpoints();
+                updateSupportedEndpoints();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(TARGET_FIAT, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
-                editor.apply();
+                if (sharedPreferences.getBoolean(CONVERSION_TYPE, DEFAULT_CONVERSION_TYPE)) {
+                    sharedPreferences.edit()
+                            .putInt(TARGET_CRYPTO, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName())
+                            .apply();
+                } else {
+                    sharedPreferences.edit()
+                            .putInt(TARGET_FIAT, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName())
+                            .apply();
+                }
 
-                updateSupportiveEndpoints();
+                updateSupportedEndpoints();
             }
         });
 
         final String defaultCrypto = getString(sharedPreferences.getInt(BASE_CRYPTO, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName()));
         final String defaultFiat = getString(sharedPreferences.getInt(TARGET_FIAT, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName()));
 
-        final int defaultCryptoPosition = cryptoSpinnerAdapter.getPosition(defaultCrypto);
-        final int defaultFiatPosition = fiatSpinnerAdapter.getPosition(defaultFiat);
+        final int defaultCryptoPosition = baseSpinnerAdapter.getPosition(defaultCrypto);
+        final int defaultFiatPosition = targetSpinnerAdapter.getPosition(defaultFiat);
 
-        Log.i(TAG, "Crypto Position: " + defaultCryptoPosition);
-        Log.i(TAG, "Fiat Position: " + defaultFiatPosition);
-
-        cryptoSpinner.setSelection(defaultCryptoPosition);
-        fiatSpinner.setSelection(defaultFiatPosition);
-
-        updateSupportiveEndpoints();
+        baseSpinner.setSelection(defaultCryptoPosition);
+        targetSpinner.setSelection(defaultFiatPosition);
     }
 
-    public CryptoCurrency getCurrentCryptoCurrency() {
+    public CryptoCurrency getBaseCryptocurrency() {
         final CryptoCurrency temp =
                 CryptoCurrency.getCryptocurrencyFromAbbreviatedName(
                         sharedPreferences.getInt(BASE_CRYPTO,
@@ -171,7 +185,7 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         return (temp == null) ? CryptoCurrency.DEFAULT_CRYPTO : temp;
     }
 
-    public FiatCurrency getCurrentFiatCurrency() {
+    public FiatCurrency getTargetFiatCurrency() {
         final FiatCurrency temp =
                 FiatCurrency.getFiatCurrencyFromAbbreviatedName(
                         sharedPreferences.getInt(TARGET_FIAT,
@@ -179,7 +193,15 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         return (temp == null) ? FiatCurrency.DEFAULT_FIAT : temp;
     }
 
-    private void updateSupportiveEndpoints() {
+    public CryptoCurrency getTargetCryptocurrency() {
+        final CryptoCurrency temp =
+                CryptoCurrency.getCryptocurrencyFromAbbreviatedName(
+                        sharedPreferences.getInt(TARGET_CRYPTO,
+                                CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName()));
+        return (temp == null) ? CryptoCurrency.DEFAULT_CRYPTO : temp;
+    }
+
+    private void updateSupportedEndpoints() {
         final RecyclerView supportingRecyclerView = findViewById(R.id.supporting_recyclerview);
         this.supportedWebsites.clear();
 
@@ -191,7 +213,7 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
 
             for (AbstractAPICall call : this.allWebsites) {
                 if (call.supportsCryptoToCrypto() &&
-                        call.canUseCryptocurrency(getCurrentCryptoCurrency())
+                        call.canUseCryptocurrency(getBaseCryptocurrency())
                     /* && TODO: Can support the second currency */)
                     this.supportedWebsites.add(call);
             }
@@ -201,8 +223,8 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
 
             for (AbstractAPICall call : this.allWebsites) {
                 if (call.supportsFiatToCrypto() &&
-                        call.canUseCryptocurrency(getCurrentCryptoCurrency()) &&
-                        call.canUseFiatCurrency(getCurrentFiatCurrency()))
+                        call.canUseCryptocurrency(getBaseCryptocurrency()) &&
+                        call.canUseFiatCurrency(getTargetFiatCurrency()))
                     this.supportedWebsites.add(call);
             }
         }
@@ -212,6 +234,8 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         supportingRecyclerView.setHasFixedSize(true);
         supportingRecyclerView.setAdapter(adapter);
         supportingRecyclerView.getAdapter().notifyDataSetChanged();
+
+        setSpinners();
     }
 
     @Override
