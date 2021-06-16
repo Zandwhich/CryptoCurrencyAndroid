@@ -144,17 +144,25 @@ public final class MainActivity
     }
 
     private void updateShownAPIs() {
-        CryptoCurrency currentCrypto = getBaseCrypto();
-        FiatCurrency currentFiat = getTargetFiat();
+        final CryptoCurrency baseCrypto = getBaseCrypto();
+        final FiatCurrency targetFiat = getTargetFiat();
+        final CryptoCurrency targetCrypto = getTargetCrypto();
 
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        String targetName;
+        if (sharedPreferences.getBoolean(OptionsActivity.CONVERSION_TYPE, OptionsActivity.DEFAULT_CONVERSION_TYPE)) {
+            targetName = getString(targetCrypto.getAbbreviatedName());
+        } else {
+            targetName = getString(targetFiat.getAbbreviatedName());
+        }
+
+        final Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        TextView titleCrypto = findViewById(R.id.title_current_crypto);
-        TextView titleFiat = findViewById(R.id.title_current_fiat);
+        final TextView titleBaseCrypto = findViewById(R.id.title_base_crypto);
+        final TextView titleTarget = findViewById(R.id.title_target_currency);
 
-        titleCrypto.setText(getString(currentCrypto.getAbbreviatedName()));
-        titleFiat.setText(getString(currentFiat.getAbbreviatedName()));
+        titleBaseCrypto.setText(getString(baseCrypto.getAbbreviatedName()));
+        titleTarget.setText(targetName);
 
         boolean conversionType = sharedPreferences.getBoolean(OptionsActivity.CONVERSION_TYPE, false);
 
@@ -162,19 +170,19 @@ public final class MainActivity
         this.displayWebsites = new ArrayList<>();
         if (conversionType) {
             for (AbstractAPICall call : this.allWebsites) {
-                if (call.supportsCryptoToCrypto() && call.canUseCryptocurrency(currentCrypto)
-                /* && TODO: Add the ability to have a second crypto currency */)
+                if (call.supportsCryptoToCrypto() && call.canUseCryptocurrency(baseCrypto)
+                        && call.canUseCryptocurrency(targetCrypto))
                     this.displayWebsites.add(call);
             }
         } else {
             for (AbstractAPICall call : this.allWebsites) {
-                if (call.supportsCryptoToFiat() && call.canUseCryptocurrency(currentCrypto) &&
-                        call.canUseFiatCurrency(currentFiat))
+                if (call.supportsCryptoToFiat() && call.canUseCryptocurrency(baseCrypto) &&
+                        call.canUseFiatCurrency(targetFiat))
                     this.displayWebsites.add(call);
             }
         }
 
-        PriceAdapter mPriceAdapter = new PriceAdapter((this.displayWebsites.size()), this, this);
+        final PriceAdapter mPriceAdapter = new PriceAdapter((this.displayWebsites.size()), this, this);
 
         this.mRecyclerView = findViewById(R.id.recycler_view);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

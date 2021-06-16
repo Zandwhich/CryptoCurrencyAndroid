@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
             
             <TextView
-                android:id="@+id/title_current_crypto"
+                android:id="@+id/title_base_crypto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
@@ -41,12 +41,12 @@
                 android:textSize="28sp"
                 android:textColor="@color/white"
                 android:fontFamily="monospace"
-                app:layout_constraintStart_toEndOf="@id/title_current_crypto"
+                app:layout_constraintStart_toEndOf="@id/title_base_crypto"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/title_current_fiat"
+                android:id="@+id/title_target_currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"

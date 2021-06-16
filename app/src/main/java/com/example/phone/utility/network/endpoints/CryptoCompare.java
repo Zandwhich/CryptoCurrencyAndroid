@@ -1,6 +1,7 @@
 package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
@@ -84,7 +85,7 @@ final public class CryptoCompare extends AbstractAPICall {
      * The constructor for CryptoCompare
      * @param activity The activity providing the current fiat and cryptocurrencies
      */
-    public CryptoCompare(CurrencyInterface activity) {
+    public CryptoCompare(final CurrencyInterface activity) {
         super(CryptoCompare.NAME, activity, CryptoCompare.ACCEPTED_CRYPTO_CURRENCIES,
                 CryptoCompare.ACCEPTED_FIAT_CURRENCIES, CryptoCompare.SUPPORTS_CRYPTO_TO_FIAT,
                 CryptoCompare.SUPPORTS_CRYPTO_TO_CRYPTO);
@@ -126,7 +127,7 @@ final public class CryptoCompare extends AbstractAPICall {
         return Uri.parse(CryptoCompare.BASE_URL)
                 .buildUpon()
                 .appendQueryParameter(QUERY_PARAM_CRYPTO_KEY, cryptoParamMap.get(baseCrypto))
-                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, fiatParamMap.get(targetCrypto))
+                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, cryptoParamMap.get(targetCrypto))
                 .build();
     }
 
@@ -134,14 +135,25 @@ final public class CryptoCompare extends AbstractAPICall {
      * {@inheritDoc}
      */
     @Override
-    public double extractPrice(String response) {
+    public double extractPrice(final String response) {
+
+        // First try to get a crypto/fiat mapping
         try {
             return new JSONObject(response)
                     .getDouble(fiatParamMap.get(super.activity.getTargetFiat()));
+
         } catch (JSONException e) {
-            // TODO: Figure this out later
-            e.printStackTrace();
-            return AbstractAPICall.NO_PRICE;
+
+            // If that doesn't work, try to get a crypto/crypto mapping
+            try {
+                return new JSONObject(response)
+                        .getDouble(cryptoParamMap.get(super.activity.getTargetCrypto()));
+
+            } catch (JSONException e2) {
+                // TODO: Figure this out later
+                e2.printStackTrace();
+                return AbstractAPICall.NO_PRICE;
+            }
         }//end try/catch
     }//end extractPrice()
 

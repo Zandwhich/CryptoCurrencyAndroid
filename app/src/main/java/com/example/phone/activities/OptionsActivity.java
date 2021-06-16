@@ -67,7 +67,6 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         this.allWebsites.add(new CryptoCompare());
         this.allWebsites.add(new CoinCap());
 
-        // TODO: This is where you left off
         SwitchCompat fiat_crypto_switch = findViewById(R.id.crypto_fiat_switch);
         fiat_crypto_switch.setOnCheckedChangeListener((compoundButton, b) -> {
             sharedPreferences
@@ -91,8 +90,6 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         updateSupportedEndpoints();
     }
 
-    // TODO: You were debugging here as to why the target spinner wasn't updating when using cryptos
-    //       Also, after that you were going to go into CryptoCompare and figure out why you weren't getting crypto data
     private void setSpinners() {
         final Spinner baseSpinner = findViewById(R.id.spinner_choose_base_currency);
         final Spinner targetSpinner = findViewById(R.id.spinner_choose_target_currency);
@@ -215,8 +212,8 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
 
             for (AbstractAPICall call : this.allWebsites) {
                 if (call.supportsCryptoToCrypto() &&
-                        call.canUseCryptocurrency(getBaseCryptocurrency())
-                    /* && TODO: Can support the second currency */)
+                        call.canUseCryptocurrency(getBaseCryptocurrency()) &&
+                        call.canUseCryptocurrency(getTargetCryptocurrency()))
                     this.supportedWebsites.add(call);
             }
         } else {
