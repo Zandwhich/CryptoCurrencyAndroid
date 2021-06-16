@@ -35,6 +35,13 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
     public static final String SHARED_PREFERENCES = "OPTIONS_PREFERENCES";
     public static final String CRYPTO_SELECTED = "CRYPTO_SELECTED";
     public static final String FIAT_SELECTED = "FIAT_SELECTED";
+
+    /**
+     * Conversion type implies crypto/crypto or crypto/fiat
+     *
+     * True --> crypto/crypto
+     * False -> crypto/fiat
+     */
     public static final String CONVERSION_TYPE = "CONVERSION_TYPE"; // true is crypto/crypto, false is crypto/fiat
 
     // TODO: Figure out how to do this websites logic without having to copy the code over in multiple places
@@ -60,10 +67,14 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
 
         // TODO: This is where you left off
         SwitchCompat fiat_crypto_switch = findViewById(R.id.crypto_fiat_switch);
-        fiat_crypto_switch.setOnCheckedChangeListener((compoundButton, b) -> sharedPreferences
-                .edit()
-                .putBoolean(CONVERSION_TYPE, b)
-                .apply());
+        fiat_crypto_switch.setOnCheckedChangeListener((compoundButton, b) -> {
+            sharedPreferences
+                    .edit()
+                    .putBoolean(CONVERSION_TYPE, b)
+                    .apply();
+
+            updateSupportiveEndpoints();
+        });
 
         Spinner cryptoSpinner = findViewById(R.id.spinner_choose_crypto);
         Spinner fiatSpinner = findViewById(R.id.spinner_choose_fiat);
@@ -158,13 +169,25 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
     }
 
     private void updateSupportiveEndpoints() {
-        RecyclerView supportingRecyclerView = findViewById(R.id.supporting_recyclerview);
+        final RecyclerView supportingRecyclerView = findViewById(R.id.supporting_recyclerview);
         this.supportedWebsites.clear();
 
-        for (AbstractAPICall call : this.allWebsites) {
-            if (call.canUseCryptocurrency(getCurrentCryptoCurrency()) &&
-                    call.canUseFiatCurrency(getCurrentFiatCurrency()))
-                this.supportedWebsites.add(call);
+        final boolean conversionType = this.sharedPreferences.getBoolean(CONVERSION_TYPE, false);
+
+        if (conversionType) {
+            for (AbstractAPICall call : this.allWebsites) {
+                if (call.supportsCryptoToCrypto() &&
+                        call.canUseCryptocurrency(getCurrentCryptoCurrency())
+                    /* && TODO: Can support the second currency */)
+                    this.supportedWebsites.add(call);
+            }
+        } else {
+            for (AbstractAPICall call : this.allWebsites) {
+                if (call.supportsFiatToCrypto() &&
+                        call.canUseCryptocurrency(getCurrentCryptoCurrency()) &&
+                        call.canUseFiatCurrency(getCurrentFiatCurrency()))
+                    this.supportedWebsites.add(call);
+            }
         }
 
         CompatibleEndpointAdapter adapter = new CompatibleEndpointAdapter(this.supportedWebsites.size(), this);

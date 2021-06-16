@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSpot;
 import com.example.phone.utility.network.endpoints.CoinCap;
 import com.example.phone.utility.network.endpoints.CryptoCompare;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -45,14 +47,16 @@ public final class MainActivity
 
     private RecyclerView mRecyclerView;
 
+    private SharedPreferences sharedPreferences;
+
+
     /**
      * {@inheritDoc}
      */
     @Override
     public CryptoCurrency getCurrentCrypto() {
         int currentCryptoAbbreviated
-                = getSharedPreferences(OptionsActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getInt(OptionsActivity.CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
+                = sharedPreferences.getInt(OptionsActivity.CRYPTO_SELECTED, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
         CryptoCurrency currentCrypto = CryptoCurrency.getCryptocurrencyFromAbbreviatedName(currentCryptoAbbreviated);
 
         return (currentCrypto == null) ? CryptoCurrency.DEFAULT_CRYPTO : currentCrypto;
@@ -64,8 +68,7 @@ public final class MainActivity
     @Override
     public FiatCurrency getCurrentFiat() {
         int currentFiatAbbreviated
-                = getSharedPreferences(OptionsActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                .getInt(OptionsActivity.FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
+                = sharedPreferences.getInt(OptionsActivity.FIAT_SELECTED, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
         FiatCurrency currentFiat = FiatCurrency.getFiatCurrencyFromAbbreviatedName(currentFiatAbbreviated);
 
         return (currentFiat == null) ? FiatCurrency.DEFAULT_FIAT : currentFiat;
@@ -103,6 +106,9 @@ public final class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.sharedPreferences =
+                getSharedPreferences(OptionsActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
         this.mResponseView = findViewById(R.id.tv_response);
         this.mProgressBar = findViewById(R.id.pb_loading_indicator);
 
@@ -137,11 +143,22 @@ public final class MainActivity
         titleCrypto.setText(getString(currentCrypto.getAbbreviatedName()));
         titleFiat.setText(getString(currentFiat.getAbbreviatedName()));
 
+        boolean conversionType = sharedPreferences.getBoolean(OptionsActivity.CONVERSION_TYPE, false);
+
         // TODO: Find a better way of doing this
         this.displayWebsites = new ArrayList<>();
-        for (AbstractAPICall call : this.allWebsites) {
-            if (call.canUseCryptocurrency(currentCrypto) && call.canUseFiatCurrency(currentFiat))
-                this.displayWebsites.add(call);
+        if (conversionType) {
+            for (AbstractAPICall call : this.allWebsites) {
+                if (call.supportsCryptoToCrypto() && call.canUseCryptocurrency(currentCrypto)
+                /* && TODO: Add the ability to have a second crypto currency */)
+                    this.displayWebsites.add(call);
+            }
+        } else {
+            for (AbstractAPICall call : this.allWebsites) {
+                if (call.supportsFiatToCrypto() && call.canUseCryptocurrency(currentCrypto) &&
+                        call.canUseFiatCurrency(currentFiat))
+                    this.displayWebsites.add(call);
+            }
         }
 
         PriceAdapter mPriceAdapter = new PriceAdapter((this.displayWebsites.size()), this, this);
