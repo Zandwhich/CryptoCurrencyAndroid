@@ -76,6 +76,8 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
             updateSupportiveEndpoints();
         });
 
+        fiat_crypto_switch.setChecked(sharedPreferences.getBoolean(CONVERSION_TYPE, false));
+
         Spinner cryptoSpinner = findViewById(R.id.spinner_choose_crypto);
         Spinner fiatSpinner = findViewById(R.id.spinner_choose_fiat);
 
