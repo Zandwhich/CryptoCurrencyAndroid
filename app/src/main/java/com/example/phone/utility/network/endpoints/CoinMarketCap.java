@@ -126,11 +126,11 @@ final public class CoinMarketCap extends AbstractAPICall {
      * {@inheritDoc}
      */
     @Override
-    protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
+    protected Uri buildUri(CryptoCurrency baseCrypto, FiatCurrency targetFiat) {
         // TODO: Figure out how to add the secret key to the header
         return Uri.parse(CoinMarketCap.BASE_URL).buildUpon()
-                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_SYMBOL, cryptoParamMap.get(crypto))
-                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_CONVERT, fiatParamMap.get(fiat))
+                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_SYMBOL, cryptoParamMap.get(baseCrypto))
+                .appendQueryParameter(CoinMarketCap.QUERY_PARAM_CONVERT, fiatParamMap.get(targetFiat))
                 .build();
     }//end buildUri()
 
@@ -141,9 +141,9 @@ final public class CoinMarketCap extends AbstractAPICall {
     public double extractPrice(String response) {
         try {
             return new JSONObject(response).getJSONObject(CoinMarketCap.JSON_DATA)
-                    .getJSONObject(cryptoParamMap.get(super.activity.getCurrentCrypto()))
+                    .getJSONObject(cryptoParamMap.get(super.activity.getBaseCrypto()))
                     .getJSONObject(CoinMarketCap.JSON_QUOTE)
-                    .getJSONObject(fiatParamMap.get(super.activity.getCurrentFiat()))
+                    .getJSONObject(fiatParamMap.get(super.activity.getTargetFiat()))
                     .getDouble(JSON_PRICE);
         } catch (JSONException e) {
             e.printStackTrace();

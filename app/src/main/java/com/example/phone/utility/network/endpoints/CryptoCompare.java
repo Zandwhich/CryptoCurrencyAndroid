@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.example.phone.activities.CurrencyInterface;
 import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
+import com.example.phone.utility.network.errors.DoesNotConvertToCrypto;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -109,13 +110,25 @@ final public class CryptoCompare extends AbstractAPICall {
      * {@inheritDoc}
      */
     @Override
-    protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
+    protected Uri buildUri(final CryptoCurrency baseCrypto, final FiatCurrency targetFiat) {
         return Uri.parse(CryptoCompare.BASE_URL)
                 .buildUpon()
-                .appendQueryParameter(QUERY_PARAM_CRYPTO_KEY, cryptoParamMap.get(crypto))
-                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, fiatParamMap.get(fiat))
+                .appendQueryParameter(QUERY_PARAM_CRYPTO_KEY, cryptoParamMap.get(baseCrypto))
+                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, fiatParamMap.get(targetFiat))
                 .build();
-    }//end buildUri()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Uri buildUri(final CryptoCurrency baseCrypto, final CryptoCurrency targetCrypto) {
+        return Uri.parse(CryptoCompare.BASE_URL)
+                .buildUpon()
+                .appendQueryParameter(QUERY_PARAM_CRYPTO_KEY, cryptoParamMap.get(baseCrypto))
+                .appendQueryParameter(QUERY_PARAM_FIAT_KEY, fiatParamMap.get(targetCrypto))
+                .build();
+    }
 
     /**
      * {@inheritDoc}
@@ -124,7 +137,7 @@ final public class CryptoCompare extends AbstractAPICall {
     public double extractPrice(String response) {
         try {
             return new JSONObject(response)
-                    .getDouble(fiatParamMap.get(super.activity.getCurrentFiat()));
+                    .getDouble(fiatParamMap.get(super.activity.getTargetFiat()));
         } catch (JSONException e) {
             // TODO: Figure this out later
             e.printStackTrace();

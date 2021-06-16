@@ -9,16 +9,22 @@ import com.example.phone.utility.currencies.FiatCurrency;
 public interface CurrencyInterface {
 
     /**
-     * Returns the current fiat currency being used
-     * @return The current fiat currency being used
+     * Returns the base cryptocurrency
+     * @return The base cryptocurrency
      */
-    FiatCurrency getCurrentFiat();
+    CryptoCurrency getBaseCrypto();
 
     /**
-     * Returns the current cryptocurrency being used
-     * @return The current cryptocurrency being used
+     * Returns the fiat currency that is being converted into
+     * @return The fiat currency that is being converted into
      */
-    CryptoCurrency getCurrentCrypto();
+    FiatCurrency getTargetFiat();
+
+    /**
+     * Returns the target cryptocurrency that is being converted into
+     * @return The target cryptocurrency that is being converted into
+     */
+    CryptoCurrency getTargetCrypto();
 
     /**
      * Returns the currency's name

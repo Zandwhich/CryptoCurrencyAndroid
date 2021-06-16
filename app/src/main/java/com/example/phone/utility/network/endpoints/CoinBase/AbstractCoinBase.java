@@ -93,9 +93,9 @@ public abstract class AbstractCoinBase extends AbstractAPICall {
      * {@inheritDoc}
      */
     @Override
-    protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        return Uri.parse(AbstractCoinBase.BASE_URL + cryptoParamMap.get(crypto) + "-" +
-                fiatParamMap.get(fiat) + this.ext)
+    protected Uri buildUri(CryptoCurrency baseCrypto, FiatCurrency targetFiat) {
+        return Uri.parse(AbstractCoinBase.BASE_URL + cryptoParamMap.get(baseCrypto) + "-" +
+                fiatParamMap.get(targetFiat) + this.ext)
                 .buildUpon()
                 .build();
     }//end buildUri()

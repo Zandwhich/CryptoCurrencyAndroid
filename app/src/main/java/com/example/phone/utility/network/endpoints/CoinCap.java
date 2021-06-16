@@ -109,8 +109,8 @@ final public class CoinCap extends AbstractAPICall {
      * {@inheritDoc}
      */
     @Override
-    protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        return Uri.parse(CoinCap.BASE_URL + cryptoParamMap.get(crypto));
+    protected Uri buildUri(CryptoCurrency baseCrypto, FiatCurrency targetFiat) {
+        return Uri.parse(CoinCap.BASE_URL + cryptoParamMap.get(baseCrypto));
     }//end buildUri()
 
     /**

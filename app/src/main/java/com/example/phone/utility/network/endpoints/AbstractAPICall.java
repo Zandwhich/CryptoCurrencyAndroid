@@ -1,7 +1,6 @@
 package com.example.phone.utility.network.endpoints;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -10,6 +9,8 @@ import com.example.phone.utility.currencies.CryptoCurrency;
 import com.example.phone.utility.currencies.FiatCurrency;
 import com.example.phone.utility.network.NetworkUtils;
 import com.example.phone.utility.network.errors.CryptoNotAccepted;
+import com.example.phone.utility.network.errors.DoesNotConvertToCrypto;
+import com.example.phone.utility.network.errors.DoesNotConvertToFiat;
 import com.example.phone.utility.network.errors.FiatNotAccepted;
 
 import java.io.IOException;
@@ -137,35 +138,55 @@ public abstract class AbstractAPICall {
 
     /**
      * Method that throws if CoinBase can't use either the crypto or the fiat currency
-     * @param crypto The cryptocurrency to check
-     * @param fiat The fiat currency to check
+     * @param baseCrypto The cryptocurrency to check
+     * @param targetFiat The fiat currency to check
      * @throws CryptoNotAccepted Throws if the cryptocurrency is not accepted
      * @throws FiatNotAccepted Throws if the fiat currency is not accepted
      */
-    private void throwIfNotAccepted(CryptoCurrency crypto, FiatCurrency fiat)
+    private void throwIfNotAccepted(final CryptoCurrency baseCrypto, final FiatCurrency targetFiat)
             throws CryptoNotAccepted, FiatNotAccepted {
-        if (!this.canUseCryptocurrency(crypto)) throw new CryptoNotAccepted();
-        if (!this.canUseFiatCurrency(fiat)) throw new FiatNotAccepted();
+        if (!this.canUseCryptocurrency(baseCrypto)) throw new CryptoNotAccepted();
+        if (!this.canUseFiatCurrency(targetFiat)) throw new FiatNotAccepted();
     }//end canUseCurrencies()
 
     /**
      * Builds the Uri to be converted later into a URL
-     * @param crypto The cryptocurrency of the conversion
-     * @param fiat The fiat currency of the conversion
+     * @param baseCrypto The base cryptocurrency of the conversion
+     * @param targetFiat The target fiat currency of the conversion
      * @return The Uri to be turned into a URL
+     * @throws DoesNotConvertToFiat Throws if the endpoint does not support converting to fiat currencies
      */
-    protected abstract Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat);
+    protected Uri buildUri(final CryptoCurrency baseCrypto, final FiatCurrency targetFiat)
+            throws DoesNotConvertToFiat {
+        throw new DoesNotConvertToFiat();
+    }
 
     /**
-     * Constructs the URL with a given cryptocurrency and a given fiat currency
-     * @param crypto The given cryptocurrency
-     * @param fiat The given fiat currency
-     * @return The constructed URL
+     * Builds the Uri to be converted later into a URL
+     * @param baseCrypto The base cryptocurrency of the conversion
+     * @param targetCrypto The target cryptocurrency of the conversion
+     * @return The Uri to be turned into a URL
+     * @throws DoesNotConvertToCrypto Throws if the endpoint does not support converting to cryptocurrencies
      */
-    public URL buildURL(CryptoCurrency crypto, FiatCurrency fiat)
-            throws FiatNotAccepted, CryptoNotAccepted {
-        throwIfNotAccepted(crypto, fiat);
-        Uri uri = this.buildUri(crypto, fiat);
+    protected Uri buildUri(final CryptoCurrency baseCrypto, final CryptoCurrency targetCrypto)
+            throws DoesNotConvertToCrypto {
+        throw new DoesNotConvertToCrypto();
+    }
+
+    /**
+     * Constructs the URL with a base cryptocurrency and a target fiat currency
+     * @param baseCrypto The base cryptocurrency
+     * @param targetFiat The target fiat currency
+     * @return The constructed URL
+     * @throws CryptoNotAccepted If the endpoint does not accept the given crypto
+     * @throws FiatNotAccepted If the endpoint does not accept the target fiat
+     * @throws DoesNotConvertToFiat If the endpoint does not convert crypto/fiat
+     */
+    public URL buildURL(final CryptoCurrency baseCrypto, final FiatCurrency targetFiat)
+            throws FiatNotAccepted, CryptoNotAccepted, DoesNotConvertToFiat {
+        throwIfNotAccepted(baseCrypto, targetFiat);
+
+        Uri uri = this.buildUri(baseCrypto, targetFiat);
 
         URL url = null;
         try {
@@ -176,6 +197,31 @@ public abstract class AbstractAPICall {
 
         return url;
     }//end buildURL()
+
+    /**
+     * Constructs the URl with a base cryptocurrency and a target cryptocurrency
+     * @param baseCrypto The base cryptocurrency
+     * @param targetCrypto The target cryptocurrency
+     * @return The constructed URL
+     * @throws CryptoNotAccepted If the endpoint does not accept the given crypto
+     * @throws DoesNotConvertToCrypto If the endpoint does not convert crypto/crypto
+     */
+    public URL buildURL(final CryptoCurrency baseCrypto, final CryptoCurrency targetCrypto)
+            throws CryptoNotAccepted, DoesNotConvertToCrypto {
+        if (!canUseCryptocurrency(baseCrypto) || !canUseCryptocurrency(targetCrypto))
+            throw new CryptoNotAccepted();
+
+        Uri uri = this.buildUri(baseCrypto, targetCrypto);
+
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
 
     /**
      * Extracts the price for the given website
@@ -201,28 +247,35 @@ public abstract class AbstractAPICall {
     /**
      * Hits the URL, and then updates the price.
      * NOTE: Does not update the price if the received price is -1
+     * @param conversionType The type of conversion (crypto/fiat or crypto/crypto)
+     *                       false is crypto/fiat, true is crypto/crypto
+     * @throws DoesNotConvertToFiat If the endpoint does not convert crypto/fiat
+     * @throws DoesNotConvertToCrypto If the endpoint does not convert crypto/crypto
      */
-    public void updatePrice() {
+    public void updatePrice(boolean conversionType)
+            throws DoesNotConvertToFiat, DoesNotConvertToCrypto {
         String contents;
         try {
-            contents = NetworkUtils.connect(this.buildURL(this.activity.getCurrentCrypto(),
-                    this.activity.getCurrentFiat()));
+            if (conversionType)
+                contents = NetworkUtils.connect(this.buildURL(this.activity.getBaseCrypto(),
+                        this.activity.getTargetCrypto()));
+            else
+                contents = NetworkUtils.connect(this.buildURL(this.activity.getBaseCrypto(),
+                        this.activity.getTargetFiat()));
         } catch (IOException | FiatNotAccepted | CryptoNotAccepted e) {
             e.printStackTrace();
             // TODO: Somehow alert that there was an error in connecting to the website
             return;
-        }//end try/catch
+        }
 
         double price = this.extractPrice(contents);
         if (price == AbstractAPICall.NO_PRICE) {
             // TODO: Somehow alert that there was an error in the response
             return;
-        }//end if == -1
-
-        Log.d(AbstractAPICall.TAG, "Price: " + price);
+        }
 
         this.price = price;
-    }//end updatePrice()
+    }
 
     /**
      * Returns the name of the class
@@ -236,7 +289,7 @@ public abstract class AbstractAPICall {
      * Returns if supports fiat to crypto conversion
      * @return If supports fiat to crypto conversion
      */
-    public boolean supportsFiatToCrypto() {
+    public boolean supportsCryptoToFiat() {
         return supportsCryptoToFiat;
     }
 

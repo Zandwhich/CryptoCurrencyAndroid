@@ -27,6 +27,8 @@ import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSell;
 import com.example.phone.utility.network.endpoints.CoinBase.CoinBaseSpot;
 import com.example.phone.utility.network.endpoints.CoinCap;
 import com.example.phone.utility.network.endpoints.CryptoCompare;
+import com.example.phone.utility.network.errors.DoesNotConvertToCrypto;
+import com.example.phone.utility.network.errors.DoesNotConvertToFiat;
 
 import java.util.ArrayList;
 
@@ -53,25 +55,37 @@ public final class MainActivity
      * {@inheritDoc}
      */
     @Override
-    public CryptoCurrency getCurrentCrypto() {
-        int currentCryptoAbbreviated
-                = sharedPreferences.getInt(OptionsActivity.BASE_CRYPTO, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
-        CryptoCurrency currentCrypto = CryptoCurrency.getCryptocurrencyFromAbbreviatedName(currentCryptoAbbreviated);
+    public CryptoCurrency getBaseCrypto() {
+        final int baseCryptoAbbreviated =
+                sharedPreferences.getInt(OptionsActivity.BASE_CRYPTO, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
+        CryptoCurrency currentCrypto = CryptoCurrency.getCryptocurrencyFromAbbreviatedName(baseCryptoAbbreviated);
 
         return (currentCrypto == null) ? CryptoCurrency.DEFAULT_CRYPTO : currentCrypto;
-    }//end getCurrentCrypto()
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public FiatCurrency getCurrentFiat() {
-        int currentFiatAbbreviated
-                = sharedPreferences.getInt(OptionsActivity.TARGET_FIAT, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
-        FiatCurrency currentFiat = FiatCurrency.getFiatCurrencyFromAbbreviatedName(currentFiatAbbreviated);
+    public FiatCurrency getTargetFiat() {
+        final int targetFiatAbbreviated =
+                sharedPreferences.getInt(OptionsActivity.TARGET_FIAT, FiatCurrency.DEFAULT_FIAT.getAbbreviatedName());
+        FiatCurrency currentFiat = FiatCurrency.getFiatCurrencyFromAbbreviatedName(targetFiatAbbreviated);
 
         return (currentFiat == null) ? FiatCurrency.DEFAULT_FIAT : currentFiat;
-    }//end getCurrentFiat()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CryptoCurrency getTargetCrypto() {
+        final int targetCryptoAbbreviated =
+                sharedPreferences.getInt(OptionsActivity.TARGET_CRYPTO, CryptoCurrency.DEFAULT_CRYPTO.getAbbreviatedName());
+        CryptoCurrency currentCrypto = CryptoCurrency.getCryptocurrencyFromAbbreviatedName(targetCryptoAbbreviated);
+
+        return (currentCrypto == null) ? CryptoCurrency.DEFAULT_CRYPTO : currentCrypto;
+    }
 
     /**
      * {@inheritDoc}
@@ -79,7 +93,7 @@ public final class MainActivity
     @Override
     public double getCurrencyPrice(int orderInList) {
         return this.displayWebsites.get(orderInList).getPrice();
-    }//end getCurrencyPrice()
+    }
 
     /**
      * {@inheritDoc}
@@ -87,7 +101,7 @@ public final class MainActivity
     @Override
     public String getCurrencyName(int orderInList) {
         return this.displayWebsites.get(orderInList).getName();
-    }//end getCurrencyName()
+    }
 
     /**
      * The function to call to refresh all of the APIs
@@ -97,8 +111,8 @@ public final class MainActivity
         this.mResponseView.setText("");
         for (AbstractAPICall website : this.displayWebsites) {
             new RefreshAsync().execute(website);
-        }//end for
-    }//end refresh()
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +134,7 @@ public final class MainActivity
 
         updateShownAPIs();
         refresh();
-    }//end onCreate()
+    }
 
     @Override
     protected void onResume() {
@@ -130,8 +144,8 @@ public final class MainActivity
     }
 
     private void updateShownAPIs() {
-        CryptoCurrency currentCrypto = getCurrentCrypto();
-        FiatCurrency currentFiat = getCurrentFiat();
+        CryptoCurrency currentCrypto = getBaseCrypto();
+        FiatCurrency currentFiat = getTargetFiat();
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -154,7 +168,7 @@ public final class MainActivity
             }
         } else {
             for (AbstractAPICall call : this.allWebsites) {
-                if (call.supportsFiatToCrypto() && call.canUseCryptocurrency(currentCrypto) &&
+                if (call.supportsCryptoToFiat() && call.canUseCryptocurrency(currentCrypto) &&
                         call.canUseFiatCurrency(currentFiat))
                     this.displayWebsites.add(call);
             }
@@ -173,7 +187,7 @@ public final class MainActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
-    }//end onCreateOptionsMenu()
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -188,12 +202,12 @@ public final class MainActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }//end onOptionsItemSelected()
+    }
 
     @Override
     public void onPriceAdapterClick(int position, View view) {
         this.launchAboutPage(this.displayWebsites.get(position).getClassName());
-    }//end priceAdapterOnClick()
+    }
 
     /**
      * Launches the about page for the given API call
@@ -203,7 +217,7 @@ public final class MainActivity
         Intent intent = new Intent(this, AboutActivity.class);
         intent.putExtra(AboutActivity.API_KEY, apiCall);
         startActivity(intent);
-    }//end launchAboutPage()
+    }
 
     private void launchOptionsPage() {
         Intent intent = new Intent(this, OptionsActivity.class);
@@ -228,7 +242,7 @@ public final class MainActivity
             mResponseView.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
             mProgressBar.setVisibility(View.VISIBLE);
-        }//end onPreExecute()
+        }
 
         /**
          * Hit the website
@@ -239,9 +253,16 @@ public final class MainActivity
         protected String doInBackground(AbstractAPICall... websites) {
             if (websites.length == 0) return null;
 
-            websites[0].updatePrice();
+            try {
+                websites[0].updatePrice(sharedPreferences.getBoolean(OptionsActivity.CONVERSION_TYPE, OptionsActivity.DEFAULT_CONVERSION_TYPE));
+            } catch (DoesNotConvertToFiat | DoesNotConvertToCrypto doesNotConvert) {
+                doesNotConvert.printStackTrace();
+
+                // TODO: Should we throw some kind of error here? Are we even ever going to get here?
+                return websites[0].getName() + ": " + AbstractAPICall.NO_PRICE + "\n";
+            }
             return websites[0].getName() + ": " + websites[0].getPrice() + "\n";
-        }//end doInBackground()
+        }
 
         @Override
         protected void onPostExecute(String s) {
@@ -253,6 +274,6 @@ public final class MainActivity
             mProgressBar.setVisibility(View.INVISIBLE);
             mResponseView.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
-        }//end onPostExecute()
-    }//end RefreshAsync
-}//end MainActivity
+        }
+    }
+}

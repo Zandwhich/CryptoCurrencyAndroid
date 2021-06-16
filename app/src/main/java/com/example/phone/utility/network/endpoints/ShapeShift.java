@@ -99,9 +99,9 @@ final public class ShapeShift extends AbstractAPICall {
      * {@inheritDoc}
      */
     @Override
-    protected Uri buildUri(CryptoCurrency crypto, FiatCurrency fiat) {
-        return Uri.parse(ShapeShift.BASE_URL + crypto.getAbbreviatedName() + "_" +
-                fiat.getAbbreviatedName())
+    protected Uri buildUri(CryptoCurrency baseCrypto, FiatCurrency targetFiat) {
+        return Uri.parse(ShapeShift.BASE_URL + baseCrypto.getAbbreviatedName() + "_" +
+                targetFiat.getAbbreviatedName())
                 .buildUpon()
                 .build();
     }//end buildUri()
