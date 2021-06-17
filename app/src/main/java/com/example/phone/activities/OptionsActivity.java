@@ -164,6 +164,9 @@ final public class OptionsActivity extends AppCompatActivity implements Compatib
         updateTargetSpinner();
     }
 
+    /**
+     * Updates the list of endpoints that say they support this combination
+     */
     private void updateSupportedEndpoints() {
         final RecyclerView supportingRecyclerView = findViewById(R.id.supporting_recyclerview);
         this.supportedWebsites.clear();
