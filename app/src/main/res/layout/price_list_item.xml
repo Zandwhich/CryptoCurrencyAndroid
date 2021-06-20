@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,7 +21,9 @@
         style="@style/TextAppearance.AppCompat.Title"
         android:textSize="21sp"
         android:fontFamily="monospace"
-        android:layout_alignParentStart="true"/>
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_list_item_price"
@@ -28,7 +31,9 @@
         android:layout_height="wrap_content"
         android:textSize="21sp"
         android:fontFamily="monospace"
-        android:layout_alignParentEnd="true"/>
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
