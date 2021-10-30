@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 public final class MainActivity
         extends AppCompatActivity
         implements CurrencyInterface, PriceAdapter.PriceAdapterOnClickHelper {
+
+    public static final String TAG = "MAIN ACTIVITY";
 
     private TextView mResponseView;
     private ProgressBar mProgressBar;
@@ -259,6 +262,8 @@ public final class MainActivity
          */
         @Override
         protected String doInBackground(AbstractAPICall... websites) {
+            Log.d(TAG, "Length of websites: " + websites.length);
+
             if (websites.length == 0) return null;
 
             try {

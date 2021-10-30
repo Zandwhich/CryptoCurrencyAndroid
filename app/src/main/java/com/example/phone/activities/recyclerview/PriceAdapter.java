@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -76,14 +77,12 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
     }//end onCrateViewHolder()
 
     /**
-     * TODO: Figure out how to pass in actual price details
      * Will bind the {@link PriceViewHolder} with the given position
      * @param holder The {@link PriceViewHolder} that will display all of the data
      * @param position The given position of that view holder
      */
     @Override
     public void onBindViewHolder(@NonNull PriceViewHolder holder, int position) {
-        Log.d(PriceAdapter.TAG, "#" + position);
         holder.bind(position);
     }//end onBindViewHolder()
 
@@ -112,11 +111,17 @@ public final class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceV
          */
         private final TextView mPrice;
 
+        /**
+         * The progress bar for the individual refresh of the items
+         */
+        private final ProgressBar mProgressBar;
+
         public PriceViewHolder(View itemView) {
             super(itemView);
 
             this.mAPIName = itemView.findViewById(R.id.tv_list_item_name);
             this.mPrice = itemView.findViewById(R.id.tv_list_item_price);
+            this.mProgressBar = itemView.findViewById(R.id.pb_list_item);
 
             itemView.setOnClickListener(this);
         }//end PriceViewHolder()
